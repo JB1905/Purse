@@ -7,9 +7,9 @@ export const Content = props => (
 
 const styles = StyleSheet.create({
   content: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
     backgroundColor: '#fff',
+    flex: 1,
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
   }

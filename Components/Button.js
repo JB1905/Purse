@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#56ad97',
     height: 46,
-    width: Dimensions.get('window').width - 48
+    width: Dimensions.get('window').width - 48,
+    maxWidth: 400
   }
 });

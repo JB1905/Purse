@@ -7,8 +7,8 @@ export const SubTitle = props => (
 
 const styles = StyleSheet.create({
   subtitle: {
-    width: Dimensions.get('window').width,
-    paddingHorizontal: 24,
+    width: Dimensions.get('window').width - 48,
+    maxWidth: 400,
     fontSize: 24,
     fontWeight: '500',
     marginBottom: 22

@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: '#eee',
     height: 46,
-    width: Dimensions.get('window').width - 48
+    width: Dimensions.get('window').width - 48,
+    maxWidth: 400
   }
 });
