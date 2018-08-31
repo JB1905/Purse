@@ -13,8 +13,8 @@ import { Error } from '../../Components/Error';
 export default class SignIn extends Component {
   state = { email: '', password: '', error: null, checking: false };
 
-  email = value => this.setState({ email: value });
-  password = value => this.setState({ password: value });
+  email = email => this.setState({ email });
+  password = password => this.setState({ password });
 
   submit = () => {
     if ((this.state.email && this.state.password) !== '') {

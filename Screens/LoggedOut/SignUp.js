@@ -20,11 +20,11 @@ export default class SignUp extends Component {
     error: null
   };
 
-  name = value => this.setState({ name: value });
-  surname = value => this.setState({ surname: value });
-  email = value => this.setState({ email: value });
-  password = value => this.setState({ password: value });
-  confirm = value => this.setState({ confirm: value });
+  name = name => this.setState({ name });
+  surname = surname => this.setState({ surname });
+  email = email => this.setState({ email });
+  password = password => this.setState({ password });
+  confirm = confirm => this.setState({ confirm });
 
   submit = () => {
     const { name, surname, email, password, confirm } = this.state;
