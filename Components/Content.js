@@ -7,7 +7,7 @@ export const Content = props => (
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fdfdfd',
     flex: 1,
     display: 'flex',
     alignItems: 'center',

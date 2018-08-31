@@ -14,8 +14,8 @@ export default class Main extends Component {
         <Title value="Purse" />
         <SubTitle value="Your personal expenses assistant." />
 
-        <Btn action={() => navigate('SignIn')} title="Sign in" color="#fff" />
-        <Btn action={() => navigate('SignUp')} title="Sign up" color="#fff" />
+        <Btn action={() => navigate('SignIn')} title="Sign in" color="#fdfdfd" />
+        <Btn action={() => navigate('SignUp')} title="Sign up" color="#fdfdfd" />
       </Content>
     );
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, ActivityIndicator } from 'react-native';
 
-import { db, login } from '../../api';
+import { login } from '../../api';
 import { onSignIn } from '../../auth';
 
 import { Content } from '../../Components/Content';
@@ -10,21 +10,21 @@ import { Input } from '../../Components/Input';
 import { Btn } from '../../Components/Button';
 import { Error } from '../../Components/Error';
 
-const ref = db.ref('users');
-
 export default class SignIn extends Component {
-  state = { email: '', password: '', error: null };
+  state = { email: '', password: '', error: null, checking: false };
 
   email = value => this.setState({ email: value });
   password = value => this.setState({ password: value });
 
   submit = () => {
     if ((this.state.email && this.state.password) !== '') {
+      this.setState({ checking: true });
+
       login(this.state.email, this.state.password).then(res => {
         if (res === true) {
           onSignIn().then(() => this.props.navigation.navigate('Home'));
         } else {
-          this.setState({ error: res });
+          this.setState({ error: res, checking: false });
         }
       });
     } else {
@@ -42,7 +42,11 @@ export default class SignIn extends Component {
 
         {this.state.error ? <Error message={this.state.error} /> : null}
 
-        <Btn action={this.submit} title="Sign in" color="#fff" />
+        <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
+
+        {this.state.checking ? (
+          <ActivityIndicator size="large" color="#56ad97" />
+        ) : null}
       </Content>
     );
   }

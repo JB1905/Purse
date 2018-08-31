@@ -8,9 +8,7 @@ import { Input } from '../../Components/Input';
 import { Btn } from '../../Components/Button';
 import { Error } from '../../Components/Error';
 
-import { db, signUp } from '../../api';
-
-const ref = db.ref('users');
+import { signUp } from '../../api';
 
 export default class SignUp extends Component {
   state = {
@@ -69,7 +67,7 @@ export default class SignUp extends Component {
 
         {this.state.error ? <Error message={this.state.error} /> : null}
 
-        <Btn action={this.submit} title="Sign up" color="#fff" />
+        <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
       </Content>
     );
   }
