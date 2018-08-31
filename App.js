@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { isSignedIn } from './auth';
 
-import { createRootNavigator } from './screens';
+import { createRootNavigator } from './Screens';
 
 export default class App extends Component {
   state = { signedIn: false, checkedSignIn: false };
