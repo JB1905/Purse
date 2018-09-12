@@ -22,7 +22,7 @@
     "expo": "^27.0.1",
     "firebase": "^5.4.2",
     "react": "^16.5.0",
-    "react-native": "~0.55.2",
+    "react-native": "^0.55.4",
     "react-native-chart-kit": "^1.1.6",
     "react-native-color-wheel": "^0.1.5",
     "react-native-vector-icons": "^5.0.0",
