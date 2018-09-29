@@ -43,7 +43,13 @@ export default class SignIn extends Component {
         <Title value="Purse" />
         <SubTitle value="Your personal expenses assistant." />
 
-        <Input action={this.email} placeholder="E-mail" />
+        <Input
+          action={this.email}
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          placeholder="E-mail"
+        />
         <Input action={this.password} secure={true} placeholder="Password" />
 
         {this.state.error ? <Error message={this.state.error} /> : null}

@@ -55,7 +55,13 @@ export default class SignUp extends Component {
 
         <Input action={this.name} placeholder="Name" />
         <Input action={this.surname} placeholder="Surname" />
-        <Input action={this.email} placeholder="E-mail" />
+        <Input
+          action={this.email}
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          placeholder="E-mail"
+        />
         <Input action={this.password} secure={true} placeholder="Password" />
 
         <Input

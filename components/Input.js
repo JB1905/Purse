@@ -4,7 +4,10 @@ import { StyleSheet, TextInput, Dimensions } from 'react-native';
 export const Input = props => (
   <TextInput
     onChangeText={props.action}
+    autoCapitalize={props.autoCapitalize || null}
+    autoCorrect={props.autoCorrect || null}
     secureTextEntry={props.secure || false}
+    keyboardType={props.keyboardType || 'default'}
     style={styles.input}
     placeholder={props.placeholder}
   />

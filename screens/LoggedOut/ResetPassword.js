@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ActivityIndicator } from 'react-native';
+import { Text, ActivityIndicator, Alert } from 'react-native';
 
 import { resetPassword } from '../../api';
 
@@ -17,7 +17,12 @@ export default class ResetPassword extends Component {
     if (this.state.email !== '') {
       resetPassword(this.state.email).then(res => {
         if (res === true) {
-          this.props.navigation.navigate('SignIn');
+          Alert.alert(`Message sent to: ${this.state.email}`, null, [
+            {
+              text: 'OK',
+              onPress: () => this.props.navigation.navigate('SignIn')
+            }
+          ]);
         } else {
           this.setState({ error: res });
         }
@@ -30,7 +35,13 @@ export default class ResetPassword extends Component {
   render() {
     return (
       <Content>
-        <Input action={this.email} placeholder="Your account email" />
+        <Input
+          action={this.email}
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          placeholder="Your account email"
+        />
 
         {this.state.error ? <Error message={this.state.error} /> : null}
 
