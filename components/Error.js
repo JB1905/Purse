@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-export const Error = props => <Text style={styles.error}>{props.message}</Text>;
+export const Error = ({ message }) => (
+  <Text style={styles.error}>{message}</Text>
+);
 
 const styles = StyleSheet.create({
   error: {

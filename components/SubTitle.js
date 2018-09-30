@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, Dimensions } from 'react-native';
 
-export const SubTitle = props => (
-  <Text style={styles.subtitle}>{props.value}</Text>
+export const SubTitle = ({ value }) => (
+  <Text style={styles.subtitle}>{value}</Text>
 );
 
 const styles = StyleSheet.create({

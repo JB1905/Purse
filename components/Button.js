@@ -6,9 +6,9 @@ import {
   Dimensions
 } from 'react-native';
 
-export const Btn = props => (
+export const Btn = ({ action, color, title }) => (
   <TouchableHighlight style={styles.btn}>
-    <Button onPress={props.action} color={props.color} title={props.title} />
+    <Button onPress={action} color={color} title={title} />
   </TouchableHighlight>
 );
 

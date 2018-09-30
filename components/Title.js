@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, Dimensions } from 'react-native';
 
-export const Title = props => <Text style={styles.title}>{props.value}</Text>;
+export const Title = ({ value }) => <Text style={styles.title}>{value}</Text>;
 
 const styles = StyleSheet.create({
   title: {
