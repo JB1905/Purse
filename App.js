@@ -19,6 +19,7 @@ export default class App extends Component {
     if (!checkedSignIn) return null;
 
     const Layout = createRootNavigator(signedIn);
+
     return <Layout />;
   }
 }

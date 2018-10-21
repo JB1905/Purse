@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
 import SignIn from './SignIn';
@@ -8,26 +8,18 @@ import ResetPassword from './ResetPassword';
 export const SignedOut = createStackNavigator(
   {
     SignIn: {
-      screen: SignIn,
-      navigationOptions: {
-        title: 'Purse'
-      }
+      screen: SignIn
     },
     SignUp: {
-      screen: SignUp,
-      navigationOptions: {
-        title: 'Sign up'
-      }
+      screen: SignUp
     },
     Reset: {
-      screen: ResetPassword,
-      navigationOptions: {
-        title: 'Reset password'
-      }
+      screen: ResetPassword
     }
   },
   {
-    headerMode: 'screen',
+    headerMode: 'none',
+    mode: 'modal',
     cardStyle: { backgroundColor: '#fdfdfd' }
   }
 );
