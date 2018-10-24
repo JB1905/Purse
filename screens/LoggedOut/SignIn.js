@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { Text, Button, ActivityIndicator, View } from 'react-native';
+import { Button, View } from 'react-native';
 
-import { login } from '../../api';
-import { onSignIn } from '../../auth';
-
-import { Content } from '../../components/Content';
+import { Loader } from '../../components/Loader';
+import { KeyboardContent, Content } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { SubTitle } from '../../components/SubTitle';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+
+import SignUp from './SignUp';
+import ResetPassword from './ResetPassword';
+
+import { onSignIn } from '../../auth';
+import { login } from '../../api';
 
 export default class SignIn extends Component {
   state = { email: '', password: '', error: null, checking: false };
@@ -33,47 +37,46 @@ export default class SignIn extends Component {
     }
   };
 
-  resetPassword = () => this.props.navigation.navigate('Reset');
-
   render() {
     const { navigate } = this.props.navigation;
 
     return (
-      <Content>
-        <Title value="Purse" />
-        <SubTitle value="Your personal expenses assistant." />
+      <KeyboardContent>
+        <Content keyboard={true}>
+          <Title value="Purse" />
+          <SubTitle value="Your personal expenses assistant." />
 
-        <Input
-          action={this.email}
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          placeholder="E-mail"
-        />
-        <Input action={this.password} secure={true} placeholder="Password" />
-
-        {this.state.error ? <Error message={this.state.error} /> : null}
-
-        <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
-
-        <View style={{ marginTop: 10 }}>
-          <Button
-            onPress={this.resetPassword}
-            title="Reset password"
-            color="#56ad97"
+          <Input
+            action={this.email}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            placeholder="E-mail"
           />
 
-          <Button
-            onPress={() => navigate('SignUp')}
-            title="Sign up"
-            color="#56ad97"
-          />
-        </View>
+          <Input action={this.password} secure={true} placeholder="Password" />
 
-        {this.state.checking ? (
-          <ActivityIndicator size="large" color="#56ad97" />
-        ) : null}
-      </Content>
+          {this.state.error ? <Error message={this.state.error} /> : null}
+
+          <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
+
+          <View style={{ marginTop: 10 }}>
+            <Button
+              onPress={() => navigate('Reset')}
+              title="Reset password"
+              color="#56ad97"
+            />
+
+            <Button
+              onPress={() => navigate('SignUp')}
+              title="Sign up"
+              color="#56ad97"
+            />
+          </View>
+        </Content>
+
+        {this.state.checking ? <Loader /> : null}
+      </KeyboardContent>
     );
   }
 }

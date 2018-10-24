@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
-import { Text, ActivityIndicator, Alert } from 'react-native';
+import { Button, Alert } from 'react-native';
 
-import { resetPassword } from '../../api';
-
-import { Content } from '../../components/Content';
+import { Loader } from '../../components/Loader';
+import { KeyboardContent, Content } from '../../components/Content';
+import { SubTitle } from '../../components/SubTitle';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
 
+import { resetPassword } from '../../api';
+
 export default class ResetPassword extends Component {
-  state = { error: null, email: '' };
+  state = { email: '', error: null, checking: false };
 
   email = email => this.setState({ email });
 
   send = () => {
     if (this.state.email !== '') {
+      this.setState({ checking: true });
+
       resetPassword(this.state.email).then(res => {
+        this.setState({ checking: false });
+
         if (res === true) {
           Alert.alert(`Message sent to: ${this.state.email}`, null, [
             {
@@ -34,23 +40,25 @@ export default class ResetPassword extends Component {
 
   render() {
     return (
-      <Content>
-        <Input
-          action={this.email}
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          placeholder="Your account email"
-        />
+      <KeyboardContent>
+        <Content keyboard={true}>
+          <SubTitle value="Have you forgotten your password?" />
 
-        {this.state.error ? <Error message={this.state.error} /> : null}
+          <Input
+            action={this.email}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            placeholder="Your account email"
+          />
 
-        <Btn action={this.send} title="Send reset message" color="#fdfdfd" />
+          {this.state.error ? <Error message={this.state.error} /> : null}
 
-        {this.state.checking ? (
-          <ActivityIndicator size="large" color="#56ad97" />
-        ) : null}
-      </Content>
+          <Btn action={this.send} title="Send reset message" color="#fdfdfd" />
+
+          {this.state.checking ? <Loader /> : null}
+        </Content>
+      </KeyboardContent>
     );
   }
 }

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Button } from 'react-native';
 
-import { Content } from '../../components/Content';
-import { Title } from '../../components/Title';
+import { KeyboardContent, Content } from '../../components/Content';
 import { SubTitle } from '../../components/SubTitle';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
@@ -50,30 +49,32 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <Content>
-        <SubTitle value="Save Your money. Start today!" />
+      <KeyboardContent>
+        <Content keyboard={true}>
+          <SubTitle value="Save Your money. Start today!" />
 
-        <Input action={this.name} placeholder="Name" />
-        <Input action={this.surname} placeholder="Surname" />
-        <Input
-          action={this.email}
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          placeholder="E-mail"
-        />
-        <Input action={this.password} secure={true} placeholder="Password" />
+          <Input action={this.name} placeholder="Name" />
+          <Input action={this.surname} placeholder="Surname" />
+          <Input
+            action={this.email}
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="email-address"
+            placeholder="E-mail"
+          />
+          <Input action={this.password} secure={true} placeholder="Password" />
 
-        <Input
-          action={this.confirm}
-          secure={true}
-          placeholder="Confirm Password"
-        />
+          <Input
+            action={this.confirm}
+            secure={true}
+            placeholder="Confirm Password"
+          />
 
-        {this.state.error ? <Error message={this.state.error} /> : null}
+          {this.state.error ? <Error message={this.state.error} /> : null}
 
-        <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
-      </Content>
+          <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
+        </Content>
+      </KeyboardContent>
     );
   }
 }
