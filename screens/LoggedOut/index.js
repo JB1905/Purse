@@ -9,7 +9,8 @@ import ResetPassword from './ResetPassword';
 export const SignedOut = createStackNavigator(
   {
     SignIn: {
-      screen: SignIn
+      screen: SignIn,
+      navigationOptions: { headerTransparent: true }
     },
     SignUp: {
       screen: SignUp,
@@ -37,7 +38,6 @@ export const SignedOut = createStackNavigator(
     }
   },
   {
-    navigationOptions: { headerTransparent: true },
     mode: 'modal',
     cardStyle: { backgroundColor: '#fdfdfd' }
   }
