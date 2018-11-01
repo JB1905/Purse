@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native';
 
 import { KeyboardContent, Content } from '../../components/Content';
 import { SubTitle } from '../../components/SubTitle';

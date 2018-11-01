@@ -15,6 +15,7 @@ export const SignedOut = createStackNavigator(
     SignUp: {
       screen: SignUp,
       navigationOptions: ({ navigation }) => ({
+        gesturesEnabled: false,
         headerLeft: (
           <Button
             onPress={() => navigation.navigate('SignIn')}
@@ -27,6 +28,7 @@ export const SignedOut = createStackNavigator(
     Reset: {
       screen: ResetPassword,
       navigationOptions: ({ navigation }) => ({
+        gesturesEnabled: false,
         headerLeft: (
           <Button
             onPress={() => navigation.navigate('SignIn')}

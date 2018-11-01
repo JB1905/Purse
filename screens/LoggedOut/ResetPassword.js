@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 import { Loader } from '../../components/Loader';
 import { KeyboardContent, Content } from '../../components/Content';

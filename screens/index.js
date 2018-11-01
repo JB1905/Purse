@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTabNavigator, createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator } from 'react-navigation';
 
 import { SignedOut } from './LoggedOut';
 import { SignedIn } from './LoggedIn';
