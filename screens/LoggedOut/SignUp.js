@@ -27,7 +27,7 @@ export default class SignUp extends Component {
   submit = () => {
     const { name, surname, email, password, confirm } = this.state;
 
-    if (name && surname && email && password) {
+    if (name && surname && email && password && confirm) {
       if (password === confirm) {
         signUp(email, password, name, surname).then(res => {
           if (res) {
