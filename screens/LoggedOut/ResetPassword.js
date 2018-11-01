@@ -16,13 +16,13 @@ export default class ResetPassword extends Component {
   email = email => this.setState({ email });
 
   send = () => {
-    if (this.state.email !== '') {
+    if (this.state.email) {
       this.setState({ checking: true });
 
       resetPassword(this.state.email).then(res => {
         this.setState({ checking: false });
 
-        if (res === true) {
+        if (res) {
           Alert.alert(`Message sent to: ${this.state.email}`, null, [
             {
               text: 'OK',

@@ -22,12 +22,12 @@ export default class SignIn extends Component {
   password = password => this.setState({ password });
 
   submit = () => {
-    if ((this.state.email && this.state.password) !== '') {
+    if (this.state.email && this.state.password) {
       this.setState({ checking: true });
 
       login(this.state.email, this.state.password).then(res => {
-        if (res.verify === true) {
           onSignIn(res.data).then(() => this.props.navigation.navigate('Home'));
+        if (res.verify) {
         } else {
           this.setState({ error: res, checking: false });
         }
