@@ -12,23 +12,24 @@ export const SignedIn = createBottomTabNavigator(
   { Home, Charts, Categories, Add, Settings },
   {
     navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
+      tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
 
-        if (routeName === 'Home') {
-          iconName = `ios-home${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Charts') {
-          iconName = `ios-stats${focused ? '' : '-outline'}`;
+        if (routeName === 'Today') {
+          iconName = 'ios-home';
+        } else if (routeName === 'Calendar') {
+          iconName = 'ios-calendar';
         } else if (routeName === 'Categories') {
-          iconName = `ios-list-box${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Add') {
-          iconName = `ios-add-circle${focused ? '' : '-outline'}`;
+          iconName = 'ios-list-box';
         }
 
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       }
     }),
-    tabBarOptions: { activeTintColor: '#56ad97', inactiveTintColor: 'gray' }
+    tabBarOptions: {
+      activeTintColor: '#56ad97',
+      inactiveTintColor: 'gray'
+    }
   }
 );

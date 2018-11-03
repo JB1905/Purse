@@ -30,11 +30,8 @@ export default class SignUp extends Component {
     if (name && surname && email && password && confirm) {
       if (password === confirm) {
         signUp(email, password, name, surname).then(res => {
-          if (res) {
-            this.props.navigation.navigate('SignIn');
-          } else {
-            this.setState({ error: res });
-          }
+          if (res) this.props.navigation.navigate('SignIn');
+          else this.setState({ error: res });
         });
       } else {
         this.setState({
