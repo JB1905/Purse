@@ -52,11 +52,11 @@ export default class ResetPassword extends Component {
             placeholder="Your account email"
           />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+          {this.state.error && <Error message={this.state.error} />}
 
           <Btn action={this.send} title="Send reset message" color="#fdfdfd" />
 
-          {this.state.checking ? <Loader /> : null}
+          {this.state.checking && <Loader />}
         </Content>
       </KeyboardContent>
     );

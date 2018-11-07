@@ -66,7 +66,7 @@ export default class SignUp extends Component {
             placeholder="Confirm Password"
           />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+          {this.state.error && <Error message={this.state.error} />}
 
           <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
         </Content>

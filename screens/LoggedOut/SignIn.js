@@ -56,7 +56,7 @@ export default class SignIn extends Component {
 
           <Input action={this.password} secure={true} placeholder="Password" />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+          {this.state.error && <Error message={this.state.error} />}
 
           <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
 
@@ -75,7 +75,7 @@ export default class SignIn extends Component {
           </View>
         </Content>
 
-        {this.state.checking ? <Loader /> : null}
+        {this.state.checking && <Loader />}
       </KeyboardContent>
     );
   }
