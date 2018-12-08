@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'react-native';
 
 import { Loader } from '../../components/Loader';
@@ -10,55 +10,52 @@ import { Error } from '../../components/Error';
 
 import { resetPassword } from '../../api';
 
-export default class ResetPassword extends Component {
-  state = { email: '', error: null, checking: false };
+export default function ResetPassword({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
+  const [checking, setChecking] = useState(false);
 
-  email = email => this.setState({ email });
+  const send = () => {
+    if (email) {
+      setChecking(true);
 
-  send = () => {
-    if (this.state.email) {
-      this.setState({ checking: true });
+      resetPassword(email).then(res => {
+        setChecking(false);
 
-      resetPassword(this.state.email).then(res => {
-        this.setState({ checking: false });
-
-        if (res) {
-          Alert.alert(`Message sent to: ${this.state.email}`, null, [
+        if (res === true) {
+          Alert.alert(`Message sent to: ${email}`, null, [
             {
               text: 'OK',
-              onPress: () => this.props.navigation.navigate('SignIn')
+              onPress: () => navigation.navigate('SignIn')
             }
           ]);
         } else {
-          this.setState({ error: res });
+          setError(res);
         }
       });
     } else {
-      this.setState({ error: 'Email is required.' });
+      setError('Email is required.');
     }
   };
 
-  render() {
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <SubTitle value="Have you forgotten your password?" />
+  return (
+    <KeyboardContent>
+      <Content keyboard>
+        <SubTitle value="Have you forgotten your password?" />
 
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="Your account email"
-          />
+        <Input
+          action={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholder="Your account email"
+        />
 
-          {this.state.error && <Error message={this.state.error} />}
+        {error && <Error message={error} />}
 
-          <Btn action={this.send} title="Send reset message" color="#fdfdfd" />
+        <Btn action={send} title="Send reset message" color="#fdfdfd" />
 
-          {this.state.checking && <Loader />}
-        </Content>
-      </KeyboardContent>
-    );
-  }
+        {checking && <Loader />}
+      </Content>
+    </KeyboardContent>
+  );
 }

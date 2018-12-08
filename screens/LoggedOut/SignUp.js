@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import { KeyboardContent, Content } from '../../components/Content';
 import { SubTitle } from '../../components/SubTitle';
@@ -8,69 +8,53 @@ import { Error } from '../../components/Error';
 
 import { signUp } from '../../api';
 
-export default class SignUp extends Component {
-  state = {
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    confirm: '',
-    error: null
-  };
+export default function SignUp({ props }) {
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState(null);
 
-  name = name => this.setState({ name });
-  surname = surname => this.setState({ surname });
-  email = email => this.setState({ email });
-  password = password => this.setState({ password });
-  confirm = confirm => this.setState({ confirm });
-
-  submit = () => {
-    const { name, surname, email, password, confirm } = this.state;
-
+  const submit = () => {
     if (name && surname && email && password && confirm) {
-      if (password === confirm) {
-        signUp(email, password, name, surname).then(res => {
-          if (res) this.props.navigation.navigate('SignIn');
-          else this.setState({ error: res });
-        });
+      if (password.length > 6) {
+        if (password === confirm) {
+          signUp(email, password, name, surname).then(res => 
+            res ? props.navigation.navigate('SignIn') : setError(res)
+          );
+        } else {
+          setError('Password and confirmed password are different.');
+        }
       } else {
-        this.setState({
-          error: 'Password and confirmed password are different.'
-        });
+        setError('Password is too short (at least 6 char.).');
       }
     } else {
-      this.setState({ error: 'All fields are required.' });
+      setError('All fields are required.');
     }
   };
 
-  render() {
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <SubTitle value="Save Your money. Start today!" />
+  return (
+    <KeyboardContent>
+      <Content keyboard>
+        <SubTitle value="Save Your money. Start today!" />
 
-          <Input action={this.name} placeholder="Name" />
-          <Input action={this.surname} placeholder="Surname" />
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="E-mail"
-          />
-          <Input action={this.password} secure={true} placeholder="Password" />
+        <Input action={setName} placeholder="Name" />
+        <Input action={setSurname} placeholder="Surname" />
+        <Input
+          action={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholder="E-mail"
+        />
+        <Input action={setPassword} secure placeholder="Password" />
 
-          <Input
-            action={this.confirm}
-            secure={true}
-            placeholder="Confirm Password"
-          />
+        <Input action={setConfirm} secure placeholder="Confirm Password" />
 
-          {this.state.error && <Error message={this.state.error} />}
+        {error && <Error message={error} />}
 
-          <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
-        </Content>
-      </KeyboardContent>
-    );
-  }
+        <Btn action={submit} title="Sign up" color="#fdfdfd" />
+      </Content>
+    </KeyboardContent>
+  );
 }

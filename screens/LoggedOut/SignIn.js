@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 
 import { Loader } from '../../components/Loader';
@@ -9,74 +9,70 @@ import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
 
-import SignUp from './SignUp';
-import ResetPassword from './ResetPassword';
-
 import { onSignIn } from '../../auth';
 import { login } from '../../api';
 
-export default class SignIn extends Component {
-  state = { email: '', password: '', error: null, checking: false };
+export default function SignIn({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [checking, setChecking] = useState(false);
 
-  email = email => this.setState({ email });
-  password = password => this.setState({ password });
 
-  submit = () => {
-    if (this.state.email && this.state.password) {
-      this.setState({ checking: true });
+  const submit = () => {
+    if (email && password) {
+      setChecking(true);
 
-      login(this.state.email, this.state.password).then(res => {
-          onSignIn(res.data).then(() => this.props.navigation.navigate('Home'));
+      login(email, password).then(res => {
         if (res.verify) {
+          onSignIn(res.data).then(() => 
+            navigation.navigate('Today')
+          );
         } else {
-          this.setState({ error: res, checking: false });
+          setError(res);
+          setChecking(false);
         }
       });
     } else {
-      this.setState({ error: 'Email and password are required.' });
+      setError('Email and password are required.');
     }
   };
 
-  render() {
-    const { navigate } = this.props.navigation;
+  return (
+    <KeyboardContent>
+      <Content keyboard>
+        <Title value="Purse" />
+        <SubTitle value="Your personal expenses assistant. Right here!" />
 
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <Title value="Purse" />
-          <SubTitle value="Your personal expenses assistant." />
+        <Input
+          action={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholder="E-mail"
+        />
 
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="E-mail"
+        <Input action={setPassword} secure placeholder="Password" />
+
+        {error && <Error message={error} />}
+
+        <Btn action={submit} title="Sign in" color="#fdfdfd" />
+
+        <View style={{ marginTop: 10 }}>
+          <Button
+            onPress={() => navigation.navigate('Reset')}
+            title="Reset password"
+            color="#56ad97"
           />
 
-          <Input action={this.password} secure={true} placeholder="Password" />
+          <Button
+            onPress={() => navigation.navigate('SignUp')}
+            title="Sign up"
+            color="#56ad97"
+          />
+        </View>
+      </Content>
 
-          {this.state.error && <Error message={this.state.error} />}
-
-          <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
-
-          <View style={{ marginTop: 10 }}>
-            <Button
-              onPress={() => navigate('Reset')}
-              title="Reset password"
-              color="#56ad97"
-            />
-
-            <Button
-              onPress={() => navigate('SignUp')}
-              title="Sign up"
-              color="#56ad97"
-            />
-          </View>
-        </Content>
-
-        {this.state.checking && <Loader />}
-      </KeyboardContent>
-    );
-  }
+      {checking && <Loader />}
+    </KeyboardContent>
+  );
 }

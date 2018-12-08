@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createAppContainer } from 'react-navigation';
 
 import { isSignedIn } from './auth';
 
-import { createRootNavigator } from './screens';
+import { RootNavigator } from './screens';
 
-export default class App extends Component {
-  state = { signedIn: false, checkedSignIn: false };
+export default function App() {
+  const [signedIn, setSignedIn] = useState(false);
+  const [checkedSignIn, setCheckedSignIn] = useState(false);
 
-  componentDidMount() {
+  useEffect(() => {
     isSignedIn()
-      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-      .catch(err => alert('An error occurred'));
-  }
+      .then(res => {
+        setSignedIn(res);
+        setCheckedSignIn(true);
+      })
+      .catch(err => alert(`An error occurred: ${err}`));
+  }, []);
 
-  render() {
-    const { checkedSignIn, signedIn } = this.state;
+  if (!checkedSignIn) return null;
 
-    if (!checkedSignIn) return null;
+  const Layout = createAppContainer(RootNavigator(signedIn));
 
-    const Layout = createRootNavigator(signedIn);
-
-    return <Layout />;
-  }
+  return <Layout />;
 }
