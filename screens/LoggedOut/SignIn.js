@@ -25,7 +25,7 @@ export default function SignIn({ navigation }) {
 
       login(email, password).then(res => {
         if (res.verify) {
-          onSignIn(res.data).then(() => 
+          onSignIn(res.data).then(() =>
             navigation.navigate('Today')
           );
         } else {

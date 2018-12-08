@@ -20,7 +20,7 @@ export default function SignUp({ props }) {
     if (name && surname && email && password && confirm) {
       if (password.length > 6) {
         if (password === confirm) {
-          signUp(email, password, name, surname).then(res => 
+          signUp(email, password, name, surname).then(res =>
             res ? props.navigation.navigate('SignIn') : setError(res)
           );
         } else {
