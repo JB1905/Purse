@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Alert } from 'react-native';
 
 import { Loader } from '../../components/Loader';
-import { KeyboardContent, Content } from '../../components/Content';
-import { SubTitle } from '../../components/SubTitle';
+import { KeyboardContent } from '../../components/Content';
+import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
@@ -29,33 +29,27 @@ export default function ResetPassword({ navigation }) {
               onPress: () => navigation.navigate('SignIn')
             }
           ]);
-        } else {
-          setError(res);
-        }
+        } else setError(res);
       });
-    } else {
-      setError('Email is required.');
-    }
+    } else setError('Email is required.');
   };
 
   return (
     <KeyboardContent>
-      <Content keyboard>
-        <SubTitle value="Have you forgotten your password?" />
+      <Title>Have you forgotten your password?</Title>
 
-        <Input
-          action={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="Your account email"
-        />
+      <Input
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+        placeholder="Your account email"
+      />
 
-        {error && <Error message={error} />}
+      {error && <Error>{error}</Error>}
 
-        <Btn action={send} title="Send reset message" color="#fdfdfd" />
+      <Btn action={send} title="Send reset message" color="#fdfdfd" />
 
-        {checking && <Loader />}
-      </Content>
+      {checking && <Loader />}
     </KeyboardContent>
   );
 }

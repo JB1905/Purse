@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { KeyboardContent, Content } from '../../components/Content';
-import { SubTitle } from '../../components/SubTitle';
+import { KeyboardContent } from '../../components/Content';
+import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
 
 import { signUp } from '../../api';
 
-export default function SignUp({ props }) {
+export default function SignUp({ navigation }) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -21,40 +21,43 @@ export default function SignUp({ props }) {
       if (password.length > 6) {
         if (password === confirm) {
           signUp(email, password, name, surname).then(res =>
-            res ? props.navigation.navigate('SignIn') : setError(res)
+            res ? navigation.navigate('SignIn') : setError(res)
           );
-        } else {
-          setError('Password and confirmed password are different.');
-        }
-      } else {
-        setError('Password is too short (at least 6 char.).');
-      }
-    } else {
-      setError('All fields are required.');
-    }
+        } else setError('Password and confirmed password are different.');
+      } else setError('Password is too short (at least 6 char.).');
+    } else setError('All fields are required.');
   };
 
   return (
     <KeyboardContent>
-      <Content keyboard>
-        <SubTitle value="Save Your money. Start today!" />
+      <Title>Save your money. Start today!</Title>
 
-        <Input action={setName} placeholder="Name" />
-        <Input action={setSurname} placeholder="Surname" />
-        <Input
-          action={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="E-mail"
-        />
-        <Input action={setPassword} secure placeholder="Password" />
+      <Input onChangeText={setName} placeholder="Name" />
 
-        <Input action={setConfirm} secure placeholder="Confirm Password" />
+      <Input onChangeText={setSurname} placeholder="Surname" />
 
-        {error && <Error message={error} />}
+      <Input
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+        placeholder="E-mail"
+      />
 
-        <Btn action={submit} title="Sign up" color="#fdfdfd" />
-      </Content>
+      <Input
+        onChangeText={setPassword}
+        secureTextEntry
+        placeholder="Password"
+      />
+
+      <Input
+        onChangeText={setConfirm}
+        secureTextEntry
+        placeholder="Confirm Password"
+      />
+
+      {error && <Error>{error}</Error>}
+
+      <Btn action={submit} title="Sign up" color="#fdfdfd" />
     </KeyboardContent>
   );
 }

@@ -19,7 +19,7 @@ export const SignedOut = createStackNavigator(
         headerLeft: (
           <Button
             onPress={() => navigation.navigate('SignIn')}
-            color="#56ad97"
+            color="#5ac59a"
             title="Cancel"
           />
         )
@@ -32,7 +32,7 @@ export const SignedOut = createStackNavigator(
         headerLeft: (
           <Button
             onPress={() => navigation.navigate('SignIn')}
-            color="#56ad97"
+            color="#5ac59a"
             title="Cancel"
           />
         )

@@ -1,16 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components';
 
-export const Title = ({ value }) => <Text style={styles.title}>{value}</Text>;
+export const Title = styled.Text`
+  width: ${Dimensions.get('window').width - 26};
+  max-width: 400px;
 
-const styles = StyleSheet.create({
-  title: {
-    marginTop: 12,
-    width: Dimensions.get('window').width - 36,
-    maxWidth: 400,
-    fontSize: 50,
-    fontWeight: '800',
-    marginBottom: 6,
-    color: '#56ad97'
-  }
-});
+  ${({ main }) =>
+    main
+      ? `
+    font-size: 70px;
+    font-weight: 800;
+    color: #5ac59a;
+    margin: 12px 0 6px;
+  `
+      : `
+    font-size: 24px;
+    font-weight: 500;
+    color: #97d8c2;
+    margin-bottom: 18px;
+  `}
+`;

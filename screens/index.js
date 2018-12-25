@@ -4,8 +4,8 @@ import { createSwitchNavigator } from 'react-navigation';
 import { SignedOut } from './LoggedOut';
 import { SignedIn } from './LoggedIn';
 
-export const createRootNavigator = (signedIn = false) => {
-  return createSwitchNavigator(
+export const RootNavigator = (signedIn = false) =>
+  createSwitchNavigator(
     {
       SignedIn: {
         screen: SignedIn
@@ -18,4 +18,3 @@ export const createRootNavigator = (signedIn = false) => {
       initialRouteName: signedIn ? 'SignedIn' : 'SignedOut'
     }
   );
-};
