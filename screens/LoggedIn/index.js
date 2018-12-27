@@ -1,6 +1,6 @@
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
 
 import Today from './Today';
 import Calendar from './Calendar';
@@ -28,7 +28,7 @@ export const SignedIn = createBottomTabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: '#56ad97',
+      activeTintColor: '#5ac59a',
       inactiveTintColor: 'gray'
     }
   }

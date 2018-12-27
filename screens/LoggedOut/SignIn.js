@@ -22,7 +22,7 @@ export default function SignIn({ navigation }) {
       setChecking(true);
 
       login(email, password).then(res => {
-        if (res.verify) {
+        if (res.verification) {
           onSignIn(res.data).then(() => navigation.navigate('Expenses'));
         } else {
           setError(res);

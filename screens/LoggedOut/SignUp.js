@@ -6,7 +6,7 @@ import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
 
-import { signUp } from '../../api';
+import { register } from '../../api';
 
 export default function SignUp({ navigation }) {
   const [name, setName] = useState('');
@@ -20,7 +20,7 @@ export default function SignUp({ navigation }) {
     if (name && surname && email && password && confirm) {
       if (password.length > 6) {
         if (password === confirm) {
-          signUp(email, password, name, surname).then(res =>
+          register(email, password, name, surname).then(res =>
             res ? navigation.navigate('SignIn') : setError(res)
           );
         } else setError('Password and confirmed password are different.');
