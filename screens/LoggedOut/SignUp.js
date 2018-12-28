@@ -57,7 +57,7 @@ export default function SignUp({ navigation }) {
 
       {error && <Error>{error}</Error>}
 
-      <Btn action={submit} title="Sign up" color="#fdfdfd" />
+      <Btn onPress={submit} title="Sign up" color="#fdfdfd" />
     </KeyboardContent>
   );
 }

@@ -47,7 +47,7 @@ export default function ResetPassword({ navigation }) {
 
       {error && <Error>{error}</Error>}
 
-      <Btn action={send} title="Send reset message" color="#fdfdfd" />
+      <Btn onPress={send} title="Send reset message" color="#fdfdfd" />
 
       {checking && <Loader />}
     </KeyboardContent>

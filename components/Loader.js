@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Dimensions } from 'react-native';
 import styled from 'styled-components';
 
-const LoaderSplash = styled.View`
+const Base = styled.View`
   left: 0;
   right: 0;
   top: 0;
@@ -15,7 +15,7 @@ const LoaderSplash = styled.View`
 `;
 
 export const Loader = () => (
-  <LoaderSplash>
+  <Base>
     <ActivityIndicator size="large" color="#5ac59a" />
-  </LoaderSplash>
+  </Base>
 );

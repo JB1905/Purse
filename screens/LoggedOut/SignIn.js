@@ -52,7 +52,7 @@ export default function SignIn({ navigation }) {
 
       {error && <Error>{error}</Error>}
 
-      <Btn action={submit} title="Sign in" color="#fdfdfd" />
+      <Btn onPress={submit} title="Sign in" color="#fdfdfd" />
 
       <View style={{ marginTop: 10 }}>
         <Button

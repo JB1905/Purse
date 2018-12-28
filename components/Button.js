@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Dimensions } from 'react-native';
 import styled from 'styled-components';
 
-const ButtonOuter = styled.TouchableHighlight`
+const Base = styled.TouchableHighlight`
   margin: 8px 0;
   padding: 2px 0;
   border-radius: 10px;
@@ -12,8 +12,8 @@ const ButtonOuter = styled.TouchableHighlight`
   max-width: 400px;
 `;
 
-export const Btn = ({ action, color, title }) => (
-  <ButtonOuter>
-    <Button onPress={action} color={color} title={title} />
-  </ButtonOuter>
+export const Btn = props => (
+  <Base>
+    <Button {...props} />
+  </Base>
 );
