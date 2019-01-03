@@ -10,7 +10,9 @@ export const SignedOut = createStackNavigator(
   {
     SignIn: {
       screen: SignIn,
-      navigationOptions: { headerTransparent: true }
+      navigationOptions: {
+        headerTransparent: true
+      }
     },
     SignUp: {
       screen: SignUp,
@@ -40,7 +42,6 @@ export const SignedOut = createStackNavigator(
     }
   },
   {
-    mode: 'modal',
-    cardStyle: { backgroundColor: '#fdfdfd' }
+    mode: 'modal'
   }
 );
