@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const Title = styled.Text`
   width: ${Dimensions.get('window').width - 26};
-  max-width: 400px;
+  max-width: 440px;
 
   ${({ main }) =>
     main

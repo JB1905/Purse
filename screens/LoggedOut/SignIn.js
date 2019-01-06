@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Button, View } from 'react-native';
+import { View, Button } from 'react-native';
 
-import { Loader } from '../../components/Loader';
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Loader } from '../../components/Loader';
 
-import { onSignIn } from '../../auth';
 import { login } from '../../api';
+import { onSignIn } from '../../auth';
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState('');

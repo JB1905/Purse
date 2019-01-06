@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 
-import { Loader } from '../../components/Loader';
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Loader } from '../../components/Loader';
 
 import { resetPassword } from '../../api';
 

@@ -9,5 +9,5 @@ export const Input = styled.TextInput`
   background-color: #eee;
   height: 44px;
   width: ${Dimensions.get('window').width - 26};
-  max-width: 400px;
+  max-width: 440px;
 `;

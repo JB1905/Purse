@@ -9,7 +9,7 @@ const Base = styled.TouchableHighlight`
   background-color: #5ac59a;
   height: 44px;
   width: ${Dimensions.get('window').width - 26};
-  max-width: 400px;
+  max-width: 440px;
 `;
 
 export const Btn = props => (
