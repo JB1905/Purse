@@ -6,7 +6,7 @@ export const Input = styled.TextInput`
   padding: 4px 12px;
   border-radius: 10px;
   font-size: 20px;
-  background-color: #eee;
+  background-color: #edeff1;
   height: 44px;
   width: ${Dimensions.get('window').width - 26};
   max-width: 440px;
