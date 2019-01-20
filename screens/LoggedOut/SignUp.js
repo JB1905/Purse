@@ -18,7 +18,7 @@ export default function SignUp({ navigation }) {
 
   const submit = () => {
     if (name && surname && email && password && confirm) {
-      if (password.length > 6) {
+      if (password.length > 5) {
         if (password === confirm) {
           register(email, password, name, surname).then(res =>
             res ? navigation.navigate('SignIn') : setError(res)
