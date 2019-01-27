@@ -40,9 +40,9 @@ export default function ResetPassword({ navigation }) {
 
       <Input
         onChangeText={setEmail}
+        placeholder="Your account email"
         autoCapitalize="none"
         keyboardType="email-address"
-        placeholder="Your account email"
       />
 
       {error && <Error>{error}</Error>}

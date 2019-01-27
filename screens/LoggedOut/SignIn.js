@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Button } from 'react-native';
+import { Button } from 'react-native';
 
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Wrap } from '../../components/Wrap';
 import { Loader } from '../../components/Loader';
 
 import { login } from '../../api';
@@ -39,22 +40,22 @@ export default function SignIn({ navigation }) {
 
       <Input
         onChangeText={setEmail}
+        placeholder="E-mail"
         autoCapitalize="none"
         keyboardType="email-address"
-        placeholder="E-mail"
       />
 
       <Input
         onChangeText={setPassword}
-        secureTextEntry
         placeholder="Password"
+        secureTextEntry
       />
 
       {error && <Error>{error}</Error>}
 
       <Btn onPress={submit} title="Sign in" color="#fdfdfd" />
 
-      <View style={{ marginTop: 10 }}>
+      <Wrap>
         <Button
           onPress={() => navigation.navigate('Reset')}
           title="Reset password"
@@ -66,7 +67,7 @@ export default function SignIn({ navigation }) {
           title="Sign up"
           color="#5ac59a"
         />
-      </View>
+      </Wrap>
 
       {checking && <Loader />}
     </KeyboardContent>

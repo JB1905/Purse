@@ -7,7 +7,7 @@ export const Input = styled.TextInput`
   border-radius: 10px;
   font-size: 20px;
   background-color: #edeff1;
-  height: 44px;
+  height: 40px;
   width: ${Dimensions.get('window').width - 26};
   max-width: 440px;
 `;

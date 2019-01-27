@@ -38,21 +38,21 @@ export default function SignUp({ navigation }) {
 
       <Input
         onChangeText={setEmail}
+        placeholder="E-mail"
         autoCapitalize="none"
         keyboardType="email-address"
-        placeholder="E-mail"
       />
 
       <Input
         onChangeText={setPassword}
-        secureTextEntry
         placeholder="Password"
+        secureTextEntry
       />
 
       <Input
         onChangeText={setConfirm}
-        secureTextEntry
         placeholder="Confirm Password"
+        secureTextEntry
       />
 
       {error && <Error>{error}</Error>}
