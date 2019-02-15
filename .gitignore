@@ -2,4 +2,5 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 .DS_Store
-api
+api/config.js
+yarn-error.log

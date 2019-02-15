@@ -24,7 +24,7 @@ export default function SignIn({ navigation }) {
 
       login(email, password).then(res => {
         if (res.verification) {
-          onSignIn(res.data).then(() => navigation.navigate('Expenses'));
+          onSignIn(res.data).then(() => navigation.navigate('Finances'));
         } else {
           setError(res);
           setChecking(false);

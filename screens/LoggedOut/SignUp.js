@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-native';
 
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
@@ -20,9 +21,16 @@ export default function SignUp({ navigation }) {
     if (name && surname && email && password && confirm) {
       if (password.length > 5) {
         if (password === confirm) {
-          register(email, password, name, surname).then(res =>
-            res ? navigation.navigate('SignIn') : setError(res)
-          );
+          register(email, password, name, surname).then(res => {
+            if (res) {
+              Alert.alert('User created succesfully', null, [
+                {
+                  text: 'OK',
+                  onPress: () => navigation.navigate('SignIn')
+                }
+              ]);
+            } else setError(res);
+          });
         } else setError('Password and confirmed password are different.');
       } else setError('Password is too short (at least 6 char.).');
     } else setError('All fields are required.');
