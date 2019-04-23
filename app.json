@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Purse",
-    "description": "React Native application to manage expenses",
+    "description": "React Native expenses assistant",
     "slug": "Purse",
     "privacy": "public",
     "sdkVersion": "32.0.0",

@@ -14,7 +14,7 @@ export default function login(email, password) {
         if (code === 'auth/wrong-password') {
           message = 'Incorrect password.';
         } else if (code === 'auth/invalid-email') {
-          message = 'Incorrect email.';
+          message = 'Structure of email is incorrect.';
         } else if (code === 'auth/user-not-found') {
           message = 'User not found.';
         }
