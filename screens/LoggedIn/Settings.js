@@ -42,7 +42,7 @@ export default function Settings({ navigation }) {
                 title="Sign out"
                 color="#fdfdfd"
                 onPress={() => {
-                  signOut(() => navigation.navigate('SignedOut'));
+                  signOut().then(() => navigation.navigate('SignedOut'));
                 }}
               />
             </ScrollView>

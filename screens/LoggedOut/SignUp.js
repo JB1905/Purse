@@ -18,22 +18,31 @@ export default function SignUp({ navigation }) {
   const [error, setError] = useState(null);
 
   const submit = () => {
+    const alert = () => {
+      Alert.alert('User created succesfully', null, [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('SignIn')
+        }
+      ]);
+    };
+
     if (name && surname && email && password && confirm) {
       if (password.length > 5) {
         if (password === confirm) {
           register(email, password, name, surname).then(res => {
-            if (res) {
-              Alert.alert('User created succesfully', null, [
-                {
-                  text: 'OK',
-                  onPress: () => navigation.navigate('SignIn')
-                }
-              ]);
-            } else setError(res);
+            if (res.success) alert();
+            else setError(res.message);
           });
-        } else setError('Password and confirmed password are different.');
-      } else setError('Password is too short (at least 6 char.).');
-    } else setError('All fields are required.');
+        } else {
+          setError('Password and confirmed password are different.');
+        }
+      } else {
+        setError('Password is too short (at least 6 char.).');
+      }
+    } else {
+      setError('All fields are required.');
+    }
   };
 
   return (

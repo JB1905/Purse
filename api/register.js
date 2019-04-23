@@ -20,7 +20,7 @@ export default function register(email, password, name, surname) {
         let message;
 
         if (code === 'auth/email-already-in-use') {
-          message = 'User with this email already exists';
+          message = 'User with this email already exists.';
         } else if (code === 'auth/invalid-email') {
           message = 'Structure of email is incorrect.';
         }
