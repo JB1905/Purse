@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Dimensions } from 'react-native';
 import { FirestoreDocument } from 'react-firestore';
-import styled from 'styled-components/native';
 
 import { Content } from '../../components/Content';
 import { Loader } from '../../components/Loader';
