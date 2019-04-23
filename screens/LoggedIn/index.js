@@ -1,12 +1,22 @@
 import React from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import { Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from 'react-navigation';
 
-import Today from './Today';
-import Calendar from './Calendar';
+import CategoryManager from './CategoryManager';
 import Categories from './Categories';
-import Add from './Add';
+import Category from './Category';
+
+import FinanceManager from './FinanceManager';
+import Calendar from './Calendar';
+import Analytics from './Analytics';
+
 import Settings from './Settings';
+import Account from './Account';
+
 
 export const SignedIn = createBottomTabNavigator(
   {

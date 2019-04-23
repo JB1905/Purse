@@ -1,6 +1,6 @@
 import React from 'react';
+import styled from 'styled-components/native';
 import { ActivityIndicator, Dimensions } from 'react-native';
-import styled from 'styled-components';
 
 const Base = styled.View`
   left: 0;

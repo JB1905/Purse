@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const Error = styled.Text`
-  color: #f23030;
+  color: #f22828;
   margin: 4px 0;
 `;

@@ -4,8 +4,8 @@ import { Button } from 'react-native';
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
-import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Btn } from '../../components/Button';
 import { Wrap } from '../../components/Wrap';
 import { Loader } from '../../components/Loader';
 
@@ -23,49 +23,54 @@ export default function SignIn({ navigation }) {
       setChecking(true);
 
       login(email, password).then(res => {
-        if (res.verification) {
-          onSignIn(res.data).then(() => navigation.navigate('Finances'));
+        if (res.user) {
+          onSignIn(res.user).then(() => {
+            navigation.navigate('Finances');
+          });
         } else {
-          setError(res);
           setChecking(false);
+          setError(res.message);
         }
       });
-    } else setError('Email and password are required.');
+    } else {
+      setError('Email and password are required.');
+    }
   };
 
   return (
     <KeyboardContent>
       <Title main>Purse</Title>
+
       <Title>Your personal expenses assistant. Right here!</Title>
 
       <Input
-        onChangeText={setEmail}
         placeholder="E-mail"
+        onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
       <Input
-        onChangeText={setPassword}
         placeholder="Password"
+        onChangeText={setPassword}
         secureTextEntry
       />
 
       {error && <Error>{error}</Error>}
 
-      <Btn onPress={submit} title="Sign in" color="#fdfdfd" />
+      <Btn title="Sign in" color="#fdfdfd" onPress={submit} />
 
       <Wrap>
         <Button
-          onPress={() => navigation.navigate('Reset')}
           title="Reset password"
           color="#5ac59a"
+          onPress={() => navigation.navigate('Reset')}
         />
 
         <Button
-          onPress={() => navigation.navigate('SignUp')}
           title="Sign up"
           color="#5ac59a"
+          onPress={() => navigation.navigate('SignUp')}
         />
       </Wrap>
 

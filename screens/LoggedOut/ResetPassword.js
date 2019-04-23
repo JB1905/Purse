@@ -16,22 +16,30 @@ export default function ResetPassword({ navigation }) {
   const [checking, setChecking] = useState(false);
 
   const send = () => {
+    const alert = email => {
+      Alert.alert(`Message sent to: ${email}`, null, [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('SignIn')
+        }
+      ]);
+    };
+
     if (email) {
       setChecking(true);
 
       resetPassword(email).then(res => {
         setChecking(false);
 
-        if (res === true) {
-          Alert.alert(`Message sent to: ${email}`, null, [
-            {
-              text: 'OK',
-              onPress: () => navigation.navigate('SignIn')
-            }
-          ]);
-        } else setError(res);
+        if (res.success) {
+          alert(email);
+        } else {
+          setError(res);
+        }
       });
-    } else setError('Email is required.');
+    } else {
+      setError('Email is required.');
+    }
   };
 
   return (
@@ -39,15 +47,15 @@ export default function ResetPassword({ navigation }) {
       <Title>Have you forgotten your password?</Title>
 
       <Input
-        onChangeText={setEmail}
         placeholder="Your account email"
+        onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
       {error && <Error>{error}</Error>}
 
-      <Btn onPress={send} title="Send reset message" color="#fdfdfd" />
+      <Btn title="Send reset message" color="#fdfdfd" onPress={send} />
 
       {checking && <Loader />}
     </KeyboardContent>

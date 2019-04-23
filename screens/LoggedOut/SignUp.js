@@ -4,8 +4,8 @@ import { Alert } from 'react-native';
 import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
-import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Btn } from '../../components/Button';
 
 import { register } from '../../api';
 
@@ -40,32 +40,32 @@ export default function SignUp({ navigation }) {
     <KeyboardContent>
       <Title>Save your money. Start today!</Title>
 
-      <Input onChangeText={setName} placeholder="Name" />
+      <Input placeholder="Name" onChangeText={setName} />
 
-      <Input onChangeText={setSurname} placeholder="Surname" />
+      <Input placeholder="Surname" onChangeText={setSurname} />
 
       <Input
-        onChangeText={setEmail}
         placeholder="E-mail"
+        onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
       <Input
-        onChangeText={setPassword}
         placeholder="Password"
+        onChangeText={setPassword}
         secureTextEntry
       />
 
       <Input
-        onChangeText={setConfirm}
         placeholder="Confirm Password"
+        onChangeText={setConfirm}
         secureTextEntry
       />
 
       {error && <Error>{error}</Error>}
 
-      <Btn onPress={submit} title="Sign up" color="#fdfdfd" />
+      <Btn title="Sign up" color="#fdfdfd" onPress={submit} />
     </KeyboardContent>
   );
 }
