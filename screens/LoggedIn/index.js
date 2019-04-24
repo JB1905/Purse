@@ -26,13 +26,14 @@ const analytics = createStackNavigator({
 const categories = createStackNavigator({
 });
 
+export const Main = createBottomTabNavigator(
   {
     Finances: finances,
     Analytics: analytics,
     Categories: categories
   },
   {
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
 
