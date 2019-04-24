@@ -54,9 +54,37 @@ export const Main = createBottomTabNavigator(
 );
 
 const categoryManager = createStackNavigator({
+  CategoryManager: {
+    screen: CategoryManager,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.getParam('item')?.id ? 'Edit' : 'Add'} Category`,
+      gesturesEnabled: false,
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Main')}
+          color="#5ac59a"
+          title="Cancel"
+        />
+      )
+    })
+  }
 });
 
 const financeManager = createStackNavigator({
+  FinanceManager: {
+    screen: FinanceManager,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.getParam('item')?.id ? 'Edit' : 'Add'} Finance`,
+      gesturesEnabled: false,
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Main')}
+          color="#5ac59a"
+          title="Cancel"
+        />
+      )
+    })
+  }
 });
 
 const settings = createStackNavigator({

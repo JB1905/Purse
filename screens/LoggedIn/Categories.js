@@ -20,6 +20,19 @@ export default function Categories({ navigation }) {
   }, []);
 
   const renderData = data => {
+    const removeCategory = item => {
+      Alert.alert(`This will remove "${item.name}" with all it's data`, null, [
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => deleteCategory(item.id)
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]);
+    };
   };
 
   const notFound = () => (

@@ -16,6 +16,19 @@ export default function Category({ navigation }) {
   const [section, setSection] = useState(0);
 
   const renderData = data => {
+    const alert = item => {
+      Alert.alert(`Do you want remove ${item.title}?`, null, [
+        {
+          text: 'Remove',
+          style: 'destructive',
+          onPress: () => deleteData(item.id)
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]);
+    };
   };
 
   const notFound = ({ id, name }) => (

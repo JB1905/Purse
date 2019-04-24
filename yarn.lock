@@ -2277,10 +2277,10 @@ color@^2.0.1:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-color@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/color/-/color-3.1.0.tgz#d8e9fb096732875774c84bf922815df0308d0ffc"
-  integrity sha512-CwyopLkuRYO5ei2EpzpIh6LqJMt6Mt+jZhO5VI5f/wJLZriXQE32/SSqzmrh+QB+AZT81Cj8yv+7zwToW8ahZg==
+color@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/color/-/color-3.1.1.tgz#7abf5c0d38e89378284e873c207ae2172dcc8a61"
+  integrity sha512-PvUltIXRjehRKPSy89VnDWFKY58xyhTLyxIg21vwQBI6qLwZNPmC8k3C1uytIgFKEpOIzN4y32iPm8231zFHIg==
   dependencies:
     color-convert "^1.9.1"
     color-string "^1.5.2"
@@ -4684,13 +4684,14 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-native-color-picker@^1.0.0-beta.1.2:
-  version "1.0.0-beta.1.2"
-  resolved "https://registry.yarnpkg.com/native-color-picker/-/native-color-picker-1.0.0-beta.1.2.tgz#0283ef3d9df435fba0e6b7ef9db635a4c3b697f0"
-  integrity sha512-56lskq5Vef6oqdyGYrXST+qdFUP80WSfCh1AqXwpUus0AdW51ojiCPI1Ft5f3jnxlbzdlFY91T3OhJxi40h4UA==
+native-color-picker@^1.0.0-beta.3.4:
+  version "1.0.0-beta.3.4"
+  resolved "https://registry.yarnpkg.com/native-color-picker/-/native-color-picker-1.0.0-beta.3.4.tgz#7e5bb9889e8fa5652810fcdb754c03f359b010b0"
+  integrity sha512-OSoflU+re7cblka/P8yu5X394wrnyZ9gQBHYpKQBTkPzLQGYm4v3MZr0oxRedaQQWJwuAnGEdu7JD138KRtYlA==
   dependencies:
-    color "^3.1.0"
+    color "^3.1.1"
     color-sort "^0.0.1"
+    styled-components "^4.2.0"
 
 needle@^2.2.1:
   version "2.2.4"
@@ -5349,10 +5350,10 @@ react-native-branch@2.2.5:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
   integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
 
-react-native-calendars@^1.46.0:
-  version "1.46.0"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.46.0.tgz#36719acb44be17791a6d50e09de2d047e1dc4dfc"
-  integrity sha512-VUrDSuepTIGJIjBdL5GnzBXUc4YvuR+m+VtyU8LN6e+30SuR7LlAejm4PfjdO+pMdusYKEJmKYaoEerwmo1Nsg==
+react-native-calendars@^1.60.0:
+  version "1.60.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.60.0.tgz#f7cfc4eed3a04cbcdc1a375425cb082566f1c7f3"
+  integrity sha512-OPtDzbb0BeOZiPp1nMk9G8RzId58/HB6+2x8QOm/xSaXT//Ti5qvX6R9pOG3JZQXM4D/VG0TkIrP5QxKzyo5yw==
   dependencies:
     lodash.get "^4.4.2"
     lodash.isequal "^4.5.0"
