@@ -29,6 +29,21 @@ export default function Category({ navigation }) {
         }
       ]);
     };
+
+    const buttons = item => [
+      {
+        text: 'Edit',
+        backgroundColor: '#2d7bf6',
+        underlayColor: '#2d7bf6cc',
+        onPress: () => navigation.navigate('FinanceManager', { item })
+      },
+      {
+        text: 'Remove',
+        backgroundColor: '#ec5041',
+        underlayColor: '#ec5041cc',
+        onPress: () => alert(item)
+      }
+    ];
   };
 
   const notFound = ({ id, name }) => (

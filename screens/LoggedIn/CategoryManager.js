@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
-import { NativeColorPicker } from 'native-color-picker';
+import NativeColorPicker from 'native-color-picker';
 
 import { KeyboardContent } from '../../components/Content';
 import { Input } from '../../components/Input';
@@ -25,8 +25,8 @@ export default function CategoryManager({ navigation }) {
   const [icon, setIcon] = useState(params.icon || '');
 
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
   const [section, setSection] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getUser().then(res => setUser(res));

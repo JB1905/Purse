@@ -33,6 +33,65 @@ export default function Categories({ navigation }) {
         }
       ]);
     };
+
+    const actions = item => {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Edit', 'Remove', 'Cancel'],
+          destructiveButtonIndex: 1,
+          cancelButtonIndex: 2,
+          title: `Edit or remove: ${item.name}`
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            navigation.navigate('CategoryManager', { item });
+          } else if (buttonIndex === 1) {
+            removeCategory(item);
+          }
+        }
+      );
+    };
+
+    return (
+      <List
+        data={data}
+        numColumns={2}
+        keyExtractor={data => data.id}
+        contentContainerStyle={{ paddingBottom: 13 }}
+        renderItem={({ item }) => (
+          <Item
+            key={item.id}
+            activeScale={0.96}
+            color={item.color}
+            onPress={() => {
+              navigation.navigate('Category', {
+                data: item
+              });
+            }}
+          >
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Ionicons
+                style={{ flex: 1 }}
+                name={item.icon}
+                color="#fff"
+                size={26}
+              />
+
+              <Options onPress={() => actions(item)}>
+                <Ionicons
+                  style={{ flex: 1, marginTop: 2 }}
+                  name="ios-more"
+                  color="#fff"
+                  size={20}
+                />
+              </Options>
+            </View>
+
+            <Name numberOfLines={1}>{item.name}</Name>
+          </Item>
+        )}
+      />
+    );
   };
 
   const notFound = () => (

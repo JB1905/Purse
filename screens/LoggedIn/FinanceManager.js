@@ -18,19 +18,18 @@ import { addData, updateData } from '../../api';
 export default function FinanceManager({ navigation }) {
   const { id, ...params } = navigation.getParam('item') || {};
 
+  const [value, setValue] = useState(params.value || '');
+  const [title, setTitle] = useState(params.title || '');
+  const [selected, setSelected] = useState(params.category || '');
+  const [chosenDate, setChosenDate] = useState(new Date(params.day || ''));
+
   const [user, setUser] = useState(null);
+  const [section, setSection] = useState(0);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getUser().then(res => setUser(res));
   }, []);
-
-  const [value, setValue] = useState(params.value || '');
-  const [title, setTitle] = useState(params.title || '');
-  const [selected, setSelected] = useState(params.category || '');
-  const [chosenDate, setChosenDate] = useState(new Date(params.date || ''));
-
-  const [section, setSection] = useState(0);
-  const [error, setError] = useState(null);
 
   const update = () => {
     updateData(id, {
