@@ -25,7 +25,11 @@ export default function Finances({ navigation, day }) {
   const notFound = () => (
     <Splash message="No data found" info="There is no data for this day">
       <Button
-        onPress={() => navigation.navigate('FinanceManager', { item: { day } })}
+        onPress={() => {
+          navigation.navigate('FinanceManager', {
+            item: { date: day }
+          });
+        }}
         title="Add it here"
         color="#5ac59a"
       />
