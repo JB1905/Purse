@@ -1,22 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, ActivityIndicator, Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import { ActivityIndicator, Dimensions } from 'react-native';
+
+const Base = styled.View`
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #fffe;
+  position: absolute;
+  width: ${Dimensions.get('window').width};
+`;
 
 export const Loader = () => (
-  <View style={styles.loader}>
-    <ActivityIndicator size="large" color="#56ad97" />
-  </View>
+  <Base>
+    <ActivityIndicator size="large" color="#5ac59a" />
+  </Base>
 );
-
-const styles = StyleSheet.create({
-  loader: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fffe',
-    position: 'absolute',
-    width: Dimensions.get('window').width
-  }
-});

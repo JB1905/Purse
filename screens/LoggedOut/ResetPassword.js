@@ -1,64 +1,63 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'react-native';
 
-import { Loader } from '../../components/Loader';
-import { KeyboardContent, Content } from '../../components/Content';
-import { SubTitle } from '../../components/SubTitle';
+import { KeyboardContent } from '../../components/Content';
+import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
 import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Loader } from '../../components/Loader';
 
 import { resetPassword } from '../../api';
 
-export default class ResetPassword extends Component {
-  state = { email: '', error: null, checking: false };
+export default function ResetPassword({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
+  const [checking, setChecking] = useState(false);
 
-  email = email => this.setState({ email });
+  const send = () => {
+    const alert = email => {
+      Alert.alert(`Message sent to: ${email}`, null, [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('SignIn')
+        }
+      ]);
+    };
 
-  send = () => {
-    if (this.state.email) {
-      this.setState({ checking: true });
+    if (email) {
+      setChecking(true);
 
-      resetPassword(this.state.email).then(res => {
-        this.setState({ checking: false });
+      resetPassword(email).then(res => {
+        setChecking(false);
 
-        if (res) {
-          Alert.alert(`Message sent to: ${this.state.email}`, null, [
-            {
-              text: 'OK',
-              onPress: () => this.props.navigation.navigate('SignIn')
-            }
-          ]);
+        if (res.success) {
+          alert(email);
         } else {
-          this.setState({ error: res });
+          setError(res);
         }
       });
     } else {
-      this.setState({ error: 'Email is required.' });
+      setError('Email is required.');
     }
   };
 
-  render() {
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <SubTitle value="Have you forgotten your password?" />
+  return (
+    <KeyboardContent>
+      <Title>Have you forgotten your password?</Title>
 
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="Your account email"
-          />
+      <Input
+        placeholder="Your account email"
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+      {error && <Error>{error}</Error>}
 
-          <Btn action={this.send} title="Send reset message" color="#fdfdfd" />
+      <Btn title="Send reset message" color="#fdfdfd" onPress={send} />
 
-          {this.state.checking ? <Loader /> : null}
-        </Content>
-      </KeyboardContent>
-    );
-  }
+      {checking && <Loader />}
+    </KeyboardContent>
+  );
 }

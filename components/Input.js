@@ -1,29 +1,13 @@
-import React from 'react';
-import { StyleSheet, TextInput, Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
-export const Input = props => (
-  <TextInput
-    onChangeText={props.action}
-    autoCapitalize={props.autoCapitalize || null}
-    autoCorrect={props.autoCorrect || null}
-    secureTextEntry={props.secure || false}
-    keyboardType={props.keyboardType || 'default'}
-    style={styles.input}
-    placeholder={props.placeholder}
-  />
-);
-
-const styles = StyleSheet.create({
-  input: {
-    marginVertical: 8,
-    marginHorizontal: 18,
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    fontSize: 20,
-    backgroundColor: '#eee',
-    height: 44,
-    width: Dimensions.get('window').width - 36,
-    maxWidth: 400
-  }
-});
+export const Input = styled.TextInput`
+  margin: 8px 18px;
+  padding: 4px 12px;
+  border-radius: 10px;
+  font-size: 20px;
+  background-color: #edeff1;
+  height: 40px;
+  width: ${Dimensions.get('window').width - 28};
+  max-width: 440px;
+`;

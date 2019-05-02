@@ -1,79 +1,80 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
 
-import { KeyboardContent, Content } from '../../components/Content';
-import { SubTitle } from '../../components/SubTitle';
+import { KeyboardContent } from '../../components/Content';
+import { Title } from '../../components/Title';
 import { Input } from '../../components/Input';
-import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Btn } from '../../components/Button';
 
-import { signUp } from '../../api';
+import { register } from '../../api';
 
-export default class SignUp extends Component {
-  state = {
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    confirm: '',
-    error: null
-  };
+export default function SignUp({ navigation }) {
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState(null);
 
-  name = name => this.setState({ name });
-  surname = surname => this.setState({ surname });
-  email = email => this.setState({ email });
-  password = password => this.setState({ password });
-  confirm = confirm => this.setState({ confirm });
-
-  submit = () => {
-    const { name, surname, email, password, confirm } = this.state;
+  const submit = () => {
+    const alert = () => {
+      Alert.alert('User created succesfully', null, [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('SignIn')
+        }
+      ]);
+    };
 
     if (name && surname && email && password && confirm) {
-      if (password === confirm) {
-        signUp(email, password, name, surname).then(res => {
-          if (res) {
-            this.props.navigation.navigate('SignIn');
-          } else {
-            this.setState({ error: res });
-          }
-        });
+      if (password.length > 5) {
+        if (password === confirm) {
+          register(email, password, name, surname).then(res => {
+            if (res.success) alert();
+            else setError(res.message);
+          });
+        } else {
+          setError('Password and confirmed password are different.');
+        }
       } else {
-        this.setState({
-          error: 'Password and confirmed password are different.'
-        });
+        setError('Password is too short (at least 6 char.).');
       }
     } else {
-      this.setState({ error: 'All fields are required.' });
+      setError('All fields are required.');
     }
   };
 
-  render() {
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <SubTitle value="Save Your money. Start today!" />
+  return (
+    <KeyboardContent>
+      <Title>Save your money. Start today!</Title>
 
-          <Input action={this.name} placeholder="Name" />
-          <Input action={this.surname} placeholder="Surname" />
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="E-mail"
-          />
-          <Input action={this.password} secure={true} placeholder="Password" />
+      <Input placeholder="Name" onChangeText={setName} />
 
-          <Input
-            action={this.confirm}
-            secure={true}
-            placeholder="Confirm Password"
-          />
+      <Input placeholder="Surname" onChangeText={setSurname} />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+      <Input
+        placeholder="E-mail"
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
 
-          <Btn action={this.submit} title="Sign up" color="#fdfdfd" />
-        </Content>
-      </KeyboardContent>
-    );
-  }
+      <Input
+        placeholder="Password"
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <Input
+        placeholder="Confirm Password"
+        onChangeText={setConfirm}
+        secureTextEntry
+      />
+
+      {error && <Error>{error}</Error>}
+
+      <Btn title="Sign up" color="#fdfdfd" onPress={submit} />
+    </KeyboardContent>
+  );
 }

@@ -10,7 +10,9 @@ export const SignedOut = createStackNavigator(
   {
     SignIn: {
       screen: SignIn,
-      navigationOptions: { headerTransparent: true }
+      navigationOptions: {
+        headerTransparent: true
+      }
     },
     SignUp: {
       screen: SignUp,
@@ -18,9 +20,9 @@ export const SignedOut = createStackNavigator(
         gesturesEnabled: false,
         headerLeft: (
           <Button
-            onPress={() => navigation.navigate('SignIn')}
-            color="#56ad97"
             title="Cancel"
+            color="#5ac59a"
+            onPress={() => navigation.navigate('SignIn')}
           />
         )
       })
@@ -31,16 +33,15 @@ export const SignedOut = createStackNavigator(
         gesturesEnabled: false,
         headerLeft: (
           <Button
-            onPress={() => navigation.navigate('SignIn')}
-            color="#56ad97"
             title="Cancel"
+            color="#5ac59a"
+            onPress={() => navigation.navigate('SignIn')}
           />
         )
       })
     }
   },
   {
-    mode: 'modal',
-    cardStyle: { backgroundColor: '#fdfdfd' }
+    mode: 'modal'
   }
 );

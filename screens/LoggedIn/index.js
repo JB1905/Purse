@@ -1,34 +1,107 @@
 import React from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { createBottomTabNavigator } from 'react-navigation';
+import { Button } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from 'react-navigation';
 
-import Home from './Home';
-import Charts from './Charts';
+import CategoryManager from './CategoryManager';
 import Categories from './Categories';
-import Add from './Add';
-import Settings from './Settings';
+import Category from './Category';
 
-export const SignedIn = createBottomTabNavigator(
-  { Home, Charts, Categories, Add, Settings },
+import FinanceManager from './FinanceManager';
+import Calendar from './Calendar';
+import Analytics from './Analytics';
+
+import Settings from './Settings';
+import Account from './Account';
+
+const finances = createStackNavigator({
+});
+
+const analytics = createStackNavigator({
+});
+
+const categories = createStackNavigator({
+});
+
+export const Main = createBottomTabNavigator(
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
+    Finances: finances,
+    Analytics: analytics,
+    Categories: categories
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
+
         let iconName;
 
-        if (routeName === 'Home') {
-          iconName = `ios-home${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Charts') {
-          iconName = `ios-stats${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Categories') {
-          iconName = `ios-list-box${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Add') {
-          iconName = `ios-add-circle${focused ? '' : '-outline'}`;
-        }
+        if (routeName === 'Finances') iconName = 'ios-wallet';
+        else if (routeName === 'Analytics') iconName = 'ios-stats';
+        else if (routeName === 'Categories') iconName = 'ios-list-box';
 
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={26} color={tintColor} />;
       }
     }),
-    tabBarOptions: { activeTintColor: '#56ad97', inactiveTintColor: 'gray' }
+    tabBarOptions: {
+      activeTintColor: '#5ac59a',
+      inactiveTintColor: 'gray'
+    }
+  }
+);
+
+const categoryManager = createStackNavigator({
+  CategoryManager: {
+    screen: CategoryManager,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.getParam('item')?.id ? 'Edit' : 'Add'} Category`,
+      gesturesEnabled: false,
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Main')}
+          color="#5ac59a"
+          title="Cancel"
+        />
+      )
+    })
+  }
+});
+
+const financeManager = createStackNavigator({
+  FinanceManager: {
+    screen: FinanceManager,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.getParam('item')?.id ? 'Edit' : 'Add'} Finance`,
+      gesturesEnabled: false,
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Main')}
+          color="#5ac59a"
+          title="Cancel"
+        />
+      )
+    })
+  }
+});
+
+const settings = createStackNavigator({
+});
+
+export const SignedIn = createStackNavigator(
+  {
+    Main,
+    CategoryManager: categoryManager,
+    FinanceManager: financeManager,
+    Settings: settings
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+    defaultNavigationOptions: {
+      gesturesEnabled: false
+    }
   }
 );

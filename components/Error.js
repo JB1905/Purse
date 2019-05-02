@@ -1,13 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import styled from 'styled-components/native';
 
-export const Error = ({ message }) => (
-  <Text style={styles.error}>{message}</Text>
-);
-
-const styles = StyleSheet.create({
-  error: {
-    color: '#f23030',
-    marginVertical: 4
-  }
-});
+export const Error = styled.Text`
+  color: #f22828;
+  margin: 4px 0;
+`;

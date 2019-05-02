@@ -1,82 +1,80 @@
-import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button } from 'react-native';
 
-import { Loader } from '../../components/Loader';
-import { KeyboardContent, Content } from '../../components/Content';
+import { KeyboardContent } from '../../components/Content';
 import { Title } from '../../components/Title';
-import { SubTitle } from '../../components/SubTitle';
 import { Input } from '../../components/Input';
-import { Btn } from '../../components/Button';
 import { Error } from '../../components/Error';
+import { Btn } from '../../components/Button';
+import { Wrap } from '../../components/Wrap';
+import { Loader } from '../../components/Loader';
 
-import SignUp from './SignUp';
-import ResetPassword from './ResetPassword';
-
-import { onSignIn } from '../../auth';
 import { login } from '../../api';
+import { onSignIn } from '../../auth';
 
-export default class SignIn extends Component {
-  state = { email: '', password: '', error: null, checking: false };
+export default function SignIn({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [checking, setChecking] = useState(false);
 
-  email = email => this.setState({ email });
-  password = password => this.setState({ password });
+  const submit = () => {
+    if (email && password) {
+      setChecking(true);
 
-  submit = () => {
-    if (this.state.email && this.state.password) {
-      this.setState({ checking: true });
-
-      login(this.state.email, this.state.password).then(res => {
-          onSignIn(res.data).then(() => this.props.navigation.navigate('Home'));
-        if (res.verify) {
+      login(email, password).then(res => {
+        if (res.user) {
+          onSignIn(res.user).then(() => {
+            navigation.navigate('Finances');
+          });
         } else {
-          this.setState({ error: res, checking: false });
+          setChecking(false);
+          setError(res.message);
         }
       });
     } else {
-      this.setState({ error: 'Email and password are required.' });
+      setError('Email and password are required.');
     }
   };
 
-  render() {
-    const { navigate } = this.props.navigation;
+  return (
+    <KeyboardContent>
+      <Title main>Purse</Title>
 
-    return (
-      <KeyboardContent>
-        <Content keyboard={true}>
-          <Title value="Purse" />
-          <SubTitle value="Your personal expenses assistant." />
+      <Title>Your personal expenses assistant. Right here!</Title>
 
-          <Input
-            action={this.email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
-            placeholder="E-mail"
-          />
+      <Input
+        placeholder="E-mail"
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
 
-          <Input action={this.password} secure={true} placeholder="Password" />
+      <Input
+        placeholder="Password"
+        onChangeText={setPassword}
+        secureTextEntry
+      />
 
-          {this.state.error ? <Error message={this.state.error} /> : null}
+      {error && <Error>{error}</Error>}
 
-          <Btn action={this.submit} title="Sign in" color="#fdfdfd" />
+      <Btn title="Sign in" color="#fdfdfd" onPress={submit} />
 
-          <View style={{ marginTop: 10 }}>
-            <Button
-              onPress={() => navigate('Reset')}
-              title="Reset password"
-              color="#56ad97"
-            />
+      <Wrap>
+        <Button
+          title="Reset password"
+          color="#5ac59a"
+          onPress={() => navigation.navigate('Reset')}
+        />
 
-            <Button
-              onPress={() => navigate('SignUp')}
-              title="Sign up"
-              color="#56ad97"
-            />
-          </View>
-        </Content>
+        <Button
+          title="Sign up"
+          color="#5ac59a"
+          onPress={() => navigation.navigate('SignUp')}
+        />
+      </Wrap>
 
-        {this.state.checking ? <Loader /> : null}
-      </KeyboardContent>
-    );
-  }
+      {checking && <Loader />}
+    </KeyboardContent>
+  );
 }
