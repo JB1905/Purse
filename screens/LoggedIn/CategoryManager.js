@@ -98,11 +98,10 @@ export default function CategoryManager({ navigation }) {
         {section === 0 ? (
           <NativeColorPicker
             sort
-            gradient
             itemSize="46"
             colors={colors}
-            marker="checkmark"
-            markerStyle="adjust"
+            marker="border"
+            markerStyle="#fff"
             contentContainerStyle={{ alignItems: 'center' }}
             onSelect={item => setColor(item)}
             selectedColor={color}

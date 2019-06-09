@@ -11,21 +11,21 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^32.0.6",
-    "firebase": "^5.11.0",
-    "native-color-picker": "^1.0.0-beta.3.4",
-    "react": "16.7.0-alpha.2",
+    "expo": "33.0.4",
+    "firebase": "6.0.2",
+    "native-color-picker": "^1.0.0",
+    "react": "16.8.6",
     "react-firestore": "^1.0.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-31-with-hooks-experimental.tar.gz",
-    "react-native-calendars": "^1.82.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+    "react-native-calendars": "^1.185.0",
     "react-native-svg-charts": "^5.2.0",
     "react-native-swipeout": "^2.3.6",
     "react-native-touchable-scale": "^2.0.0",
-    "react-navigation": "^3.9.1",
-    "styled-components": "^4.2.0"
+    "react-navigation": "^3.11.0",
+    "styled-components": "^4.3.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1",
-    "prettier": "^1.17.0"
+    "prettier": "^1.18.2"
   }
 }

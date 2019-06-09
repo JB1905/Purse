@@ -7,7 +7,7 @@ export const Content = styled.View`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${({ contrast }) => contrast && 'background-color: #edeff1;'}
+  ${({ contrast }) => contrast && 'background-color: #f2f2f6;'}
 `;
 
 export const KeyboardContent = ({ children }) => (
