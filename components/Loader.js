@@ -7,10 +7,10 @@ const Base = styled.View`
   right: 0;
   top: 0;
   bottom: 0;
+  position: absolute;
   align-items: center;
   justify-content: center;
   background-color: #fffe;
-  position: absolute;
   width: ${Dimensions.get('window').width};
 `;
 
