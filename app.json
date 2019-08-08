@@ -4,7 +4,7 @@
     "description": "React Native expenses assistant",
     "slug": "Purse",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "34.0.0",
     "platforms": ["ios", "android"],
     "version": "0.1.0",
     "orientation": "portrait",
@@ -19,7 +19,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.jbiesiada.purse",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.jbiesiada.purse"
     }
   }
 }
