@@ -21,7 +21,9 @@ export default function FinanceManager({ navigation }) {
   const [value, setValue] = useState(params.value || '');
   const [title, setTitle] = useState(params.title || '');
   const [selected, setSelected] = useState(params.category || '');
-  const [chosenDate, setChosenDate] = useState(new Date(params.date || ''));
+  const [chosenDate, setChosenDate] = useState(
+    new Date(params.date || Date.now())
+  );
 
   const [user, setUser] = useState(null);
   const [section, setSection] = useState(0);
