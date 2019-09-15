@@ -1,7 +1,8 @@
-node_modules/**/*
-.expo/*
-.expo-shared/*
+node_modules
+.expo
+.expo-shared
 npm-debug.*
 .DS_Store
 api/config.js
 yarn-error.log
+.firebaserc

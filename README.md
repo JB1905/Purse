@@ -1,2 +1,4 @@
 # Purse
-## Personal expenses assistant
+## Personal finance assistant
+
+#### About
