@@ -4,13 +4,11 @@ import {
   ScrollView,
   ScrollViewProps,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
 interface Props extends ScrollViewProps {
-  children: Children;
   spaces?: boolean;
   full?: boolean;
 }
@@ -46,11 +44,11 @@ const Container = ({
   );
 };
 
-export default ({
+const Z: React.FC<Props & { keyboard?: boolean }> = ({
   keyboard = false,
   ...props
-}: Props & { keyboard?: boolean }) => {
-  return keyboard ? (
+}) => {
+  return keyboard && Platform.OS === 'ios' ? (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
       <Container {...props} />
     </KeyboardAvoidingView>
@@ -58,3 +56,5 @@ export default ({
     <Container {...props} />
   );
 };
+
+export default Z;

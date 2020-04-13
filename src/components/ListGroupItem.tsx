@@ -1,17 +1,20 @@
 import React from 'react';
 import { ListItem, ListItemProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import {
+  Platform,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+} from 'react-native';
 
 import Icon from './Icon';
 
-interface Props extends ListItemProps {}
-
-export default ({
+const ListGroupItem: React.FC<ListItemProps> = ({
   titleStyle,
   subtitleStyle,
   containerStyle,
   ...props
-}: Props) => {
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -22,9 +25,12 @@ export default ({
         borderColor: colors.border,
       }}
       titleStyle={{ color: colors.text }}
-      rightIcon={
-        <Icon name="ios-arrow-forward" color={colors.border} size={18} />
+      rightIcon={<Icon name="arrow-forward" color={colors.border} size={18} />}
+      Component={
+        Platform.OS === 'ios' ? TouchableHighlight : TouchableNativeFeedback
       }
     />
   );
 };
+
+export default ListGroupItem;

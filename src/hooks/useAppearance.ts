@@ -10,13 +10,7 @@ export const useAppearance = () => {
 
   const isDark = scheme === 'dark';
 
-  // const [mode, setMode] = useState<any>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     setMode();
-  //   })();
-  // }, []);
+  const [mode, setMode] = useState<any>();
 
   // #5ac59a
 
@@ -39,25 +33,31 @@ export const useAppearance = () => {
   };
 
   const getActiveTheme = async () => {
-    const mode = await AsyncStorage.getItem('appearance');
+    const mode = JSON.parse(await AsyncStorage.getItem('appearance'));
 
-    if (mode === Theme.AUTO) {
+    let theme = lightTheme;
+
+    if (mode === Theme.Auto) {
       console.log('auto');
       if (scheme === 'dark') {
-        return darkTheme;
+        theme = darkTheme;
       } else {
-        return lightTheme;
+        theme = lightTheme;
       }
-    } else if (mode === Theme.DARK) {
+    } else if (mode === Theme.Dark) {
       console.log('dark');
-      return darkTheme;
-    } else if (mode === Theme.LIGHT) {
+      theme = darkTheme;
+    } else if (mode === Theme.Light) {
       console.log('light');
-      return lightTheme;
+      theme = lightTheme;
     }
 
-    return lightTheme;
+    setMode(theme);
   };
 
-  return { lightTheme, darkTheme, getActiveTheme, isDark };
+  useEffect(() => {
+    getActiveTheme();
+  }, []);
+
+  return { mode, lightTheme, darkTheme, getActiveTheme, isDark };
 };

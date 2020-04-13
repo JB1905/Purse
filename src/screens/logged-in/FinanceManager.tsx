@@ -1,12 +1,5 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
-import {
-  Dimensions,
-  ActionSheetIOS,
-  Modal,
-  Alert,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import { ActionSheetIOS, Alert, Picker, findNodeHandle } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SegmentedControlIOS from '@react-native-community/segmented-control';
 import { Camera } from 'expo-camera';
@@ -21,7 +14,7 @@ import Wrapper from '../../components/Wrapper';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Box from '../../components/Box';
-import Picker from '../../components/Picker';
+// import Picker from '../../components/Picker';
 import Splash from '../../components/Splash';
 import Loader from '../../components/Loader';
 import HeaderButton from '../../components/HeaderButton';
@@ -45,6 +38,8 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
   navigation,
 }) => {
   const id = route.params?.id ?? '';
+
+  const ref = useRef(null);
 
   const { colors } = useTheme();
 
@@ -85,8 +80,6 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
 
   const createNewFinance = async () => {
     try {
-      // if (error) setError(null);
-
       await addData({ name, user: getCurrentUser()?.uid });
 
       Alert.alert(`Added data: ${name}`, null, [
@@ -130,72 +123,54 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
 
   // const [showModal, setShowModal] = useState<string | boolean>(false);
 
-  // useEffect(() => {
-  //   getCameraRollPermission();
-  // }, []);
+  const showImageSourcesList = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Select image from camera roll', 'Take a photo', 'Cancel'],
+        cancelButtonIndex: 2,
+        tintColor: colors.primary,
+        // anchor: findNodeHandle(ref.current),
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          // handleChooseImage();
+        } else if (buttonIndex === 1) {
+          // setShowModal('camera');
+        }
+      }
+    );
+  };
 
-  // const handleChooseImage = async () => {
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //     allowsEditing: true,
-  //     aspect: [4, 3]
-  //   });
+  const updateExisitingData = async () => {
+    try {
+      await updateData(id, { name });
 
-  //   if (!result.cancelled) {
-  //     setImages(images => [...images, result]);
-  //   }
-  // };
+      Alert.alert(`Updated data: ${name}`, null, [
+        {
+          text: 'Done',
+          onPress: navigation.goBack,
+        },
+      ]);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
-  // const showImageSourcesList = () => {
-  //   ActionSheetIOS.showActionSheetWithOptions(
+  // Alert.alert(
+  //   'Do you want to save this finance?',
+  //   `Finance ${title} will be ${id ? 'updated' : 'added'}`,
+  //   [
   //     {
-  //       options: ['Select image from camera roll', 'Take a photo', 'Cancel'],
-  //       cancelButtonIndex: 2
+  //       text: 'Cancel',
+  //       style: 'cancel'
   //     },
-  //     buttonIndex => {
-  //       if (buttonIndex === 0) {
-  //         handleChooseImage();
-  //       } else if (buttonIndex === 1) {
-  //         setShowModal('camera');
-  //       }
+  //     {
+  //       text: id ? 'Update' : 'Save',
+  //       style: 'destructive',
+  //       onPress: id ? updateExisitingData : createNewData
   //     }
-  //   );
-  // };
-
-  // const updateExisitingData = async () => {
-  //   try {
-  //     if (error) setError(null);
-
-  //     await updateData(id, { name });
-
-  //     Alert.alert(`Updated data: ${name}`, null, [
-  //       {
-  //         text: 'Done',
-  //         onPress: () => navigation.goBack()
-  //       }
-  //     ]);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
-
-  //   if (type && value && title && category && date) {
-  //     Alert.alert(
-  //       'Do you want to save this finance?',
-  //       `Finance ${title} will be ${id ? 'updated' : 'added'}`,
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           style: 'cancel'
-  //         },
-  //         {
-  //           text: id ? 'Update' : 'Save',
-  //           style: 'destructive',
-  //           onPress: id ? updateExisitingData : createNewData
-  //         }
-  //       ]
-  //     );
-  //   }
+  //   ]
+  // );
   // };
 
   return checking ? (
@@ -224,70 +199,58 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
           />
         </Wrapper>
 
-        {/* <SegmentedControlIOS
-          values={['Incomes', 'Expenses']}
-          selectedIndex={type}
-          onChange={e => setType(e.nativeEvent.selectedSegmentIndex)}
-          style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 6 }}
-        /> */}
+        <Box>
+          <Picker
+            // selectedValue={category}
+            // onValueChange={setCategory}
+            style={{
+              maxWidth: 440,
+              width: '100%',
+            }}
+          >
+            {/* <Picker.Item label="" value="" key={0} />
 
-        <SegmentedControlIOS
-          values={['Category', 'Date', 'Place']}
-          selectedIndex={tab}
-          onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-          style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 6 }}
-        />
+            {categories.map(([key, value]: [string, string], index) => (
+              <Picker.Item label={value.name} value={key} key={index + 1} />
+            ))} */}
+          </Picker>
+        </Box>
 
-        {/* <Wrapper>
-          <Box spaces={tab !== 2}>
-            {tab === 0 ? (
-              <Picker
-                selectedValue={category}
-                onValueChange={setCategory}
-                style={{
-                  maxWidth: 440,
-                  width: '100%'
-                }}
-              >
-                <Picker.Item label="" value="" key={0} />
+        <Box>
+          {/* <DateTimePicker
+            // value={new Date(date)}
+            // onChange={(e, date) => setDate(date)}
+            mode="datetime"
+          /> */}
+        </Box>
 
-                {categories.map(([key, value]: [string, string], index) => (
-                  <Picker.Item label={value.name} value={key} key={index + 1} />
-                ))}
-              </Picker>
-            ) : tab === 1 ? (
-              <DateTimePicker
-                value={new Date(date)}
-                onChange={(e, date) => setDate(date)}
-                mode="datetime"
-              />
-            ) : (
-              <MapView
-                pitchEnabled={false}
-                rotateEnabled={false}
-                zoomEnabled={false}
-                scrollEnabled={false}
-                onPress={() => setShowModal('map')}
-                cacheEnabled
-                style={{
-                  width: '100%',
-                  height: (Dimensions.get('window').width / 5) * 3
-                }}
-              >
-                <Marker coordinate={coords} />
-              </MapView>
-            )}
-          </Box>
+        <Wrapper>
+          <MapView
+            pitchEnabled={false}
+            rotateEnabled={false}
+            zoomEnabled={false}
+            scrollEnabled={false}
+            // onPress={() => setShowModal('map')}
+            cacheEnabled
+            style={{
+              width: '100%',
+              height: 240,
+            }}
+          >
+            {/* <Marker coordinate={coords} /> */}
+          </MapView>
         </Wrapper>
 
         <Wrapper
           style={{
             paddingHorizontal: 20,
-            paddingVertical: 15
+            paddingVertical: 15,
           }}
         >
-          <Button title="Add Image" onPress={showImageSourcesList} />
+          <Button title="Add Image" ref={ref} onPress={showImageSourcesList} />
         </Wrapper>
+
+        {/* 
 
         {images.map(image => (
           <Image

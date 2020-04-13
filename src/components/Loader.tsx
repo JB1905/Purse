@@ -11,8 +11,8 @@ import { useTheme } from '@react-navigation/native';
 
 interface Props extends ViewProps, ActivityIndicatorProps {}
 
-export default ({ style, size = 'large', ...props }: Props) => {
-  const colorScheme = useColorScheme();
+const O: React.FC<Props> = ({ style, size = 'large', ...props }) => {
+  // const colorScheme = useColorScheme();
 
   const { colors } = useTheme();
 
@@ -28,7 +28,8 @@ export default ({ style, size = 'large', ...props }: Props) => {
           position: 'absolute',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colorScheme === 'dark' ? '#000e' : '#fffe',
+          backgroundColor: colors.background,
+          // opacity: 0.9,
         },
       ])}
     >
@@ -36,3 +37,5 @@ export default ({ style, size = 'large', ...props }: Props) => {
     </View>
   );
 };
+
+export default O;

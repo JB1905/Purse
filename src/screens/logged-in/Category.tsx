@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import {
   RefreshControl,
   View,
   Text,
   TouchableOpacity,
   ActionSheetIOS,
+  findNodeHandle,
 } from 'react-native';
 import SegmentedControlIOS from '@react-native-community/segmented-control';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -20,6 +21,7 @@ import Icon from '../../components/Icon';
 import { getDataForCategory, deleteCategory } from '../../api';
 
 import { LoggedInProps } from '../../types/Navigation';
+import HeaderButton from '../../components/HeaderButton';
 
 const Category: React.FC<LoggedInProps<'Category'>> = ({
   route,
@@ -28,6 +30,8 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
   const { id, name } = route.params;
 
   const { colors } = useTheme();
+
+  const ref = useRef(null);
 
   const showActionSheet = () => {
     ActionSheetIOS.showActionSheetWithOptions(
@@ -41,6 +45,7 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
         destructiveButtonIndex: 2,
         cancelButtonIndex: 3,
         tintColor: colors.primary,
+        anchor: findNodeHandle(ref.current),
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
@@ -60,9 +65,7 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
     navigation.setOptions({
       headerTitle: name,
       headerRight: () => (
-        <TouchableOpacity onPress={showActionSheet}>
-          <Icon name="ios-more" color={colors.primary} />
-        </TouchableOpacity>
+        <HeaderButton iconName="more" ref={ref} onPress={showActionSheet} />
       ),
     });
   }, [navigation]);

@@ -4,11 +4,7 @@
     "description": "React Native expenses assistant",
     "slug": "Purse",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,21 +16,22 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "1.0.0",
       "userInterfaceStyle": "automatic",
       "bundleIdentifier": "com.jbiesiada.purse",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.175864534731-gm9q72stomn95rqjn6naiv2sluk7d4q5"
+        }
+      }
     },
     "android": {
-      "versionCode": 0,
+      "versionCode": 1,
       "package": "com.jbiesiada.purse",
-      "permissions": [
-        "CAMERA"
-      ],
+      "permissions": ["CAMERA"],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC4qoDGm8Ra6Mskf0uhCsferVNsdJOpOTk"

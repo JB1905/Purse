@@ -96,6 +96,7 @@ const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
           placeholder="Your account email"
           autoCapitalize="none"
           keyboardType="email-address"
+          error={errors.email}
         />
 
         {/* {console.log(errors.email)} */}

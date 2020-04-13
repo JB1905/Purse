@@ -2,18 +2,21 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Input, InputProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import { FieldError } from 'react-hook-form';
 
 interface Props extends InputProps {
   flat?: boolean;
+  error?: FieldError;
 }
 
-export default ({
+const X: React.FC<Props> = ({
   containerStyle,
   inputContainerStyle,
   inputStyle,
   flat,
+  error,
   ...props
-}: Props) => {
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -66,6 +69,7 @@ export default ({
               display: 'none',
             },
       ])}
+      // placeholderTextColor={colors.text}
       inputStyle={StyleSheet.flatten([
         inputStyle,
         {
@@ -83,3 +87,5 @@ export default ({
     />
   );
 };
+
+export default X;

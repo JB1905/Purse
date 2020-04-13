@@ -17,11 +17,7 @@ const CancelButton: React.FC = () => {
   const navigation = useNavigation();
 
   return (
-    <HeaderButton
-      title="Cancel"
-      iconName="close"
-      onPress={() => navigation.goBack()}
-    />
+    <HeaderButton title="Cancel" iconName="close" onPress={navigation.goBack} />
   );
 };
 

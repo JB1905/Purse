@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Image } from 'react-native-elements';
-// import * as AppleAuthentication from 'expo-apple-authentication';
 import { useTheme } from '@react-navigation/native';
 // import { useColorScheme } from 'react-native-appearance';
 import { useForm } from 'react-hook-form';
@@ -23,9 +22,10 @@ import { login } from '../../api';
 import { onSignIn } from '../../helpers/auth';
 import { useLocalAuth } from '../../hooks/useLocalAuth';
 
-// import { appleAuth } from '../../config/appleAuth';
-
 import { LoggedOutProps } from '../../types/Navigation';
+
+import { signInWithGoogleAsync } from '../../config/googleSignIn';
+import { signInWithFacebookAsync } from '../../config/facebookSignIn';
 
 type FormData = {
   email: string;
@@ -46,7 +46,9 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
 
   const [securePassword, setSecurePassword] = useState(true);
 
-  const { register, handleSubmit, setValue, getValues } = useForm<FormData>();
+  const { register, handleSubmit, setValue, getValues, errors } = useForm<
+    FormData
+  >();
 
   useEffect(() => {
     register('email', { required: true });
@@ -113,27 +115,6 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
           </Text>
         </Wrapper>
 
-        {/* TODO Google Auth */}
-        {/* TODO Facebook Auth */}
-
-        {/* {AppleAuthentication.isAvailableAsync() && (
-          <Wrapper>
-            <AppleAuthentication.AppleAuthenticationButton
-              buttonType={
-                AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-              }
-              buttonStyle={
-                AppleAuthentication.AppleAuthenticationButtonStyle[
-                  colorScheme === 'dark' ? 'WHITE' : 'BLACK'
-                ]
-              }
-              cornerRadius={10}
-              style={{ width: 260, height: 44, alignSelf: 'center' }}
-              onPress={appleAuth}
-            />
-          </Wrapper>
-        )} */}
-
         <Wrapper>
           <Input
             onChangeText={(text) => setValue('email', text)}
@@ -141,6 +122,7 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
             placeholder="E-mail"
             autoCapitalize="none"
             keyboardType="email-address"
+            error={errors.email}
           />
         </Wrapper>
 
@@ -150,13 +132,14 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
             defaultValue={getValues().password}
             placeholder="Password"
             secureTextEntry={securePassword}
+            error={errors.password}
             rightIcon={
               <TouchableOpacity
                 onPress={() => setSecurePassword(!securePassword)}
               >
                 <Icon
                   name={securePassword ? 'visibility' : 'visibility-off'}
-                  containerStyle={{ marginTop: 3, opacity: 0.75 }}
+                  containerStyle={{ opacity: 0.75 }}
                   color={colors.text}
                   size={26}
                 />
@@ -175,6 +158,12 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
           <Button title="Sign In" onPress={handleSubmit(onSubmit)} />
         </Wrapper>
 
+        <Button
+          title="Forgot Password?"
+          onPress={() => navigation.navigate('ResetPassword')}
+          type="clear"
+        />
+
         <Wrapper>
           {localAuth && (
             <Button
@@ -185,10 +174,11 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
           )}
 
           <Button
-            title="Reset Password"
-            onPress={() => navigation.navigate('ResetPassword')}
-            type="clear"
+            title="Login with Facebook"
+            onPress={signInWithFacebookAsync}
           />
+
+          <Button title="Login with Google" onPress={signInWithGoogleAsync} />
 
           <Button
             title="Sign Up"

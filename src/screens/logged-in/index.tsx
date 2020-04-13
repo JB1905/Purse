@@ -38,48 +38,40 @@ const modalOptions = {
   },
 };
 
-const FinancesScreen: React.FC = () => {
-  // const { colors } = useTheme();
+const FinancesScreen: React.FC = () => (
+  <NativeStack.Navigator>
+    <NativeStack.Screen
+      name="Finances"
+      component={Finances}
+      options={({ navigation }) => ({
+        headerRight: () => (
+          <HeaderButton
+            iconName="add-circle"
+            onPress={() => navigation.navigate('FinanceManager')}
+          />
+        ),
+      })}
+    />
+  </NativeStack.Navigator>
+);
 
-  return (
-    <NativeStack.Navigator>
-      <NativeStack.Screen
-        name="Finances"
-        component={Finances}
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <HeaderButton
-              iconName="circle"
-              onPress={() => navigation.navigate('FinanceManager')}
-            />
-          ),
-        })}
-      />
-    </NativeStack.Navigator>
-  );
-};
-
-const AnalyticsScreen: React.FC = () => {
-  // const { colors } = useTheme();
-
-  return (
-    <NativeStack.Navigator>
-      <NativeStack.Screen
-        name="Analytics"
-        component={Analytics}
-        options={({ navigation }) => ({
-          headerLargeTitle: true,
-          headerRight: () => (
-            <HeaderButton
-              iconName="settings"
-              onPress={() => navigation.navigate('Settings')}
-            />
-          ),
-        })}
-      />
-    </NativeStack.Navigator>
-  );
-};
+const AnalyticsScreen: React.FC = () => (
+  <NativeStack.Navigator>
+    <NativeStack.Screen
+      name="Analytics"
+      component={Analytics}
+      options={({ navigation }) => ({
+        headerLargeTitle: true,
+        headerRight: () => (
+          <HeaderButton
+            iconName="settings"
+            onPress={() => navigation.navigate('Settings')}
+          />
+        ),
+      })}
+    />
+  </NativeStack.Navigator>
+);
 
 const CategoriesScreen: React.FC = () => (
   <NativeStack.Navigator>
@@ -90,7 +82,7 @@ const CategoriesScreen: React.FC = () => (
         headerLargeTitle: true,
         headerRight: () => (
           <HeaderButton
-            iconName="add"
+            iconName="add-circle"
             onPress={() => navigation.navigate('CategoryManager')}
           />
         ),
@@ -152,7 +144,7 @@ const MainScreen: React.FC = () => {
         },
       })}
       tabBarOptions={{
-        showLabel: Platform.OS === 'ios',
+        // showLabel: Platform.OS === 'ios',
         keyboardHidesTabBar: true,
         activeTintColor: colors.primary,
         inactiveTintColor: 'gray',
@@ -161,7 +153,7 @@ const MainScreen: React.FC = () => {
       <Tab.Screen name="Finances" component={FinancesScreen} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Categories" component={CategoriesScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
+      {/* <Tab.Screen name="Search" component={SearchScreen} /> */}
     </Tab.Navigator>
   );
 };

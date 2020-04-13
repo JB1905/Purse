@@ -1,17 +1,15 @@
 import React from 'react';
-import { ListItem, ListItemProps, Icon } from 'react-native-elements';
+import { ListItem, ListItemProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
 import Icon from './Icon';
 
-interface Props extends ListItemProps {}
-
-export default ({
+const N: React.FC<ListItemProps> = ({
   titleStyle,
   subtitleStyle,
   containerStyle,
   ...props
-}: Props) => {
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -26,9 +24,7 @@ export default ({
           rounded
         />
       }
-      rightIcon={
-        <Icon name="ios-arrow-forward" color={colors.border} size={18} />
-      }
+      // rightIcon={<Icon name="arrow-forward" color={colors.border} size={18} />}
       onPress={() => navigation.navigate('User')}
       containerStyle={{
         backgroundColor: colors.card,
@@ -57,3 +53,5 @@ export default ({
     />
   );
 };
+
+export default N;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Picker, PickerProps } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-export default ({ ...props }: PickerProps) => {
+const G: React.FC<PickerProps> = ({ ...props }) => {
   const { colors } = useTheme();
 
   return (
@@ -16,3 +16,5 @@ export default ({ ...props }: PickerProps) => {
     />
   );
 };
+
+export default G;

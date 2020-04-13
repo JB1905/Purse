@@ -8,6 +8,7 @@ import Loader from '../../components/Loader';
 import { getCurrentUser, getCategories } from '../../api';
 
 import { LoggedInProps } from '../../types/Navigation';
+import { RefreshControl } from 'react-native';
 
 const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
   const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
@@ -17,7 +18,10 @@ const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
   }, []);
 
   return data ? (
-    <Container scrollEnabled>
+    <Container
+      scrollEnabled
+      refreshControl={<RefreshControl refreshing={false} onRefresh={null} />}
+    >
       {data.length > 0 ? (
         data.map(([id, value]: any) => (
           <Button

@@ -2,14 +2,11 @@ import React from 'react';
 import { View, ViewProps, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
 interface Props extends ViewProps {
-  children: Children;
   spaces?: boolean;
 }
 
-export default ({ children, spaces = true, style, ...props }: Props) => {
+const Box: React.FC<Props> = ({ children, spaces = true, style, ...props }) => {
   const { colors } = useTheme();
 
   return (
@@ -31,3 +28,5 @@ export default ({ children, spaces = true, style, ...props }: Props) => {
     </View>
   );
 };
+
+export default Box;

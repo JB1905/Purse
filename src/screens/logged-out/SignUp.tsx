@@ -31,7 +31,9 @@ const SignUp: React.FC = () => {
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState<string>(null);
 
-  const { register, handleSubmit, setValue, getValues } = useForm<FormData>();
+  const { register, handleSubmit, setValue, getValues, errors } = useForm<
+    FormData
+  >();
 
   useEffect(() => {
     register('name', { required: true });
@@ -106,6 +108,7 @@ const SignUp: React.FC = () => {
           onChangeText={(text) => setValue('name', text)}
           defaultValue={getValues().name}
           placeholder="Name"
+          error={errors.name}
         />
       </Wrapper>
 
@@ -114,6 +117,7 @@ const SignUp: React.FC = () => {
           onChangeText={(text) => setValue('surname', text)}
           defaultValue={getValues().surname}
           placeholder="Surname"
+          error={errors.surname}
         />
       </Wrapper>
 
@@ -124,6 +128,7 @@ const SignUp: React.FC = () => {
           placeholder="E-mail"
           autoCapitalize="none"
           keyboardType="email-address"
+          error={errors.email}
         />
       </Wrapper>
 
@@ -133,6 +138,7 @@ const SignUp: React.FC = () => {
           defaultValue={getValues().password}
           placeholder="Password"
           secureTextEntry
+          error={errors.password}
         />
       </Wrapper>
 
@@ -142,6 +148,7 @@ const SignUp: React.FC = () => {
           defaultValue={getValues().confirm}
           placeholder="Confirm Password"
           secureTextEntry
+          error={errors.confirm}
         />
       </Wrapper>
 

@@ -45,7 +45,7 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
     icon: route?.params?.icon ?? '',
   };
 
-  const { register, handleSubmit, setValue, getValues, watch } = useForm<
+  const { register, handleSubmit, setValue, getValues, watch, reset } = useForm<
     FormData
   >({ defaultValues });
 
@@ -63,7 +63,7 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
 
       await addCategory({ ...data, user: getCurrentUser()?.uid });
 
-      console.log(true);
+      // console.log(true);
 
       Alert.alert(`Added category: ${name}`, null, [
         {
@@ -73,7 +73,7 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         {
           text: 'Add more',
           style: 'destructive',
-          // onPress: resetForm
+          // onPress: resetForm,
         },
       ]);
     } catch (err) {
@@ -81,22 +81,20 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
     }
   };
 
-  // const updateExisitingCategory = async () => {
-  //   try {
-  //     if (error) setError(null);
+  const updateExisitingCategory = async () => {
+    try {
+      // await updateCategory(id, { name, color, icon });
 
-  //     await updateCategory(id, { name, color, icon });
-
-  //     Alert.alert(`Updated category ${name}`, null, [
-  //       {
-  //         text: 'Done',
-  //         onPress: () => navigation.goBack()
-  //       }
-  //     ]);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
+      Alert.alert(`Updated category ${name}`, null, [
+        {
+          text: 'Done',
+          onPress: navigation.goBack,
+        },
+      ]);
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   // const submit = () => {
   //   if (name && color && icon) {
@@ -127,7 +125,7 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         <HeaderButton
           title="Cancel"
           iconName="close"
-          onPress={() => navigation.goBack()}
+          onPress={navigation.goBack}
           spaces
         />
       ),

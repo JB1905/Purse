@@ -5,13 +5,13 @@ import { useTheme } from '@react-navigation/native';
 
 import Icon from './Icon';
 
-const HeaderButton: React.FC<
-  ButtonProps & {
-    iconName: string;
-    filled?: boolean;
-    spaces?: boolean;
-  }
-> = ({
+interface Props extends ButtonProps {
+  iconName: string;
+  filled?: boolean;
+  spaces?: boolean;
+}
+
+const HeaderButton: React.FC<Props> = ({
   title,
   iconName,
   filled,

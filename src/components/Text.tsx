@@ -3,13 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Text, TextProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
-interface Props extends TextProps {
-  children: Children;
-}
-
-export default ({ children, style, ...props }: Props) => {
+const I: React.FC<TextProps> = ({ children, style, ...props }) => {
   const { colors } = useTheme();
 
   return (
@@ -21,3 +15,5 @@ export default ({ children, style, ...props }: Props) => {
     </Text>
   );
 };
+
+export default I;

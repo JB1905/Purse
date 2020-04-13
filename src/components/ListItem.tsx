@@ -1,16 +1,19 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+} from 'react-native';
 import { ListItem, ListItemProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-interface Props extends ListItemProps {}
-
-export default ({
+const L: React.FC<ListItemProps> = ({
   titleStyle,
   subtitleStyle,
   containerStyle,
   ...props
-}: Props) => {
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -36,6 +39,11 @@ export default ({
         },
       ])}
       bottomDivider
+      Component={
+        Platform.OS === 'ios' ? TouchableHighlight : TouchableNativeFeedback
+      }
     />
   );
 };
+
+export default L;

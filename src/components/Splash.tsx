@@ -3,15 +3,12 @@ import { View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
 interface Props {
   title?: string;
   message?: string;
-  children?: Children;
 }
 
-export default ({ title, message, children }: Props) => {
+const W: React.FC<Props> = ({ title, message, children }) => {
   const { colors } = useTheme();
 
   return (
@@ -57,3 +54,5 @@ export default ({ title, message, children }: Props) => {
     </View>
   );
 };
+
+export default W;

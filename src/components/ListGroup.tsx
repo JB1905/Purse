@@ -2,11 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ViewProps } from 'react-native';
 // import { useTheme } from '@react-navigation/native';
 
-interface Props extends ViewProps {
-  children: any;
-}
-
-export default ({ children, style, ...props }: Props) => {
+const ListGroup: React.FC<ViewProps> = ({ children, style, ...props }) => {
   // const { colors } = useTheme();
 
   return (
@@ -27,3 +23,5 @@ export default ({ children, style, ...props }: Props) => {
     </View>
   );
 };
+
+export default ListGroup;

@@ -107,24 +107,24 @@ const Profile: React.FC<any> = ({ navigation }) => {
         )}
       </Wrapper>
 
-      <ListGroup>
-        {/* <ListGroupItem
+      {/* <ListGroup> */}
+      {/* <ListGroupItem
           title="Shared Data"
           bottomDivider
           onPress={() => navigation.navigate('UsersConnect')}
         /> */}
 
-        <ListGroupItem
+      {/* <ListGroupItem
           title="Payment Methods"
           // bottomDivider
           onPress={() => navigation.navigate('PaymentMethods')}
-        />
+        /> */}
 
-        {/* <ListGroupItem
+      {/* <ListGroupItem
           title="Connect with Bank Account"
           onPress={() => navigation.navigate('BanksConnect')}
         /> */}
-      </ListGroup>
+      {/* </ListGroup> */}
 
       <ListGroup>
         {localAuth && (
@@ -135,11 +135,11 @@ const Profile: React.FC<any> = ({ navigation }) => {
           />
         )}
 
-        <ListGroupItem
+        {/* <ListGroupItem
           title="App Icon"
           bottomDivider
           onPress={() => navigation.navigate('AppIcon')}
-        />
+        /> */}
 
         <ListGroupItem
           title="Appearance"

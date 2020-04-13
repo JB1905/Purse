@@ -1,17 +1,15 @@
 import React from 'react';
-import { Icon } from 'react-native-elements';
+import { Icon, IconProps } from 'react-native-elements';
 import { Platform } from 'react-native';
 
 import { icons } from '../constants/icons';
 
-export default ({ type, name, ...props }) => {
-  console.log(name, icons[name]);
+const A: React.FC<IconProps> = ({ type, name, ...props }) => (
+  <Icon
+    {...props}
+    name={icons[name][Platform.OS === 'ios' ? 'ios' : 'android']}
+    type={type ?? Platform.OS === 'ios' ? 'ionicon' : 'material'}
+  />
+);
 
-  return (
-    <Icon
-      {...props}
-      // icon={}
-      type={type ?? Platform.OS === 'ios' ? 'ionicon' : 'material'}
-    />
-  );
-};
+export default A;

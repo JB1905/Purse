@@ -82,3 +82,28 @@ export const resetPassword = async (email: string) => {
     return { message };
   }
 };
+
+export const googleSignIn = async ({ auth }) => {
+  const { idToken, accessToken } = auth;
+
+  const credential = firebase.auth.GoogleAuthProvider.credential(
+    idToken,
+    accessToken
+  );
+
+  firebase
+    .auth()
+    .signInWithCredential(credential)
+    .catch((error) => {
+      // Handle Errors here.
+      console.log('Error authenticating with Google');
+      console.log(error);
+      console.log(error.message);
+    });
+};
+
+export const facebookSignIn = async ({ token }) => {
+  const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+  console.log(credential);
+};

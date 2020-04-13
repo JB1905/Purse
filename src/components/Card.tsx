@@ -3,13 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Card, CardProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
-interface Props extends CardProps {
-  children: Children;
-}
-
-export default ({ children, containerStyle, ...props }: Props) => {
+const S: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
   const { colors } = useTheme();
 
   return (
@@ -29,3 +23,5 @@ export default ({ children, containerStyle, ...props }: Props) => {
     </Card>
   );
 };
+
+export default S;

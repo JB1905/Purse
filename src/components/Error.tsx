@@ -2,13 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, TextProps } from 'react-native-elements';
 
-import { Children } from '../types/Children';
-
-interface Props extends TextProps {
-  children: Children;
-}
-
-export default ({ children, style, ...props }: Props) => (
+const M: React.FC<TextProps> = ({ children, style, ...props }) => (
   <Text
     {...props}
     style={StyleSheet.flatten([
@@ -23,3 +17,5 @@ export default ({ children, style, ...props }: Props) => (
     {children}
   </Text>
 );
+
+export default M;

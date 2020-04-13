@@ -3,7 +3,7 @@ import { StyleSheet, Platform } from 'react-native';
 import { SearchBar, SearchBarProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-export default ({
+const U: React.FC<SearchBarProps> = ({
   containerStyle,
   inputContainerStyle,
   cancelButtonTitle = 'Cancel',
@@ -11,7 +11,7 @@ export default ({
   leftIconContainerStyle,
   showCancel = true,
   ...props
-}: SearchBarProps) => {
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -68,3 +68,5 @@ export default ({
     />
   );
 };
+
+export default U;
