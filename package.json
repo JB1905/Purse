@@ -10,6 +10,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "electron": "expo-electron start",
+    "predeploy": "expo build:web",
     "eject": "expo eject",
     "prettier": "prettier --write 'src/**/*.{tsx,ts}'"
   },
