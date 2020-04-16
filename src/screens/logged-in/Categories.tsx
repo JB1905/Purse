@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { RefreshControl } from 'react-native';
 
 import Container from '../../components/Container';
 import Button from '../../components/Button';
@@ -8,7 +9,6 @@ import Loader from '../../components/Loader';
 import { getCurrentUser, getCategories } from '../../api';
 
 import { LoggedInProps } from '../../types/Navigation';
-import { RefreshControl } from 'react-native';
 
 const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
   const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);

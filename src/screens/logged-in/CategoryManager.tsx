@@ -45,78 +45,77 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
     icon: route?.params?.icon ?? '',
   };
 
-  const { register, handleSubmit, setValue, getValues, watch, reset } = useForm<
-    FormData
-  >({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    errors,
+    reset,
+  } = useForm<FormData>({ defaultValues });
 
   useEffect(() => {
     register('name', { required: true });
     register('color', { required: true });
-    // register('icon', { required: true });
+    register('icon', { required: true });
   }, [register]);
 
-  const createNewCategory = async (data: FormData) => {
+  const submitForm = (data: FormData) => {
     // console.log(data);
+    const createNewCategory = async () => {
+      try {
+        if (error) setError(null);
 
-    try {
-      // if (error) setError(null);
+        await addCategory({ ...data, user: getCurrentUser()?.uid });
 
-      await addCategory({ ...data, user: getCurrentUser()?.uid });
+        Alert.alert(`Added category: ${name}`, null, [
+          {
+            text: 'Done',
+            onPress: navigation.goBack,
+          },
+          {
+            text: 'Add more',
+            style: 'destructive',
+            onPress: () => reset(),
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
+    };
 
-      // console.log(true);
+    const updateExisitingCategory = async () => {
+      try {
+        await updateCategory(id, data);
 
-      Alert.alert(`Added category: ${name}`, null, [
+        Alert.alert(`Updated category ${name}`, null, [
+          {
+            text: 'Done',
+            onPress: navigation.goBack,
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
+    };
+
+    Alert.alert(
+      'Do you want to save this category?',
+      `Category ${name} will be ${id ? 'updated' : 'added'}`,
+      [
         {
-          text: 'Done',
-          onPress: navigation.goBack,
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: 'Add more',
+          text: id ? 'Update' : 'Save',
           style: 'destructive',
-          // onPress: resetForm,
+          onPress: id ? updateExisitingCategory : createNewCategory,
         },
-      ]);
-    } catch (err) {
-      setError(err);
-    }
+      ]
+    );
   };
-
-  const updateExisitingCategory = async () => {
-    try {
-      // await updateCategory(id, { name, color, icon });
-
-      Alert.alert(`Updated category ${name}`, null, [
-        {
-          text: 'Done',
-          onPress: navigation.goBack,
-        },
-      ]);
-    } catch (err) {
-      setError(err);
-    }
-  };
-
-  // const submit = () => {
-  //   if (name && color && icon) {
-  //     Alert.alert(
-  //       'Do you want to save this category?',
-  //       `Category ${name} will be ${id ? 'updated' : 'added'}`,
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           style: 'cancel'
-  //         },
-  //         {
-  //           text: id ? 'Update' : 'Save',
-  //           style: 'destructive',
-  //           onPress: id ? updateExisitingCategory : createNewCategory
-  //         }
-  //       ]
-  //     );
-  //   } else {
-  //     setError(null);
-  //   }
-  // };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -133,12 +132,14 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         <HeaderButton
           title="Save"
           iconName="save"
-          onPress={handleSubmit(createNewCategory)}
+          onPress={handleSubmit(submitForm)}
           spaces
         />
       ),
     });
   }, [navigation]);
+
+  // console.log(errors, icons);
 
   return (
     <Container keyboard scrollEnabled>
@@ -158,12 +159,11 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
           selectedIndex={tab}
           onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
           style={{
-            maxWidth: 350,
-            left: 0,
-            right: 0,
-            marginHorizontal: 20,
             marginTop: 20,
             marginBottom: 6,
+            alignSelf: 'center',
+            maxWidth: 350,
+            width: '100%',
           }}
         />
       )}
@@ -186,9 +186,9 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
             />
           ) : (
             <FlatList
-              data={icons}
+              data={Object.entries(icons)}
               numColumns={5}
-              keyExtractor={(item) => item}
+              // keyExtractor={(item) => item}
               style={{ paddingHorizontal: 38 }}
               renderItem={({ item }) => (
                 <TouchableOpacity
@@ -201,7 +201,13 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
                     borderRadius: 10,
                   }}
                 >
-                  <Icon name={item} color={colors.primary} size={30} />
+                  {/* {console.log(item)} */}
+
+                  <Icon
+                    name={item[Platform.OS === 'ios' ? 'ios' : 'android']}
+                    color={colors.primary}
+                    size={30}
+                  />
                 </TouchableOpacity>
               )}
             />
