@@ -10,7 +10,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "prettier": "prettier --write 'src/**/*.{tsx,ts}'"
+    "prettier": "prettier --write 'src/**/*.{tsx,ts}'",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "2.2.2",
@@ -49,7 +51,8 @@
     "react-native-svg-charts": "^5.3.0",
     "react-native-swipe-list-view": "^2.5.0",
     "react-native-web": "^0.11.7",
-    "sentry-expo": "^2.0.3"
+    "sentry-expo": "^2.0.3",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "@types/gravatar": "^1.8.1",
@@ -60,5 +63,6 @@
     "babel-preset-expo": "^8.1.0",
     "prettier": "^2.0.2",
     "typescript": "^3.8.3"
-  }
+  },
+  "snyk": true
 }
