@@ -2,7 +2,7 @@ import { ADD_ITEM, REMOVE_ITEM, REORDER_ITEMS } from '../actions';
 
 import { BottomTabsState } from '../interfaces/BottomTabsState';
 
-import { BottomTabsActionTypes } from '../types/BottomTabsActionTypes';
+import type { BottomTabsActionTypes } from '../types/BottomTabsActionTypes';
 
 const initialState: BottomTabsState = {
   items: [],

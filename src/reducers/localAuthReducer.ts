@@ -2,7 +2,7 @@ import { TOGGLE_LOCAL_AUTH } from '../actions';
 
 import { LocalAuthState } from '../interfaces/LocalAuthState';
 
-import { LocalAuthActionTypes } from '../types/LocalAuthActionTypes';
+import type { LocalAuthActionTypes } from '../types/LocalAuthActionTypes';
 
 const initialState: LocalAuthState = {
   localAuth: false,
