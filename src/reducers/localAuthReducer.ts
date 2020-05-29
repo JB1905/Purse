@@ -1,18 +1,12 @@
 import { TOGGLE_LOCAL_AUTH } from '../actions';
 
-interface LocalAuthState {
-  localAuth: boolean;
-}
+import { LocalAuthState } from '../interfaces/LocalAuthState';
+
+import { LocalAuthActionTypes } from '../types/LocalAuthActionTypes';
 
 const initialState: LocalAuthState = {
   localAuth: false,
 };
-
-interface ToggleLocalAuthAction {
-  type: typeof TOGGLE_LOCAL_AUTH;
-}
-
-type LocalAuthActionTypes = ToggleLocalAuthAction;
 
 export const localAuthReducer = (
   state = initialState,

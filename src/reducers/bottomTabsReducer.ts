@@ -1,31 +1,12 @@
 import { ADD_ITEM, REMOVE_ITEM, REORDER_ITEMS } from '../actions';
 
-interface BottomTabsState {
-  items: string[];
-}
+import { BottomTabsState } from '../interfaces/BottomTabsState';
+
+import { BottomTabsActionTypes } from '../types/BottomTabsActionTypes';
 
 const initialState: BottomTabsState = {
   items: [],
 };
-
-interface AddItemAction {
-  type: typeof ADD_ITEM;
-  payload: any;
-}
-
-interface RemoveItemAction {
-  type: typeof REMOVE_ITEM;
-  payload: any;
-}
-
-interface ReorderItemsAction {
-  type: typeof REORDER_ITEMS;
-}
-
-type BottomTabsActionTypes =
-  | AddItemAction
-  | RemoveItemAction
-  | ReorderItemsAction;
 
 export const bottomTabsReducer = (
   state = initialState,
