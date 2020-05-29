@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Card, CardProps } from 'react-native-elements';
+import { Card as BaseCard, CardProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const S: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
+const Card: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
   const { colors } = useTheme();
 
   return (
-    <Card
+    <BaseCard
       {...props}
       containerStyle={StyleSheet.flatten([
         containerStyle,
@@ -20,8 +20,8 @@ const S: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
       ])}
     >
       {children}
-    </Card>
+    </BaseCard>
   );
 };
 
-export default S;
+export default Card;

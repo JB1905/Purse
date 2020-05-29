@@ -1,53 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { RefreshControl } from 'react-native';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 
-import Container from '../../components/Container';
-import Button from '../../components/Button';
-import Splash from '../../components/Splash';
 import Loader from '../../components/Loader';
 
-import { getCurrentUser, getCategories } from '../../api';
+import type { LoggedInProps } from '../../types/Navigation';
 
-import { LoggedInProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
+
+const Container = lazy(() => import('../../components/Container'));
+const Button = lazy(() => import('../../components/Button'));
 
 const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
-  const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
+  // const currentUser = useSelector(
+  //   (state: any) => state.firebase?.profile?.auth?.uid
+  // );
 
-  useEffect(() => {
-    getCategories(getCurrentUser()?.uid).then((res) => setData(res));
-  }, []);
+  // console.log(currentUser);
 
-  return data ? (
-    <Container
-      scrollEnabled
-      refreshControl={<RefreshControl refreshing={false} onRefresh={null} />}
-    >
-      {data.length > 0 ? (
-        data.map(([id, value]: any) => (
+  useFirestoreConnect([
+    {
+      collection: Collection.Categories,
+      // where: ['user', '==', currentUser],
+      // where: ['user', '==', 'FXZfDuVLcpTg1bJs9eLppHnCNnI3'],
+    },
+  ]);
+
+  const categories = useSelector(
+    (state: any) => state.firestore.ordered.categories
+  );
+
+  return categories ? (
+    <Suspense fallback={<Loader />}>
+      <Container
+        scrollEnabled
+        refreshControl={<RefreshControl refreshing={false} onRefresh={null} />}
+      >
+        {categories.map(({ id, name, ...data }) => (
           <Button
-            title={value.name}
-            onPress={() => {
-              navigation.navigate('Category', {
-                name: value.name,
-                id,
-              });
-            }}
+            title={name}
+            onPress={() =>
+              navigation.navigate('Category', { id, name, ...data })
+            }
             key={id}
           />
-        ))
-      ) : (
-        <Splash
-          title="Categories not found"
-          message="There is no categories for your data yet"
-        >
-          <Button
-            title="Add them here"
-            onPress={() => navigation.navigate('CategoryManager')}
-            type="clear"
-          />
-        </Splash>
-      )}
-    </Container>
+        ))}
+      </Container>
+    </Suspense>
   ) : (
     <Loader />
   );

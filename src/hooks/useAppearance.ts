@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+// import { useState, useEffect } from 'react';
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from 'react-native-appearance';
+// import { useSelector } from 'react-redux';
 
-import { Theme } from '../enums/theme';
+// import { Theme } from '../enums/Theme';
 
 export const useAppearance = () => {
   const scheme = useColorScheme();
 
   const isDark = scheme === 'dark';
 
-  const [mode, setMode] = useState<any>();
+  // const [activeMode, setActiveMode] = useState<any>();
+
+  // const mode = useSelector((state: any) => state.theme.theme);
 
   // #5ac59a
 
@@ -32,32 +34,32 @@ export const useAppearance = () => {
     },
   };
 
-  const getActiveTheme = async () => {
-    const mode = JSON.parse(await AsyncStorage.getItem('appearance'));
+  // const getActiveTheme = async () => {
+  //   let theme = lightTheme;
 
-    let theme = lightTheme;
+  //   if (mode === Theme.Auto) {
+  //     // console.log('auto');
+  //     if (scheme === 'dark') {
+  //       theme = darkTheme;
+  //     } else {
+  //       theme = lightTheme;
+  //     }
+  //   } else if (mode === Theme.Dark) {
+  //     // console.log('dark');
+  //     theme = darkTheme;
+  //   } else if (mode === Theme.Light) {
+  //     // console.log('light');
+  //     theme = lightTheme;
+  //   }
 
-    if (mode === Theme.Auto) {
-      console.log('auto');
-      if (scheme === 'dark') {
-        theme = darkTheme;
-      } else {
-        theme = lightTheme;
-      }
-    } else if (mode === Theme.Dark) {
-      console.log('dark');
-      theme = darkTheme;
-    } else if (mode === Theme.Light) {
-      console.log('light');
-      theme = lightTheme;
-    }
+  //   setActiveMode(theme);
+  // };
 
-    setMode(theme);
-  };
+  // useEffect(() => {
+  //   getActiveTheme();
+  // }, [mode]);
 
-  useEffect(() => {
-    getActiveTheme();
-  }, []);
+  const activeMode = isDark ? darkTheme : lightTheme;
 
-  return { mode, lightTheme, darkTheme, getActiveTheme, isDark };
+  return { activeMode, isDark };
 };

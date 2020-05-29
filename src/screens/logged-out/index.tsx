@@ -9,7 +9,7 @@ import ResetPassword from './ResetPassword';
 
 import HeaderButton from '../../components/HeaderButton';
 
-import { LoggedOutParamList } from '../../types/Navigation';
+import type { LoggedOutParamList } from '../../types/Navigation';
 
 const NativeStack = createNativeStackNavigator<LoggedOutParamList>();
 

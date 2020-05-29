@@ -1,46 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import SegmentedControlIOS from '@react-native-community/segmented-control';
+import React from 'react';
 
 import Container from '../../components/Container';
-import Splash from '../../components/Splash';
-import Loader from '../../components/Loader';
-import Card from '../../components/Card';
+import FallbackScreen from '../../components/FallbackScreen';
 
 const Analytics: React.FC = () => {
-  const [tab, setTab] = useState(0);
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    setData([]);
-  }, []);
-
-  return data ? (
-    <Container scrollEnabled>
-      {data.length > 0 ? (
-        <>
-          <SegmentedControlIOS
-            values={['Week', 'Month', 'Year']}
-            selectedIndex={tab}
-            onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-            style={{
-              // width: '100%',
-              // maxWidth: 450,
-              // alignSelf: 'center',
-              marginHorizontal: 20,
-              marginBottom: 6,
-            }}
-          />
-        </>
-      ) : (
-        <Splash
-          title="Statistics are not available yet"
-          message="You need to add more financial data"
-        />
-      )}
+  return (
+    <Container>
+      <FallbackScreen
+        title="This screen is not available"
+        message="It will be added in the next version"
+      />
     </Container>
-  ) : (
-    <Loader />
   );
 };
 

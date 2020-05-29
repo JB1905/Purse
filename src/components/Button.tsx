@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, TouchableNativeFeedback, Platform } from 'react-native';
-import { Button, ButtonProps } from 'react-native-elements';
+import { StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { Button as BaseButton, ButtonProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const D: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   type = 'solid',
   buttonStyle,
   titleStyle,
@@ -12,17 +12,14 @@ const D: React.FC<ButtonProps> = ({
   const { colors } = useTheme();
 
   return (
-    <Button
+    <BaseButton
       {...props}
       type={type}
       background={TouchableNativeFeedback.Ripple(colors.background)}
       useForeground={type === 'clear'}
       buttonStyle={StyleSheet.flatten([
         buttonStyle,
-        {
-          backgroundColor: type === 'clear' ? 'transparent' : colors.primary,
-        },
-        Platform.OS === 'ios' && { borderRadius: 10 },
+        { backgroundColor: type === 'clear' ? 'transparent' : colors.primary },
       ])}
       titleStyle={StyleSheet.flatten([
         titleStyle,
@@ -36,4 +33,4 @@ const D: React.FC<ButtonProps> = ({
   );
 };
 
-export default D;
+export default Button;

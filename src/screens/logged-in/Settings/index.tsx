@@ -11,14 +11,15 @@ import BanksConnect from './BanksConnect';
 import UsersConnect from './UsersConnect';
 import PaymentMethods from './PaymentMethods';
 import BottomNavItems from './BottomNavItems';
+
 import HeaderButton from '../../../components/HeaderButton';
 
-import { SettingsParamList } from '../../../types/Navigation';
+import type { SettingsParamList } from '../../../types/Navigation';
 
-const Stack = createNativeStackNavigator<SettingsParamList>();
+const NativeStack = createNativeStackNavigator<SettingsParamList>();
 
-const Settings: React.FC<any> = () => (
-  <Stack.Navigator
+const Settings: React.FC = () => (
+  <NativeStack.Navigator
     screenOptions={({ navigation }) => ({
       headerRight: () =>
         Platform.OS === 'ios' && (
@@ -29,52 +30,52 @@ const Settings: React.FC<any> = () => (
         ),
     })}
   >
-    <Stack.Screen
+    <NativeStack.Screen
       name="Profile"
       component={Profile}
       options={{ title: 'Profile' }}
     />
 
-    <Stack.Screen name="User" component={User} />
+    <NativeStack.Screen name="User" component={User} />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="BanksConnect"
       component={BanksConnect}
       options={{ title: 'Bank Accounts' }}
     />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="UsersConnect"
       component={UsersConnect}
       options={{ title: 'Connected Users' }}
     />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="PaymentMethods"
       component={PaymentMethods}
       options={{ title: 'Payment Methods' }}
     />
 
-    <Stack.Screen name="Appearance" component={Appearance} />
+    <NativeStack.Screen name="Appearance" component={Appearance} />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="AppIcon"
       component={AppIcon}
       options={{ title: 'App Icon' }}
     />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="BottomNavItems"
       component={BottomNavItems}
       options={{ title: 'Bottom Tabs' }}
     />
 
-    <Stack.Screen
+    <NativeStack.Screen
       name="LocalAuthentication"
       component={LocalAuthentication}
       options={{ title: 'Local Authentication' }}
     />
-  </Stack.Navigator>
+  </NativeStack.Navigator>
 );
 
 export default Settings;

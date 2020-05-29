@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
-import { AppLoading, SplashScreen } from 'expo';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { SplashScreen } from 'expo';
+import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from 'react-native-elements';
 import { enableScreens } from 'react-native-screens';
 
 import Layout from './screens';
-
-import { AuthProvider } from './providers/AuthProvider';
-import { SettingsProvider } from './providers/SettingsProvider';
 
 import { useAppearance } from './hooks/useAppearance';
 
 import { otaUpdates } from './config/otaUpdates';
 
+import { theme } from './constants/theme';
+
 const Main: React.FC = () => {
+  enableScreens();
+
   useEffect(() => {
     if (!__DEV__) otaUpdates();
   }, []);
@@ -23,32 +25,18 @@ const Main: React.FC = () => {
     SplashScreen.preventAutoHide();
   }, []);
 
-  enableScreens();
-
-  // const scheme = useColorScheme();
-
-  const { mode } = useAppearance();
-
-  // return (
-  //   <AppLoading
-  //     startAsync={getActiveTheme}
-  //     // onFinish={}
-  //     // onError={}
-  //   />
-  // );
+  const { activeMode } = useAppearance();
 
   return (
-    <AuthProvider>
-      <SettingsProvider>
-        <SafeAreaProvider>
-          <AppearanceProvider>
-            <NavigationContainer theme={mode}>
-              <Layout />
-            </NavigationContainer>
-          </AppearanceProvider>
-        </SafeAreaProvider>
-      </SettingsProvider>
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AppearanceProvider>
+        <NavigationContainer theme={activeMode}>
+          <ThemeProvider theme={theme}>
+            <Layout />
+          </ThemeProvider>
+        </NavigationContainer>
+      </AppearanceProvider>
+    </SafeAreaProvider>
   );
 };
 

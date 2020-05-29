@@ -4,11 +4,11 @@ import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
 interface Props {
-  title?: string;
-  message?: string;
+  readonly title?: string;
+  readonly message?: string;
 }
 
-const W: React.FC<Props> = ({ title, message, children }) => {
+const FallbackScreen: React.FC<Props> = ({ title, message, children }) => {
   const { colors } = useTheme();
 
   return (
@@ -55,4 +55,4 @@ const W: React.FC<Props> = ({ title, message, children }) => {
   );
 };
 
-export default W;
+export default FallbackScreen;

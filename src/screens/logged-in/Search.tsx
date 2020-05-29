@@ -1,26 +1,41 @@
 import React, { useState } from 'react';
-import { InstantSearch } from 'react-instantsearch/native';
 
-import SearchBar from '../../components/SearchBar';
 import Container from '../../components/Container';
-import Splash from '../../components/Splash';
+import SearchBar from '../../components/SearchBar';
+import Button from '../../components/Button';
+import FallbackScreen from '../../components/FallbackScreen';
 
-import searchClient from '../../config/algolia';
+import type { LoggedInProps } from '../../types/Navigation';
 
-const Search: React.FC = () => {
+const Search: React.FC<LoggedInProps<'Search'>> = ({ navigation }) => {
   const [query, setQuery] = useState('');
+
+  // const dataTypes = [];
 
   return (
     <Container scrollEnabled>
-      {/* <InstantSearch searchClient={searchClient} indexName="dev_search">
-        <SearchBar
-          placeholder="Search..."
-          value={query}
-          onChangeText={setQuery}
-        />
-      </InstantSearch> */}
+      <SearchBar
+        value={query}
+        placeholder="Search..."
+        onChangeText={(text) => setQuery(text)}
+      />
 
-      <Splash title="Search for data" message="Type what are you looking for" />
+      <FallbackScreen
+        title="Search for data"
+        message="Type what are you looking for"
+      />
+
+      {/* <Button
+        title={`Categories: ${query}`}
+        onPress={() => navigation.navigate('Categories')}
+      /> */}
+
+      {/* <Button title={query} onPress={() => navigation.navigate('Finances')} /> */}
+
+      {/* search for:
+    - data
+    - categories
+    */}
     </Container>
   );
 };

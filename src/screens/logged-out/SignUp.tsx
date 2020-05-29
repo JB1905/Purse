@@ -1,21 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Alert, StatusBar } from 'react-native';
-import validator from 'email-validator';
+import React, { useState, useEffect } from 'react';
+import { Alert, View } from 'react-native';
 import { useForm } from 'react-hook-form';
 
 import Container from '../../components/Container';
-import Wrapper from '../../components/Wrapper';
 import Text from '../../components/Text';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import Error from '../../components/Error';
+import StatusBar from '../../components/StatusBar';
+import { Box } from '../../components/Box';
+import { ErrorMessage } from '../../components/ErrorMessage';
 
-import { AuthContext } from '../../providers/AuthProvider';
+import { useAuth } from '../../hooks/useAuth';
 
-import { createAccount } from '../../api';
-
-import { onSignIn } from '../../helpers/auth';
+import type { LoggedOutProps } from '../../types/Navigation';
 
 type FormData = {
   name: string;
@@ -25,11 +23,11 @@ type FormData = {
   confirm: string;
 };
 
-const SignUp: React.FC = () => {
-  const { setIsAuth } = useContext(AuthContext);
+const SignUp: React.FC<LoggedOutProps<'SignUp'>> = ({ navigation }) => {
+  const { createAccount } = useAuth();
 
-  const [checking, setChecking] = useState(false);
-  const [error, setError] = useState<string>(null);
+  const [error, setError] = useState<Error>();
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, setValue, getValues, errors } = useForm<
     FormData
@@ -39,130 +37,105 @@ const SignUp: React.FC = () => {
     register('name', { required: true });
     register('surname', { required: true });
     register('email', { required: true });
-    register('password', { required: true });
-    register('confirm', { required: true });
+
+    register('password', {
+      required: true,
+      minLength: {
+        value: 6,
+        message: 'Password is too short (at least 6 char.)',
+      },
+    });
+
+    register('confirm', {
+      required: true,
+      minLength: {
+        value: 6,
+        message: 'Password is too short (at least 6 char.)',
+      },
+    });
   }, [register]);
 
   const onSubmit = async (data: FormData) => {
-    const { name, surname, email, password, confirm } = data;
-    if (password.length > 5) {
-      if (password === confirm) {
-        setChecking(true);
+    const { name, surname, email, password } = data;
 
-        setError(null);
+    setLoading(true);
 
-        const res = await createAccount(email, password, name, surname);
+    try {
+      if (error) setError(null);
 
-        setChecking(false);
+      await createAccount({ email, password, name, surname });
 
-        if (res.user) {
-          Alert.alert('User created succesfully', null, [
-            {
-              text: 'OK',
-              onPress: () => {
-                onSignIn(res.user);
-
-                // navigation.goBack(); TODO
-
-                setTimeout(() => {
-                  setIsAuth(true);
-                }, 500);
-              },
-            },
-          ]);
-        } else {
-          setError(res.message);
-        }
-      } else {
-        setError('Password and confirmed password are different.');
-      }
-    } else {
-      setError('Password is too short (at least 6 char.).');
+      Alert.alert('User created succesfully', null, [
+        {
+          text: 'OK',
+          onPress: navigation.goBack,
+        },
+      ]);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Container keyboard full spaces>
-      <StatusBar translucent barStyle="light-content" />
+    <Container full spaces keyboard>
+      <StatusBar isModal />
 
-      <Wrapper>
-        <Text
-          h2
-          h2Style={{ fontSize: 30, fontWeight: '700', textAlign: 'center' }}
-        >
-          Sign Up
-        </Text>
-      </Wrapper>
+      <View>
+        <Box>
+          <Text h2>Sign Up</Text>
 
-      <Wrapper>
-        <Text
-          h2
-          h2Style={{ fontSize: 18, textAlign: 'center', marginBottom: 10 }}
-        >
-          Save your money. Start today!
-        </Text>
-      </Wrapper>
+          <Text h3>Save your money. Start today!</Text>
+        </Box>
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('name', text)}
-          defaultValue={getValues().name}
-          placeholder="Name"
-          error={errors.name}
-        />
-      </Wrapper>
+        <Box>
+          <Input
+            onChangeText={(text) => setValue('name', text)}
+            defaultValue={getValues().name}
+            placeholder="Name"
+            error={errors.name}
+          />
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('surname', text)}
-          defaultValue={getValues().surname}
-          placeholder="Surname"
-          error={errors.surname}
-        />
-      </Wrapper>
+          <Input
+            onChangeText={(text) => setValue('surname', text)}
+            defaultValue={getValues().surname}
+            placeholder="Surname"
+            error={errors.surname}
+          />
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('email', text)}
-          defaultValue={getValues().email}
-          placeholder="E-mail"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          error={errors.email}
-        />
-      </Wrapper>
+          <Input
+            onChangeText={(text) => setValue('email', text)}
+            defaultValue={getValues().email}
+            placeholder="E-mail"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            error={errors.email}
+          />
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('password', text)}
-          defaultValue={getValues().password}
-          placeholder="Password"
-          secureTextEntry
-          error={errors.password}
-        />
-      </Wrapper>
+          <Input
+            onChangeText={(text) => setValue('password', text)}
+            defaultValue={getValues().password}
+            placeholder="Password"
+            secureTextEntry
+            error={errors.password}
+          />
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('confirm', text)}
-          defaultValue={getValues().confirm}
-          placeholder="Confirm Password"
-          secureTextEntry
-          error={errors.confirm}
-        />
-      </Wrapper>
+          <Input
+            onChangeText={(text) => setValue('confirm', text)}
+            defaultValue={getValues().confirm}
+            placeholder="Confirm Password"
+            secureTextEntry
+            error={errors.confirm}
+          />
 
-      {error && (
-        <Wrapper>
-          <Error>{error}</Error>
-        </Wrapper>
-      )}
+          {loading && <Loader />}
 
-      <Wrapper>
-        <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
-      </Wrapper>
+          {error?.message && <ErrorMessage message={error.message} />}
 
-      {checking && <Loader />}
+          <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
+        </Box>
+      </View>
     </Container>
   );
 };

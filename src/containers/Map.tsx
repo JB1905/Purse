@@ -2,7 +2,7 @@ import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-const Y: React.FC = () => {
+const Maps: React.FC = () => {
   return (
     <MapView style={{ flex: 1 }}>
       {/* <Marker coordinate={coords} /> */}
@@ -10,4 +10,4 @@ const Y: React.FC = () => {
   );
 };
 
-export default Y;
+export default Maps;

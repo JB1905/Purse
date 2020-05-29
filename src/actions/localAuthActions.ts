@@ -1,0 +1,1 @@
+export const TOGGLE_LOCAL_AUTH = 'TOGGLE_LOCAL_AUTH';

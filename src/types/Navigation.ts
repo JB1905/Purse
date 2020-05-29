@@ -1,4 +1,3 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack';
 import { RouteProp } from '@react-navigation/native';
 
@@ -9,9 +8,14 @@ export type LoggedOutParamList = {
 };
 
 export type LoggedInParamList = {
-  Finances: undefined;
+  Finances: {
+    query: string;
+  };
 
-  Categories: undefined;
+  Categories: {
+    query: string;
+  };
+
   Category: {
     id: string;
     name: string;
@@ -71,7 +75,7 @@ export type TabsParamList = {
 };
 
 export type MainProps<T extends keyof MainParamList> = {
-  navigation: StackNavigationProp<MainParamList, T>;
+  navigation: NativeStackNavigationProp<MainParamList, T>;
   route: RouteProp<MainParamList, T>;
 };
 

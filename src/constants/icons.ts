@@ -1,6 +1,6 @@
 export const icons = {
   'add-circle': { ios: 'ios-add-circle', android: 'add-circle' },
-  save: { ios: 'ios-done', android: 'save' },
+  save: { ios: 'ios-done', android: 'save' }, // Todo
   close: { ios: 'ios-close', android: 'cancel' },
   wallet: { ios: 'ios-wallet', android: 'account-balance-wallet' },
   search: { ios: 'ios-search', android: 'search' },
@@ -11,8 +11,11 @@ export const icons = {
   more: { ios: 'ios-more', android: 'more-vert' },
   'arrow-forward': { ios: 'ios-arrow-forward', android: 'arrow-forward' },
   settings: { ios: 'ios-settings', android: 'settings' },
-  checkmark: { ios: 'ios-checkmark', android: 'checks' },
+  checkmark: { ios: 'ios-checkmark', android: 'check-circle' },
+  warning: { ios: 'ios-warning', android: '' },
+};
 
+export const categoryIcons = {
   car: { ios: 'ios-car', android: 'directions-car' },
   bus: { ios: 'ios-bus', android: 'directions-bus' },
   airplane: { ios: 'ios-airplane', android: 'flight' },

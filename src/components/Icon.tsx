@@ -1,15 +1,19 @@
 import React from 'react';
-import { Icon, IconProps } from 'react-native-elements';
+import { Icon as BaseIcon, IconProps } from 'react-native-elements';
 import { Platform } from 'react-native';
 
-import { icons } from '../constants/icons';
+import { icons, categoryIcons } from '../constants/icons';
 
-const A: React.FC<IconProps> = ({ type, name, ...props }) => (
-  <Icon
+const Icon: React.FC<IconProps> = ({ type, name, ...props }) => (
+  <BaseIcon
     {...props}
-    name={icons[name][Platform.OS === 'ios' ? 'ios' : 'android']}
+    name={
+      Object.assign(icons, categoryIcons)[name][
+        Platform.OS === 'ios' ? 'ios' : 'android'
+      ]
+    }
     type={type ?? Platform.OS === 'ios' ? 'ionicon' : 'material'}
   />
 );
 
-export default A;
+export default Icon;

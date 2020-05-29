@@ -6,14 +6,11 @@ import {
   ActivityIndicator,
   ActivityIndicatorProps,
 } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
 import { useTheme } from '@react-navigation/native';
 
 interface Props extends ViewProps, ActivityIndicatorProps {}
 
-const O: React.FC<Props> = ({ style, size = 'large', ...props }) => {
-  // const colorScheme = useColorScheme();
-
+const Loader: React.FC<Props> = ({ style, size = 'large', ...props }) => {
   const { colors } = useTheme();
 
   return (
@@ -38,4 +35,4 @@ const O: React.FC<Props> = ({ style, size = 'large', ...props }) => {
   );
 };
 
-export default O;
+export default Loader;

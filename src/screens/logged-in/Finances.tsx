@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { RefreshControl, View, TouchableOpacity, Text } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import React from 'react';
+import { RefreshControl } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Agenda } from 'react-native-calendars';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 
-import Loader from '../../components/Loader';
-import Button from '../../components/Button';
-import Splash from '../../components/Splash';
-import ListItem from '../../components/ListItem';
+// import { DataList } from '../../containers/DataList';
 
-import { getDataForDay, getCurrentUser } from '../../api';
+import type { LoggedInProps } from '../../types/Navigation';
 
-import { LoggedInProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
 
 const Finances: React.FC<LoggedInProps<'Finances'>> = ({ navigation }) => {
   const { colors } = useTheme();
 
-  const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
+  useFirestoreConnect([Collection.Data, Collection.Categories]);
 
-  const [dataFor, setDataFor] = useState();
-  const [day, setDay] = useState(Date.now());
-  const [dates, setDates] = useState([]);
+  const { data, categories } = useSelector((state: any) => ({
+    data: state.firestore.ordered.data,
+    categories: state.firestore.ordered.categories,
+  }));
 
   return (
     <Agenda
-      items={{}}
+      // items={data}
       refreshControl={
         <RefreshControl
           tintColor={colors.primary}
@@ -32,11 +31,8 @@ const Finances: React.FC<LoggedInProps<'Finances'>> = ({ navigation }) => {
           onRefresh={null}
         />
       }
-      renderItem={() => <View />}
-      renderEmptyDate={() => <View />}
-      // rowHasChanged={(r1, r2) => {
-      //   console.log(r1, r2);
-      // }}
+      // renderEmptyDate={() => <DataList data={data} />}
+      // renderEmptyDate={() => <View />}
       theme={{
         calendarBackground: colors.card,
         selectedDayBackgroundColor: colors.primary,

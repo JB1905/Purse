@@ -5,10 +5,10 @@ import {
   TouchableHighlight,
   TouchableNativeFeedback,
 } from 'react-native';
-import { ListItem, ListItemProps } from 'react-native-elements';
+import { ListItem as BaseListItem, ListItemProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const L: React.FC<ListItemProps> = ({
+const ListItem: React.FC<ListItemProps> = ({
   titleStyle,
   subtitleStyle,
   containerStyle,
@@ -17,7 +17,7 @@ const L: React.FC<ListItemProps> = ({
   const { colors } = useTheme();
 
   return (
-    <ListItem
+    <BaseListItem
       {...props}
       titleStyle={StyleSheet.flatten([
         titleStyle,
@@ -46,4 +46,4 @@ const L: React.FC<ListItemProps> = ({
   );
 };
 
-export default L;
+export default ListItem;

@@ -1,167 +1,74 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Avatar, ListItem } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { Platform } from 'react-native';
 import gravatar from 'gravatar';
 
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
-import Loader from '../../../components/Loader';
-import Wrapper from '../../../components/Wrapper';
-import ListGroup from '../../../components/ListGroup';
-import ListGroupItem from '../../../components/ListGroupItem';
-import Icon from '../../../components/Icon';
-// import Error from "../../../components/Error";
+import StatusBar from '../../../components/StatusBar';
+import { ItemGroup } from '../../../components/ItemGroup';
+import { ProfileCard } from '../../../components/ProfileCard';
 
-import { onSignOut } from '../../../helpers/auth';
-
+import { useAuth } from '../../../hooks/useAuth';
 import { useLocalAuth } from '../../../hooks/useLocalAuth';
 
-import { getCurrentUser, getUserData } from '../../../api';
-
-import { AuthContext } from '../../../providers/AuthProvider';
+import { Collection } from '../../../enums/Collection';
 
 const Profile: React.FC<any> = ({ navigation }) => {
-  const { colors } = useTheme();
+  const { logout } = useAuth();
 
-  const { setIsAuth } = useContext(AuthContext);
+  const accountSettings = [
+    { title: 'Connected Users', screen: 'UsersConnect' },
+    { title: 'Payment Methods', screen: 'PaymentMethods' },
+    { title: 'Connect with Bank Account', screen: 'BanksConnect' },
+  ];
 
-  const [data, setData] = useState<firebase.firestore.DocumentData>(null);
-  const [error, setError] = useState<string>(null);
+  const localSettings = [
+    { title: 'App Icon', screen: 'AppIcon' },
+    { title: 'Appearance', screen: 'Appearance' },
+    { title: 'Bottom Tabs', screen: 'BottomNavItems' },
+  ];
 
-  const { localAuth } = useLocalAuth();
+  useFirestoreConnect([Collection.Users]);
 
-  useEffect(() => {
-    getUserData(getCurrentUser()?.uid)
-      .then((res) => setData(res))
-      .catch((err) => setError(err));
-  }, []);
+  // TODO !!!!!!!!
+  // const data = useSelector((state: any) => state.firestore.ordered.users[0]);
 
-  const signOut = () => {
-    onSignOut();
+  const onLogout = () => {
+    if (Platform.OS === 'ios') {
+      navigation.goBack();
+    }
 
-    navigation.goBack();
-
-    setTimeout(() => {
-      setIsAuth(false);
-    }, 500);
+    logout();
   };
-
-  // TODO change password
 
   return (
     <Container scrollEnabled spaces={false}>
-      <Wrapper
-        style={{
-          marginTop: 15,
-          marginBottom: 15,
-          overflow: 'hidden',
-          borderRadius: 10,
-          marginHorizontal: 16,
-          position: 'relative',
-          height: 103,
-        }}
-      >
-        {data ? (
-          <ListItem
-            leftAvatar={
-              <Avatar
-                title={`${data?.name[0] ?? ''}${data?.surname[0] ?? ''}`}
-                source={{
-                  uri: gravatar.url(`${data.email}`, { protocol: 'https' }),
-                }}
-                size="large"
-                rounded
-              />
-            }
-            rightIcon={
-              <Icon name="arrow-forward" color={colors.border} size={18} />
-            }
-            onPress={() => navigation.navigate('User')}
-            containerStyle={{
-              backgroundColor: colors.card,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 0.01,
-              shadowRadius: 3.84,
-              elevation: 5,
-            }}
-            title={`${data.name} ${data.surname}`}
-            titleStyle={{
-              marginVertical: 3,
-              color: colors.text,
-              fontWeight: '500',
-              fontSize: 22,
-            }}
-            subtitle={data.email}
-            subtitleStyle={{
-              marginVertical: 3,
-              color: colors.text,
-              opacity: 0.5,
-            }}
-          />
-        ) : (
-          <Loader size="small" />
-        )}
-      </Wrapper>
+      <StatusBar isModal />
 
-      {/* <ListGroup> */}
-      {/* <ListGroupItem
-          title="Shared Data"
-          bottomDivider
-          onPress={() => navigation.navigate('UsersConnect')}
-        /> */}
+      {/* <ProfileCard /> */}
 
-      {/* <ListGroupItem
-          title="Payment Methods"
-          // bottomDivider
-          onPress={() => navigation.navigate('PaymentMethods')}
-        /> */}
+      <ItemGroup title="Account Settings" items={accountSettings} />
+      <ItemGroup title="Local Settings" items={localSettings} />
 
-      {/* <ListGroupItem
-          title="Connect with Bank Account"
-          onPress={() => navigation.navigate('BanksConnect')}
-        /> */}
-      {/* </ListGroup> */}
-
-      <ListGroup>
-        {localAuth && (
-          <ListGroupItem
-            title="Local Authentication"
-            bottomDivider
-            onPress={() => navigation.navigate('LocalAuthentication')}
-          />
-        )}
-
-        {/* <ListGroupItem
-          title="App Icon"
-          bottomDivider
-          onPress={() => navigation.navigate('AppIcon')}
-        /> */}
-
-        <ListGroupItem
-          title="Appearance"
-          bottomDivider
-          onPress={() => navigation.navigate('Appearance')}
+      {/* {accountSettings.map((accountSetting) => (
+        <Button
+          title={accountSetting.title}
+          onPress={() => navigation.navigate(accountSetting.screen)}
+          key={accountSetting.title}
         />
+      ))}
 
-        <ListGroupItem
-          title="Bottom Tabs"
-          onPress={() => navigation.navigate('BottomNavItems')}
+      {localSettings.map((localSetting) => (
+        <Button
+          title={localSetting.title}
+          onPress={() => navigation.navigate(localSetting.screen)}
+          key={localSetting.title}
         />
-      </ListGroup>
+      ))} */}
 
-      <Wrapper
-        style={{
-          marginTop: 15,
-          marginBottom: 15,
-          marginHorizontal: 16,
-        }}
-      >
-        <Button title="Sign Out" onPress={signOut} />
-      </Wrapper>
+      <Button title="Sign Out" onPress={onLogout} />
     </Container>
   );
 };

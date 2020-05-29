@@ -1,9 +1,12 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useTheme } from '@react-navigation/native';
+import {
+  useTheme,
+  TypedNavigator,
+  StackNavigationState,
+} from '@react-navigation/native';
 
 import Icon from '../../components/Icon';
 import HeaderButton from '../../components/HeaderButton';
@@ -21,29 +24,20 @@ import Search from './Search';
 
 import Settings from './Settings';
 
-import {
-  MainParamList,
-  LoggedInParamList,
-  TabsParamList,
-} from '../../types/Navigation';
+import type { LoggedInParamList, TabsParamList } from '../../types/Navigation';
 
-const Stack = createStackNavigator<MainParamList>();
 const NativeStack = createNativeStackNavigator<LoggedInParamList>();
 const Tab = createBottomTabNavigator<TabsParamList>();
 
-const modalOptions = {
-  headerStatusBarHeight: 0,
-  headerStyle: {
-    height: 56,
-  },
-};
-
-const FinancesScreen: React.FC = () => (
-  <NativeStack.Navigator>
-    <NativeStack.Screen
+const shareRoutesBetweenTabs = (
+  Stack: TypedNavigator<any, StackNavigationState, any, any, any>
+) => (
+  <>
+    <Stack.Screen
       name="Finances"
       component={Finances}
       options={({ navigation }) => ({
+        ...headerCustomOptions(navigation),
         headerRight: () => (
           <HeaderButton
             iconName="add-circle"
@@ -52,6 +46,44 @@ const FinancesScreen: React.FC = () => (
         ),
       })}
     />
+
+    <Stack.Screen
+      name="Categories"
+      component={Categories}
+      options={({ navigation }) => ({
+        headerLargeTitle: true,
+        ...headerCustomOptions(navigation),
+        headerRight: () => (
+          <HeaderButton
+            iconName="add-circle"
+            onPress={() => navigation.navigate('CategoryManager')}
+          />
+        ),
+      })}
+    />
+
+    <Stack.Screen
+      name="Category"
+      component={Category}
+      options={({ route }) => ({
+        title: route.params.name,
+      })}
+    />
+  </>
+);
+
+const headerCustomOptions = (navigation) => ({
+  headerLeft: () => (
+    <HeaderButton
+      iconName="settings"
+      onPress={() => navigation.navigate('Settings')}
+    />
+  ),
+});
+
+const FinancesScreen: React.FC = () => (
+  <NativeStack.Navigator>
+    {shareRoutesBetweenTabs(NativeStack)}
   </NativeStack.Navigator>
 );
 
@@ -62,63 +94,51 @@ const AnalyticsScreen: React.FC = () => (
       component={Analytics}
       options={({ navigation }) => ({
         headerLargeTitle: true,
-        headerRight: () => (
-          <HeaderButton
-            iconName="settings"
-            onPress={() => navigation.navigate('Settings')}
-          />
-        ),
+        ...headerCustomOptions(navigation),
       })}
     />
   </NativeStack.Navigator>
 );
 
 const CategoriesScreen: React.FC = () => (
-  <NativeStack.Navigator>
-    <NativeStack.Screen
-      name="Categories"
-      component={Categories}
-      options={({ navigation }) => ({
-        headerLargeTitle: true,
-        headerRight: () => (
-          <HeaderButton
-            iconName="add-circle"
-            onPress={() => navigation.navigate('CategoryManager')}
-          />
-        ),
-      })}
-    />
-
-    <NativeStack.Screen name="Category" component={Category} />
+  <NativeStack.Navigator initialRouteName="Categories">
+    {shareRoutesBetweenTabs(NativeStack)}
   </NativeStack.Navigator>
 );
 
 const SearchScreen: React.FC = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Search" component={Search} />
-  </Stack.Navigator>
+  <NativeStack.Navigator>
+    <NativeStack.Screen
+      name="Search"
+      component={Search}
+      options={({ navigation }) => ({
+        headerLargeTitle: true,
+        ...headerCustomOptions(navigation),
+      })}
+    />
+
+    {shareRoutesBetweenTabs(NativeStack)}
+  </NativeStack.Navigator>
 );
 
 const CategoryManagerStack = ({ route }) => (
-  <Stack.Navigator>
-    <Stack.Screen
+  <NativeStack.Navigator>
+    <NativeStack.Screen
       name="CategoryManager"
       component={CategoryManager}
       initialParams={route.params}
-      options={modalOptions}
     />
-  </Stack.Navigator>
+  </NativeStack.Navigator>
 );
 
 const FinanceManagerStack = ({ route }) => (
-  <Stack.Navigator>
-    <Stack.Screen
+  <NativeStack.Navigator>
+    <NativeStack.Screen
       name="FinanceManager"
       component={FinanceManager}
       initialParams={route.params}
-      options={modalOptions}
     />
-  </Stack.Navigator>
+  </NativeStack.Navigator>
 );
 
 const MainScreen: React.FC = () => {
@@ -144,8 +164,7 @@ const MainScreen: React.FC = () => {
         },
       })}
       tabBarOptions={{
-        // showLabel: Platform.OS === 'ios',
-        keyboardHidesTabBar: true,
+        showLabel: Platform.OS === 'ios',
         activeTintColor: colors.primary,
         inactiveTintColor: 'gray',
       }}
@@ -166,9 +185,12 @@ export const LoggedIn: React.FC = () => (
       gestureEnabled: false,
     }}
   >
-    <Stack.Screen name="Main" component={MainScreen} />
-    <Stack.Screen name="CategoryManager" component={CategoryManagerStack} />
-    <Stack.Screen name="FinanceManager" component={FinanceManagerStack} />
-    <Stack.Screen name="Settings" component={Settings} />
+    <NativeStack.Screen name="Main" component={MainScreen} />
+    <NativeStack.Screen
+      name="CategoryManager"
+      component={CategoryManagerStack}
+    />
+    <NativeStack.Screen name="FinanceManager" component={FinanceManagerStack} />
+    <NativeStack.Screen name="Settings" component={Settings} />
   </NativeStack.Navigator>
 );
