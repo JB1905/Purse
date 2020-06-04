@@ -12,7 +12,6 @@ import Icon from '../../components/Icon';
 import Loader from '../../components/Loader';
 import Box from '../../components/Box';
 import ErrorMessage from '../../components/ErrorMessage';
-// import StatusBar from '../../components/StatusBar';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -60,8 +59,6 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
 
   return (
     <Container full spaces keyboard>
-      {/* <StatusBar /> */}
-
       <Box spaces={20}>
         <View
           style={{
@@ -83,12 +80,6 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
       </Box>
 
       <Box>
-        {/* <Box>
-          <Button title="Login with Facebook" onPress={facebookSignIn} />
-
-          <Button title="Login with Google" onPress={googleSignIn} />
-        </Box> */}
-
         <Input
           onChangeText={(text) => setValue('email', text)}
           defaultValue={watch().email}
