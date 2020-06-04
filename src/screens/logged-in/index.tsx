@@ -72,7 +72,7 @@ const shareRoutesBetweenTabs = (
   </>
 );
 
-const headerCustomOptions = (navigation) => ({
+const headerCustomOptions = (navigation: any) => ({
   headerLeft: () => (
     <HeaderButton
       iconName="settings"

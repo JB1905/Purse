@@ -138,10 +138,6 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
     );
   };
 
-  // const isDisabled = () => {
-  //   return Object.keys(errors).length > 0;
-  // };
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: `${id ? 'Edit' : 'Create'} Category`,
@@ -158,7 +154,6 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
           title="Save"
           iconName="save"
           onPress={handleSubmit(onSubmit)}
-          // disabled={isDisabled()}
           spaces
         />
       ),
