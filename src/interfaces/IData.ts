@@ -14,4 +14,7 @@ interface Date {
   seconds: number;
 }
 
-interface Coords {}
+interface Coords {
+  lat: number;
+  lon: number;
+}

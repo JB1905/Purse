@@ -1,16 +1,18 @@
-import React from 'react';
-import { Text, TextProps } from 'react-native-elements';
+import React, { useContext } from 'react';
+import { Text, TextProps, ThemeContext } from 'react-native-elements';
 
 interface Props extends TextProps {
-  message: string;
+  readonly message: string;
 }
 
-export const ErrorMessage: React.FC<Props> = ({ message }) => {
-  // const { colors } = useTheme();
+const ErrorMessage: React.FC<Props> = ({ message }) => {
+  const { theme } = useContext(ThemeContext);
 
   return (
     <Text
       style={{
+        paddingVertical: 6,
+        color: theme.colors.error,
         textAlign: 'center',
         fontWeight: '500',
       }}
@@ -19,3 +21,5 @@ export const ErrorMessage: React.FC<Props> = ({ message }) => {
     </Text>
   );
 };
+
+export default ErrorMessage;

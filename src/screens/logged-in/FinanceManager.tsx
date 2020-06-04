@@ -11,7 +11,7 @@ import {
   Alert,
   Picker,
   findNodeHandle,
-  Image,
+  // Image,
   Modal,
 } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -37,6 +37,7 @@ const Button = lazy(() => import('../../components/Button'));
 const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
 
 const Maps = lazy(() => import('../../containers/Map'));
+const Camera = lazy(() => import('../../containers/Camera'));
 
 type FormData = {
   type: string;
@@ -115,9 +116,9 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
         ]);
       } catch (err) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     const updateFinance = () => {
@@ -134,9 +135,9 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
         ]);
       } catch (err) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     Alert.alert(
@@ -246,11 +247,8 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
                 zoomEnabled={false}
                 scrollEnabled={false}
                 onPress={() => setOpenModal('map')}
+                style={{ width: '100%', height: 240 }}
                 cacheEnabled
-                style={{
-                  width: '100%',
-                  height: 240,
-                }}
               >
                 {/* <Marker coordinate={coords} /> */}
               </MapView>
@@ -258,8 +256,8 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
 
             <Button
               title="Add Image"
-              ref={ref}
               onPress={showImageSourcesList}
+              ref={ref}
             />
 
             {/* {getValues().images.map((image) => (
@@ -269,8 +267,12 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
               />
             ))} */}
 
-            <Modal visible={!!openModal} presentationStyle="formSheet">
+            {/* <Modal visible={!!openModal} presentationStyle="formSheet">
               <Maps />
+            </Modal> */}
+
+            <Modal visible={true} presentationStyle="formSheet">
+              <Camera />
             </Modal>
           </>
         ) : (

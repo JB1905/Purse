@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { Input as BaseInput, InputProps } from 'react-native-elements';
+import {
+  Input as BaseInput,
+  InputProps,
+  ThemeContext,
+} from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import { FieldError } from 'react-hook-form';
 
@@ -20,6 +24,8 @@ const Input: React.FC<Props> = ({
   ...props
 }) => {
   const { colors } = useTheme();
+
+  const { theme } = useContext(ThemeContext);
 
   return (
     <BaseInput
@@ -58,13 +64,13 @@ const Input: React.FC<Props> = ({
               backgroundColor: colors.card,
               borderTopColor: colors.border,
               borderBottomColor: colors.border,
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
+              borderTopWidth: StyleSheet.hairlineWidth,
+              borderBottomWidth: StyleSheet.hairlineWidth,
             }
           : {
               height: 45,
               paddingHorizontal: 10,
-              borderColor: error ? 'red' : colors.border,
+              borderColor: error ? theme.colors.error : colors.border,
               borderWidth: 2,
               borderTopWidth: 2,
               borderBottomWidth: 2,

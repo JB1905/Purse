@@ -10,8 +10,9 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Icon from '../../components/Icon';
 import Loader from '../../components/Loader';
-import { Box } from '../../components/Box';
-import { ErrorMessage } from '../../components/ErrorMessage';
+import Box from '../../components/Box';
+import ErrorMessage from '../../components/ErrorMessage';
+// import StatusBar from '../../components/StatusBar';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -52,13 +53,15 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
       await login({ email, password });
     } catch (err) {
       setError(err);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
     <Container full spaces keyboard>
+      {/* <StatusBar /> */}
+
       <Box spaces={20}>
         <View
           style={{

@@ -8,8 +8,8 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import StatusBar from '../../components/StatusBar';
-import { Box } from '../../components/Box';
-import { ErrorMessage } from '../../components/ErrorMessage';
+import Box from '../../components/Box';
+import ErrorMessage from '../../components/ErrorMessage';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -53,9 +53,9 @@ const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
       ]);
     } catch (err) {
       setError(err);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -79,13 +79,13 @@ const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
             error={errors.email}
           />
 
-          {loading && <Loader />}
-
           {error?.message && <ErrorMessage message={error.message} />}
 
           <Button title="Send Reset Message" onPress={handleSubmit(onSubmit)} />
         </Box>
       </View>
+
+      {loading && <Loader />}
     </Container>
   );
 };

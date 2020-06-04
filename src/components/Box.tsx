@@ -5,12 +5,7 @@ interface Props extends ViewProps {
   readonly spaces?: number;
 }
 
-export const Box: React.FC<Props> = ({
-  spaces = 8,
-  style,
-  children,
-  ...props
-}) => (
+const Box: React.FC<Props> = ({ spaces = 8, style, children, ...props }) => (
   <View
     {...props}
     style={StyleSheet.flatten([style, { marginVertical: spaces }])}
@@ -18,3 +13,5 @@ export const Box: React.FC<Props> = ({
     {children}
   </View>
 );
+
+export default Box;

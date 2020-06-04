@@ -1,9 +1,6 @@
 import React from 'react';
 import NativeColorPicker from 'native-color-picker';
-
-interface Props {
-  readonly colors: any;
-}
+import { Props } from 'native-color-picker/lib/interfaces/Props';
 
 const ColorPicker: React.FC<Props> = ({ ...props }) => (
   <NativeColorPicker
@@ -15,7 +12,10 @@ const ColorPicker: React.FC<Props> = ({ ...props }) => (
     markerType="border"
     markerDisplay="#fff"
     scrollEnabled={false}
-    contentContainerStyle={{ alignItems: 'center' }}
+    contentContainerStyle={{
+      alignItems: 'center',
+      paddingVertical: 12,
+    }}
   />
 );
 

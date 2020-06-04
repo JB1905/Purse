@@ -8,8 +8,8 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import StatusBar from '../../components/StatusBar';
-import { Box } from '../../components/Box';
-import { ErrorMessage } from '../../components/ErrorMessage';
+import Box from '../../components/Box';
+import ErrorMessage from '../../components/ErrorMessage';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -73,9 +73,9 @@ const SignUp: React.FC<LoggedOutProps<'SignUp'>> = ({ navigation }) => {
       ]);
     } catch (err) {
       setError(err);
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -129,13 +129,13 @@ const SignUp: React.FC<LoggedOutProps<'SignUp'>> = ({ navigation }) => {
             error={errors.confirm}
           />
 
-          {loading && <Loader />}
-
           {error?.message && <ErrorMessage message={error.message} />}
 
           <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
         </Box>
       </View>
+
+      {loading && <Loader />}
     </Container>
   );
 };

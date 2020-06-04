@@ -5,7 +5,6 @@ export const theme = {
     buttonStyle: {
       borderRadius: Platform.select({
         ios: 10,
-        // android: 0,
       }),
     },
   },

@@ -3,8 +3,12 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import { AsyncStorage } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import { RootState } from '../reducers';
+
 export const useLocalAuth = () => {
-  const localAuth = useSelector((state: any) => state.localAuth.localAuth);
+  const localAuth = useSelector(
+    (state: RootState) => state.localAuth.localAuth
+  );
 
   // useEffect(() => {
   //   const checkDeviceAuthOptions = async () => {
@@ -24,15 +28,18 @@ export const useLocalAuth = () => {
   //   checkDeviceAuthOptions();
   // }, []);
 
-  const authenticateLocally = async () => {
-    try {
-      const res = await LocalAuthentication.authenticateAsync();
+  // const authenticateLocally = async () => {
+  //   try {
+  //     const res = await LocalAuthentication.authenticateAsync();
 
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  return {
+    localAuth,
+    // authenticateLocally,
   };
-
-  return { localAuth, authenticateLocally };
 };

@@ -1,22 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useFirestoreConnect } from 'react-redux-firebase';
 import { Platform } from 'react-native';
-import gravatar from 'gravatar';
 
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import StatusBar from '../../../components/StatusBar';
-import { ItemGroup } from '../../../components/ItemGroup';
-import { ProfileCard } from '../../../components/ProfileCard';
+import ItemGroup from '../../../components/ItemGroup';
+import ProfileCard from '../../../components/ProfileCard';
 
 import { useAuth } from '../../../hooks/useAuth';
-import { useLocalAuth } from '../../../hooks/useLocalAuth';
 
-import { Collection } from '../../../enums/Collection';
+import { LoggedInProps } from '../../../types/Navigation';
 
-const Profile: React.FC<any> = ({ navigation }) => {
+const Profile: React.FC<LoggedInProps<'Profile'>> = ({ navigation }) => {
   const { logout } = useAuth();
+
+  const currentUser = useSelector((state: any) => state.firebase.profile);
 
   const accountSettings = [
     { title: 'Connected Users', screen: 'UsersConnect' },
@@ -30,11 +29,6 @@ const Profile: React.FC<any> = ({ navigation }) => {
     { title: 'Bottom Tabs', screen: 'BottomNavItems' },
   ];
 
-  useFirestoreConnect([Collection.Users]);
-
-  // TODO !!!!!!!!
-  // const data = useSelector((state: any) => state.firestore.ordered.users[0]);
-
   const onLogout = () => {
     if (Platform.OS === 'ios') {
       navigation.goBack();
@@ -47,28 +41,21 @@ const Profile: React.FC<any> = ({ navigation }) => {
     <Container scrollEnabled spaces={false}>
       <StatusBar isModal />
 
-      {/* <ProfileCard /> */}
+      {currentUser && (
+        <ProfileCard
+          data={currentUser}
+          onPress={() => navigation.navigate('User')}
+        />
+      )}
 
       <ItemGroup title="Account Settings" items={accountSettings} />
       <ItemGroup title="Local Settings" items={localSettings} />
 
-      {/* {accountSettings.map((accountSetting) => (
-        <Button
-          title={accountSetting.title}
-          onPress={() => navigation.navigate(accountSetting.screen)}
-          key={accountSetting.title}
-        />
-      ))}
-
-      {localSettings.map((localSetting) => (
-        <Button
-          title={localSetting.title}
-          onPress={() => navigation.navigate(localSetting.screen)}
-          key={localSetting.title}
-        />
-      ))} */}
-
-      <Button title="Sign Out" onPress={onLogout} />
+      <Button
+        title="Sign Out"
+        onPress={onLogout}
+        containerStyle={{ marginHorizontal: 16 }}
+      />
     </Container>
   );
 };

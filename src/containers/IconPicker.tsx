@@ -18,7 +18,10 @@ const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
       data={Object.entries(icons)}
       numColumns={5}
       keyExtractor={(item) => item}
-      // style={{ paddingHorizontal: 38 }}
+      contentContainerStyle={{
+        alignItems: 'center',
+        paddingVertical: 12,
+      }}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={{
@@ -26,7 +29,7 @@ const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
             height: 48,
             margin: 10,
             justifyContent: 'center',
-            backgroundColor: '#eee',
+            backgroundColor: colors.background, // colors.border
             borderRadius: 10,
           }}
           onPress={() => onSelect(item[0])}

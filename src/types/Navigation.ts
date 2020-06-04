@@ -24,7 +24,8 @@ export type LoggedInParamList = {
   Analytics: undefined;
 
   Search: undefined;
-} & MainParamList;
+} & MainParamList &
+  SettingsParamList;
 
 export type SettingsParamList = {
   Profile: undefined;

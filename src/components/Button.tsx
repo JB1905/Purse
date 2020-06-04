@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 
 const Button: React.FC<ButtonProps> = ({
   type = 'solid',
+  containerStyle,
   buttonStyle,
   titleStyle,
   ...props
@@ -17,6 +18,10 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       background={TouchableNativeFeedback.Ripple(colors.background)}
       useForeground={type === 'clear'}
+      containerStyle={StyleSheet.flatten([
+        containerStyle,
+        { marginVertical: type === 'clear' ? 0 : 14 },
+      ])}
       buttonStyle={StyleSheet.flatten([
         buttonStyle,
         { backgroundColor: type === 'clear' ? 'transparent' : colors.primary },

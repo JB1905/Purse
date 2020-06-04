@@ -35,7 +35,7 @@ export const SectionBox: React.FC<Props> = ({
         style={{
           overflow: 'hidden',
           backgroundColor: colors.card,
-          // height: 360,
+          height: 370,
         }}
       >
         {children}

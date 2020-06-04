@@ -25,7 +25,7 @@ import type { MainProps } from '../../types/Navigation';
 import { Collection } from '../../enums/Collection';
 
 const IconPicker = lazy(() => import('../../containers/IconPicker'));
-const ColorPicker = lazy(() => import('../../containers/ColorPicker'));
+const ColorPicker = lazy(() => import('../../components/ColorPicker'));
 
 type FormData = {
   name: string;
@@ -97,9 +97,9 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         ]);
       } catch (err) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     const updateCategory = async () => {
@@ -116,9 +116,9 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         ]);
       } catch (err) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     Alert.alert(

@@ -13,9 +13,7 @@ const Container = lazy(() => import('../../components/Container'));
 const Button = lazy(() => import('../../components/Button'));
 
 const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
-  // const currentUser = useSelector(
-  //   (state: any) => state.firebase?.profile?.auth?.uid
-  // );
+  // const currentUser = useSelector((state: any) => state.firebase.profile);
 
   // console.log(currentUser);
 

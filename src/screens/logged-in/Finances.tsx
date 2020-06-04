@@ -21,25 +21,27 @@ const Finances: React.FC<LoggedInProps<'Finances'>> = ({ navigation }) => {
     categories: state.firestore.ordered.categories,
   }));
 
-  return (
-    <Agenda
-      // items={data}
-      refreshControl={
-        <RefreshControl
-          tintColor={colors.primary}
-          refreshing={null}
-          onRefresh={null}
-        />
-      }
-      // renderEmptyDate={() => <DataList data={data} />}
-      // renderEmptyDate={() => <View />}
-      theme={{
-        calendarBackground: colors.card,
-        selectedDayBackgroundColor: colors.primary,
-        todayTextColor: colors.primary,
-      }}
-    />
-  );
+  return null;
+
+  // return (
+  //   <Agenda
+  //     // items={data}
+  //     refreshControl={
+  //       <RefreshControl
+  //         tintColor={colors.primary}
+  //         refreshing={null}
+  //         onRefresh={null}
+  //       />
+  //     }
+  //     // renderEmptyDate={() => <DataList data={data} />}
+  //     // renderEmptyDate={() => <View />}
+  //     theme={{
+  //       calendarBackground: colors.card,
+  //       selectedDayBackgroundColor: colors.primary,
+  //       todayTextColor: colors.primary,
+  //     }}
+  //   />
+  // );
 };
 
 export default Finances;

@@ -172,7 +172,7 @@ const MainScreen: React.FC = () => {
       <Tab.Screen name="Finances" component={FinancesScreen} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Categories" component={CategoriesScreen} />
-      {/* <Tab.Screen name="Search" component={SearchScreen} /> */}
+      <Tab.Screen name="Search" component={SearchScreen} />
     </Tab.Navigator>
   );
 };
