@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native-elements'
+import { Text } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { Platform } from 'react-native';
-import Constants from 'expo-constants'; 
+import Constants from 'expo-constants';
 
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
@@ -59,7 +59,10 @@ const Profile: React.FC<LoggedInProps<'Profile'>> = ({ navigation }) => {
         containerStyle={{ marginHorizontal: 16 }}
       />
 
-      <Text>{Constants.manifest.name} v{Constants.nativeAppVersion} ({Constants.nativeBuildVersion})</Text>
+      <Text style={{ textAlign: 'center' }}>
+        {Constants.manifest.slug} v{Constants.nativeAppVersion} (
+        {Constants.nativeBuildVersion})
+      </Text>
     </Container>
   );
 };
