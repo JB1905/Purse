@@ -15,11 +15,3 @@ yarn-error.log
 
 .env
 .env.local
-
-# @generated: @expo/electron-adapter@0.0.0-alpha.43
-/.expo/*
-# Expo Web
-/web-build/*
-# electron-webpack
-/dist
-# @end @expo/electron-adapter

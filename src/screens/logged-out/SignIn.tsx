@@ -79,6 +79,11 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
         <Text h3>Your personal finance assistant</Text>
       </Box>
 
+      {/* <Box>
+        <Button title="Google" onPress={googleSignIn} />
+        <Button title="Facebook" onPress={facebookSignIn} />
+      </Box> */}
+
       <Box>
         <Input
           onChangeText={(text) => setValue('email', text)}

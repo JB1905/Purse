@@ -18,7 +18,6 @@ Personal finance assistant
 - preview expenses on charts for day, month and year
 - search for expenses, incomes and categories
 - display and manage user settings
-<!-- - get statistics from bank account -->
 
 **Logged out user**
 

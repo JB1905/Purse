@@ -1,13 +1,10 @@
 import * as Google from 'expo-google-app-auth';
-import Constants from 'expo-constants';
 
 export async function signInWithGoogleAsync() {
-  const { androidClientId, iosClientId } = Constants.manifest.extra.google;
-
   try {
     const result = await Google.logInAsync({
-      androidClientId,
-      iosClientId,
+      androidClientId: process.env.GOOGLE_ANDROID_CLIENT_ID,
+      iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
       scopes: ['profile', 'email'],
     });
 

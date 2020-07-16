@@ -13,14 +13,9 @@ const Container = lazy(() => import('../../components/Container'));
 const Button = lazy(() => import('../../components/Button'));
 
 const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
-  // const currentUser = useSelector((state: any) => state.firebase.profile);
-
-  // console.log(currentUser);
-
   useFirestoreConnect([
     {
       collection: Collection.Categories,
-      // where: ['user', '==', currentUser],
       // where: ['user', '==', 'FXZfDuVLcpTg1bJs9eLppHnCNnI3'],
     },
   ]);

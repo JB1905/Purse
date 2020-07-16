@@ -9,6 +9,7 @@ import Button from '../../../components/Button';
 import StatusBar from '../../../components/StatusBar';
 import ItemGroup from '../../../components/ItemGroup';
 import ProfileCard from '../../../components/ProfileCard';
+import Box from '../../../components/Box';
 
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -19,14 +20,14 @@ const Profile: React.FC<LoggedInProps<'Profile'>> = ({ navigation }) => {
 
   const currentUser = useSelector((state: any) => state.firebase.profile);
 
-  const accountSettings = [
-    { title: 'Connected Users', screen: 'UsersConnect' },
-    { title: 'Payment Methods', screen: 'PaymentMethods' },
-    { title: 'Connect with Bank Account', screen: 'BanksConnect' },
-  ];
+  // const accountSettings = [
+  //   { title: 'Connected Users', screen: 'UsersConnect' },
+  //   { title: 'Payment Methods', screen: 'PaymentMethods' },
+  //   { title: 'Connect with Bank Account', screen: 'BanksConnect' },
+  // ];
 
   const localSettings = [
-    { title: 'App Icon', screen: 'AppIcon' },
+    // { title: 'App Icon', screen: 'AppIcon' },
     { title: 'Appearance', screen: 'Appearance' },
     { title: 'Bottom Tabs', screen: 'BottomNavItems' },
   ];
@@ -50,7 +51,7 @@ const Profile: React.FC<LoggedInProps<'Profile'>> = ({ navigation }) => {
         />
       )}
 
-      <ItemGroup title="Account Settings" items={accountSettings} />
+      {/* <ItemGroup title="Account Settings" items={accountSettings} /> */}
       <ItemGroup title="Local Settings" items={localSettings} />
 
       <Button
@@ -59,10 +60,12 @@ const Profile: React.FC<LoggedInProps<'Profile'>> = ({ navigation }) => {
         containerStyle={{ marginHorizontal: 16 }}
       />
 
-      <Text style={{ textAlign: 'center' }}>
-        {Constants.manifest.slug} v{Constants.nativeAppVersion} (
-        {Constants.nativeBuildVersion})
-      </Text>
+      <Box>
+        <Text style={{ textAlign: 'center' }}>
+          {Constants.manifest.slug} v{Constants.nativeAppVersion} (
+          {Constants.nativeBuildVersion})
+        </Text>
+      </Box>
     </Container>
   );
 };

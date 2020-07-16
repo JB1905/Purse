@@ -1,9 +1,8 @@
 import * as Facebook from 'expo-facebook';
-import Constants from 'expo-constants';
 
 export async function signInWithFacebookAsync() {
   try {
-    await Facebook.initializeAsync(Constants.manifest.extra.facebook.appId);
+    await Facebook.initializeAsync(process.env.FACEBOOK_APP_ID);
 
     const {
       type,
