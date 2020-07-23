@@ -14,9 +14,9 @@ import { otaUpdates } from './config/otaUpdates';
 
 import { theme } from './constants/theme';
 
-const Main: React.FC = () => {
-  enableScreens();
+enableScreens();
 
+const Main: React.FC = () => {
   useEffect(() => {
     if (!__DEV__) otaUpdates();
   }, []);
