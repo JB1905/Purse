@@ -15,9 +15,6 @@ export default {
       fallbackToCacheTimeout: 0,
     },
     assetBundlePatterns: ['**/*'],
-    experiments: {
-      turboModules: true,
-    },
     ios: {
       buildNumber: '1.0.0',
       userInterfaceStyle: 'automatic',
