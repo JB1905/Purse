@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements';
 import Constants from 'expo-constants';
 import { useTheme } from '@react-navigation/native';
 
-export const AppInfo = () => {
+const AppInfo = () => {
   const { colors } = useTheme();
 
   return (
@@ -21,3 +21,5 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
+export default AppInfo;

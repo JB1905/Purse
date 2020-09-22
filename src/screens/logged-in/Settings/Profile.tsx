@@ -8,7 +8,7 @@ import Button from '../../../components/Button';
 // import StatusBar from '../../../components/StatusBar';
 import ItemGroup from '../../../components/ItemGroup';
 import ProfileCard from '../../../components/ProfileCard';
-import { AppInfo } from '../../../components/AppInfo';
+import AppInfo from '../../../components/AppInfo';
 
 import { useAuth } from '../../../hooks/useAuth';
 

@@ -63,11 +63,11 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
     setLoading(true);
 
     try {
-      if (error) setError(null);
+      if (error) setError(undefined);
 
       await createAccount({ email, password, name, surname });
 
-      Alert.alert('User created succesfully', null, [
+      Alert.alert('User created succesfully', undefined, [
         {
           text: 'OK',
           onPress: navigation.goBack,
@@ -82,7 +82,7 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
 
   return (
     <Container full spaces keyboard>
-      {/* <StatusBar isModal /> */}
+      <StatusBar isModal />
 
       <Box paddingX={4}>
         <Stack space={8}>
@@ -97,14 +97,14 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
               onChangeText={(text) => setValue('name', text)}
               defaultValue={getValues().name}
               placeholder="Name"
-              error={errors.name}
+              errorMessage={errors.name}
             />
 
             <Input
               onChangeText={(text) => setValue('surname', text)}
               defaultValue={getValues().surname}
               placeholder="Surname"
-              error={errors.surname}
+              errorMessage={errors.surname}
             />
 
             <Input
@@ -113,7 +113,7 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
               placeholder="E-mail"
               autoCapitalize="none"
               keyboardType="email-address"
-              error={errors.email}
+              errorMessage={errors.email}
             />
 
             <Input
@@ -121,7 +121,7 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
               defaultValue={getValues().password}
               placeholder="Password"
               secureTextEntry
-              error={errors.password}
+              errorMessage={errors.password}
             />
 
             <Input
@@ -129,10 +129,10 @@ const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
               defaultValue={getValues().confirm}
               placeholder="Confirm Password"
               secureTextEntry
-              error={errors.confirm}
+              errorMessage={errors.confirm}
             />
 
-            {error?.message && <ErrorMessage message={error.message} />}
+            {/* {error?.message && <ErrorMessage message={error.message} />} */}
 
             <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
           </Stack>

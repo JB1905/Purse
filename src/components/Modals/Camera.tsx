@@ -19,4 +19,5 @@ const Camera = () => {
 };
 
 // const styles = StyleSheet.create({});
+
 export default Camera;

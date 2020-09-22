@@ -14,7 +14,7 @@ import { Route } from '../enums/Route';
 const NativeStack = createNativeStackNavigator<AppParamList>();
 
 const Layout: React.FC = () => {
-  const auth = useSelector((state: any) => state.firebase.auth);
+  const auth = useSelector((state) => state.firebase.auth);
 
   if (!isLoaded(auth)) {
     return <AppLoading autoHideSplash={true} />;

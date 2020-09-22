@@ -5,11 +5,16 @@ import * as Location from 'expo-location';
 
 const Maps: React.FC = () => {
   return (
-    <MapView style={{ flex: 1 }}>
+    <MapView style={StyleSheet.flatten([styles.map])}>
       {/* <Marker coordinate={coords} /> */}
     </MapView>
   );
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+});
+
 export default Maps;

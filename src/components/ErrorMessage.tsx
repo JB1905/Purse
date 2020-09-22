@@ -24,4 +24,5 @@ const ErrorMessage: React.FC<Props> = ({ message }) => {
 };
 
 // const styles = StyleSheet.create({});
+
 export default ErrorMessage;

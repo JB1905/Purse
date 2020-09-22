@@ -49,7 +49,7 @@ const SignIn: React.FC<LoggedOutProps<Route.SIGN_IN>> = ({ navigation }) => {
     setLoading(true);
 
     try {
-      if (error) setError(null);
+      if (error) setError(undefined);
 
       await login({ email, password });
     } catch (err) {
@@ -86,7 +86,7 @@ const SignIn: React.FC<LoggedOutProps<Route.SIGN_IN>> = ({ navigation }) => {
               placeholder="E-mail"
               autoCapitalize="none"
               keyboardType="email-address"
-              error={errors.email}
+              errorMessage={errors.email}
             />
 
             <Input
@@ -94,7 +94,7 @@ const SignIn: React.FC<LoggedOutProps<Route.SIGN_IN>> = ({ navigation }) => {
               defaultValue={watch().password}
               placeholder="Password"
               secureTextEntry={securePassword}
-              error={errors.password}
+              errorMessage={errors.password}
               rightIcon={
                 <TouchableOpacity
                   onPress={() => setSecurePassword(!securePassword)}

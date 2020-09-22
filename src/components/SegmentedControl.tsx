@@ -15,7 +15,6 @@ const SegmentedControl = (props: SegmentedControlProps) => (
 
 const styles = StyleSheet.create({
   control: {
-    // marginTop: 20,
     marginTop: 6,
     marginBottom: 6,
     alignSelf: 'center',

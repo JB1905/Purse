@@ -43,11 +43,11 @@ const ResetPassword: React.FC<LoggedOutProps<Route.RESET_PASSWORD>> = ({
     setLoading(true);
 
     try {
-      if (error) setError(null);
+      if (error) setError(undefined);
 
       await resetPassword(email);
 
-      Alert.alert(`Message sent to: ${email}`, null, [
+      Alert.alert(`Message sent to: ${email}`, undefined, [
         {
           text: 'OK',
           onPress: navigation.goBack,
@@ -62,7 +62,7 @@ const ResetPassword: React.FC<LoggedOutProps<Route.RESET_PASSWORD>> = ({
 
   return (
     <Container full spaces keyboard>
-      {/* <StatusBar isModal /> */}
+      <StatusBar isModal />
 
       <Box paddingX={4}>
         <Stack space={8}>
@@ -79,10 +79,10 @@ const ResetPassword: React.FC<LoggedOutProps<Route.RESET_PASSWORD>> = ({
               placeholder="Your account email"
               autoCapitalize="none"
               keyboardType="email-address"
-              error={errors.email}
+              errorMessage={errors.email}
             />
 
-            {error?.message && <ErrorMessage message={error.message} />}
+            {/* {error?.message && <ErrorMessage message={error.message} />} */}
 
             <Button
               title="Send Reset Message"

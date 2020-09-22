@@ -6,13 +6,13 @@ import {
   ThemeContext,
 } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
-import { FieldError } from 'react-hook-form';
+// import { FieldError } from 'react-hook-form';
 
 import Icon from './Icon';
 
 interface Props extends InputProps {
   readonly flat?: boolean;
-  readonly error?: FieldError; // TODO error message
+  // readonly error?: FieldError; // TODO error message
 }
 
 const Input: React.FC<Props> = ({
@@ -20,7 +20,8 @@ const Input: React.FC<Props> = ({
   inputContainerStyle,
   inputStyle,
   flat,
-  error,
+  errorMessage,
+  // error,
   // style,
   ...props
 }) => {
@@ -33,8 +34,9 @@ const Input: React.FC<Props> = ({
   return (
     <BaseInput
       {...props}
+      errorMessage={errorMessage}
       leftIcon={
-        error &&
+        errorMessage &&
         flat && (
           <Icon
             name="warning"
@@ -73,7 +75,7 @@ const Input: React.FC<Props> = ({
           : {
               height: 45,
               paddingHorizontal: 10,
-              borderColor: error ? theme.colors.error : colors.border,
+              borderColor: errorMessage ? theme.colors.error : colors.border,
               borderWidth: 2,
               borderTopWidth: 2,
               borderBottomWidth: 2,
@@ -116,4 +118,5 @@ const Input: React.FC<Props> = ({
 };
 
 // const styles = StyleSheet.create({});
+
 export default Input;
