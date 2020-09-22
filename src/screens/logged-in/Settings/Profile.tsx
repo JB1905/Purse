@@ -16,11 +16,6 @@ import { LoggedInProps } from '../../../types/Navigation';
 
 import { Route } from '../../../enums/Route';
 
-// interface Setting {
-//   title: string;
-//   screen: Route;
-// }
-
 const accountSettings = [
   { title: 'Connected Users', screen: Route.USERS_CONNECT },
   { title: 'Payment Methods', screen: Route.PAYMENT_METHODS },
