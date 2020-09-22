@@ -5,7 +5,7 @@ import { Stack, Box } from '@mobily/stacks';
 
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
-// import StatusBar from '../../../components/StatusBar';
+import StatusBar from '../../../components/StatusBar';
 import ItemGroup from '../../../components/ItemGroup';
 import ProfileCard from '../../../components/ProfileCard';
 import AppInfo from '../../../components/AppInfo';
@@ -16,19 +16,22 @@ import { LoggedInProps } from '../../../types/Navigation';
 
 import { Route } from '../../../enums/Route';
 
-// TODO add types
+// interface Setting {
+//   title: string;
+//   screen: Route;
+// }
+
 const accountSettings = [
-  { title: 'Connected Users', screen: 'UsersConnect' },
-  { title: 'Payment Methods', screen: 'PaymentMethods' },
-  { title: 'Connect with Bank Account', screen: 'BanksConnect' },
+  { title: 'Connected Users', screen: Route.USERS_CONNECT },
+  { title: 'Payment Methods', screen: Route.PAYMENT_METHODS },
+  { title: 'Connect with Bank Account', screen: Route.BANKS_CONNECT },
 ];
 
-// TODO add types
 const localSettings = [
-  { title: 'App Icon', screen: 'AppIcon' },
-  { title: 'Appearance', screen: 'Appearance' },
-  { title: 'Bottom Tabs', screen: 'BottomNavItems' },
-  { title: 'Local Authentication', screen: 'LocalAuthentication' },
+  { title: 'App Icon', screen: Route.APP_ICON },
+  { title: 'Appearance', screen: Route.APPEARANCE },
+  { title: 'Bottom Tabs', screen: Route.BOTTOM_NAV_ITEMS },
+  { title: 'Local Authentication', screen: Route.LOCAL_AUTHENTICATION },
 ];
 
 const Profile: React.FC<LoggedInProps<Route.PROFILE>> = ({ navigation }) => {
@@ -46,7 +49,7 @@ const Profile: React.FC<LoggedInProps<Route.PROFILE>> = ({ navigation }) => {
 
   return (
     <Container scrollEnabled>
-      {/* <StatusBar /> */}
+      <StatusBar isModal />
 
       <Box paddingX={4} paddingY={8}>
         <Stack space={8}>
