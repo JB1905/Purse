@@ -11,17 +11,21 @@ const Card: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
       {...props}
       containerStyle={StyleSheet.flatten([
         containerStyle,
-        {
-          backgroundColor: colors.card,
-          borderRadius: 10,
-          marginHorizontal: 20,
-          height: 200,
-        },
+        { backgroundColor: colors.card },
+        styles.card,
       ])}
     >
       {children}
     </BaseCard>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: 10,
+    marginHorizontal: 20,
+    height: 200,
+  },
+});
 
 export default Card;

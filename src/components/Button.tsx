@@ -3,35 +3,38 @@ import { StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { Button as BaseButton, ButtonProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   type = 'solid',
   containerStyle,
   buttonStyle,
   titleStyle,
   ...props
-}) => {
+}: ButtonProps) => {
   const { colors } = useTheme();
+
+  const isClear = type === 'clear';
 
   return (
     <BaseButton
       {...props}
       type={type}
       background={TouchableNativeFeedback.Ripple(colors.background)}
-      useForeground={type === 'clear'}
+      useForeground={isClear}
       containerStyle={StyleSheet.flatten([
         containerStyle,
-        { marginVertical: type === 'clear' ? 0 : 14 },
+        { marginVertical: 0 },
+        // { marginVertical: isClear ? 0 : 14 },
       ])}
       buttonStyle={StyleSheet.flatten([
         buttonStyle,
-        { backgroundColor: type === 'clear' ? 'transparent' : colors.primary },
+        { backgroundColor: isClear ? 'transparent' : colors.primary },
       ])}
       titleStyle={StyleSheet.flatten([
         titleStyle,
         {
-          color: type === 'clear' ? colors.primary : '#fff',
-          fontWeight: type === 'clear' ? '400' : '500',
-          paddingBottom: type === 'clear' ? 0 : 3,
+          color: isClear ? colors.primary : '#fff',
+          fontWeight: isClear ? '400' : '500',
+          paddingBottom: isClear ? 0 : 3,
         },
       ])}
     />

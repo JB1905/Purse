@@ -11,7 +11,11 @@ import HeaderButton from '../../components/HeaderButton';
 
 import type { LoggedOutParamList } from '../../types/Navigation';
 
+import { Route } from '../../enums/Route';
+
 const NativeStack = createNativeStackNavigator<LoggedOutParamList>();
+
+// TODO add helper isIos
 
 const CancelButton: React.FC = () => {
   const navigation = useNavigation();
@@ -24,7 +28,7 @@ const CancelButton: React.FC = () => {
 const SignUpScreen: React.FC = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
-      name="SignUp"
+      name={Route.SIGN_UP}
       component={SignUp}
       options={() => ({
         title: '',
@@ -37,7 +41,7 @@ const SignUpScreen: React.FC = () => (
 const ResetPasswordScreen: React.FC = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
-      name="ResetPassword"
+      name={Route.RESET_PASSWORD}
       component={ResetPassword}
       options={() => ({
         title: '',
@@ -49,26 +53,26 @@ const ResetPasswordScreen: React.FC = () => (
 
 export const LoggedOut: React.FC = () => (
   <NativeStack.Navigator
-    initialRouteName="SignIn"
+    initialRouteName={Route.SIGN_IN}
     screenOptions={{
       gestureEnabled: false,
       stackPresentation: Platform.OS === 'ios' ? 'formSheet' : 'push',
     }}
   >
     <NativeStack.Screen
-      name="SignIn"
+      name={Route.SIGN_IN}
       component={SignIn}
       options={{ headerShown: false }}
     />
 
     <NativeStack.Screen
-      name="SignUp"
+      name={Route.SIGN_UP}
       component={SignUpScreen}
       options={{ headerShown: Platform.OS === 'ios' }}
     />
 
     <NativeStack.Screen
-      name="ResetPassword"
+      name={Route.RESET_PASSWORD}
       component={ResetPasswordScreen}
       options={{ headerShown: Platform.OS === 'ios' }}
     />

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar as BaseStatusBar, Platform, Dimensions } from 'react-native';
+import {
+  StatusBar as BaseStatusBar,
+  Platform,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 // import { BlurView } from 'expo-blur';
 // import * as Constants from 'expo-constants';
 
@@ -33,6 +38,7 @@ const StatusBar: React.FC<Props> = ({ isModal }) => {
     <>
       <BaseStatusBar
         barStyle={invert ? 'light-content' : 'dark-content'}
+        translucent
         animated
       />
 
@@ -52,4 +58,5 @@ const StatusBar: React.FC<Props> = ({ isModal }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default StatusBar;

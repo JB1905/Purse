@@ -1,52 +1,69 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
-
-import Icon from './Icon';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 interface Props {
   readonly title: string;
   readonly items: any[];
 }
 
-const ItemGroup: React.FC<Props> = ({ title, items }) => {
+const ItemGroup: React.FC<Props> = ({ title, items, style }) => {
   const { colors } = useTheme();
 
+  const navigation = useNavigation();
+
   return (
-    <View style={{ marginVertical: 12, marginHorizontal: 16 }}>
+    <View style={style}>
       <Text
-        style={{
-          marginBottom: 8,
-          marginHorizontal: 15,
-          color: colors.text,
-          textTransform: 'uppercase',
-          fontWeight: '500',
-          fontSize: 12,
-          opacity: 0.5,
-        }}
+        style={StyleSheet.flatten([
+          { color: colors.text },
+          styles.groupTitleStyle,
+        ])}
       >
         {title}
       </Text>
 
-      <View style={{ borderRadius: 12, overflow: 'hidden' }}>
-        {items.map(({ title }, index) => (
+      <View style={styles.groupContainerStyle}>
+        {items.map(({ title, screen }, index) => (
           <ListItem
-            title={title}
-            titleStyle={{ color: colors.text }}
+            key={title}
             bottomDivider={index !== items.length - 1}
+            onPress={() => navigation.navigate(screen)}
             containerStyle={{
               backgroundColor: colors.card,
               borderColor: colors.border,
             }}
-            rightIcon={
-              <Icon name="arrow-forward" color={colors.border} size={18} />
-            }
-          />
+          >
+            <ListItem.Content>
+              <ListItem.Title style={{ color: colors.text }}>
+                {title}
+              </ListItem.Title>
+            </ListItem.Content>
+
+            <ListItem.Chevron />
+          </ListItem>
         ))}
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  // TODO rename
+  groupTitleStyle: {
+    marginBottom: 8,
+    marginHorizontal: 15,
+    textTransform: 'uppercase',
+    fontWeight: '500',
+    fontSize: 13,
+    opacity: 0.5,
+  },
+  // TODO rename
+  groupContainerStyle: {
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+});
 
 export default ItemGroup;

@@ -12,7 +12,7 @@ import Icon from './Icon';
 
 interface Props extends InputProps {
   readonly flat?: boolean;
-  readonly error?: FieldError;
+  readonly error?: FieldError; // TODO error message
 }
 
 const Input: React.FC<Props> = ({
@@ -21,11 +21,14 @@ const Input: React.FC<Props> = ({
   inputStyle,
   flat,
   error,
+  // style,
   ...props
 }) => {
   const { colors } = useTheme();
 
   const { theme } = useContext(ThemeContext);
+
+  // console.log(props);
 
   return (
     <BaseInput
@@ -85,7 +88,7 @@ const Input: React.FC<Props> = ({
               fontSize: 14,
               color: colors.text,
               opacity: 0.5,
-              marginVertical: 6,
+              // marginVertical: 6,
               marginHorizontal: 20,
             }
           : {
@@ -100,7 +103,8 @@ const Input: React.FC<Props> = ({
         },
         flat
           ? {
-              paddingVertical: 12,
+              // paddingVertical: 12,
+              paddingVertical: 0,
               fontSize: 18,
             }
           : {
@@ -111,4 +115,5 @@ const Input: React.FC<Props> = ({
   );
 };
 
+// const styles = StyleSheet.create({});
 export default Input;

@@ -8,6 +8,7 @@ import React, {
 import { Alert } from 'react-native';
 import { useFirestore } from 'react-redux-firebase';
 import { useForm } from 'react-hook-form';
+import { Stack, Box } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import HeaderButton from '../../components/HeaderButton';
@@ -15,7 +16,7 @@ import SegmentedControl from '../../components/SegmentedControl';
 import StatusBar from '../../components/StatusBar';
 import Input from '../../components/Input';
 import Loader from '../../components/Loader';
-import { SectionBox } from '../../components/SectionBox';
+import SectionBox from '../../components/SectionBox';
 
 import { colors as categoryColors } from '../../constants/colors';
 import { categoryIcons } from '../../constants/icons';
@@ -23,8 +24,9 @@ import { categoryIcons } from '../../constants/icons';
 import type { MainProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
-const IconPicker = lazy(() => import('../../containers/IconPicker'));
+const IconPicker = lazy(() => import('../../components/IconPicker'));
 const ColorPicker = lazy(() => import('../../components/ColorPicker'));
 
 type FormData = {
@@ -38,7 +40,7 @@ enum Tabs {
   Glyph,
 }
 
-const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
+const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
   route,
   navigation,
 }) => {
@@ -162,41 +164,45 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
 
   return (
     <Container keyboard scrollEnabled>
-      <StatusBar isModal />
+      {/* <StatusBar isModal /> */}
 
-      <Input
-        onChangeText={(text) => setValue('name', text)}
-        defaultValue={getValues().name}
-        label="Category name"
-        placeholder="Category name e.g: Food"
-        error={errors.name}
-        flat
-      />
+      <Box paddingY={8}>
+        {/* <Stack space={8}> */}
+        <Input
+          onChangeText={(text) => setValue('name', text)}
+          defaultValue={getValues().name}
+          label="Category name"
+          placeholder="Category name e.g: Food"
+          error={errors.name}
+          flat
+        />
 
-      <SegmentedControl
-        values={['Colour', 'Glyph']}
-        // values={Object.keys(Tabs)}
-        selectedIndex={tab}
-        onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-      />
+        <SegmentedControl
+          values={['Colour', 'Glyph']}
+          // values={Object.keys(Tabs)}
+          selectedIndex={tab}
+          onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
+        />
 
-      <SectionBox>
-        <Suspense fallback={<Loader />}>
-          {tab === Tabs.Colour ? (
-            <ColorPicker
-              onSelect={(color) => setValue('color', color)}
-              selectedColor={watch().color}
-              colors={categoryColors}
-            />
-          ) : (
-            <IconPicker
-              onSelect={(icon) => setValue('icon', icon)}
-              selectedIcon={watch().icon}
-              icons={categoryIcons}
-            />
-          )}
-        </Suspense>
-      </SectionBox>
+        <SectionBox>
+          <Suspense fallback={<Loader />}>
+            {tab === Tabs.Colour ? (
+              <ColorPicker
+                onSelect={(color) => setValue('color', color)}
+                selectedColor={watch().color}
+                colors={categoryColors}
+              />
+            ) : (
+              <IconPicker
+                onSelect={(icon) => setValue('icon', icon)}
+                selectedIcon={watch().icon}
+                icons={categoryIcons}
+              />
+            )}
+          </Suspense>
+        </SectionBox>
+        {/* </Stack> */}
+      </Box>
 
       {loading && <Loader />}
     </Container>

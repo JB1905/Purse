@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
+import { Box, Stack } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import Text from '../../components/Text';
@@ -8,12 +9,13 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import StatusBar from '../../components/StatusBar';
-import Box from '../../components/Box';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage'; // lazy?
 
 import { useAuth } from '../../hooks/useAuth';
 
 import type { LoggedOutProps } from '../../types/Navigation';
+
+import { Route } from '../../enums/Route';
 
 type FormData = {
   name: string;
@@ -23,7 +25,7 @@ type FormData = {
   confirm: string;
 };
 
-const SignUp: React.FC<LoggedOutProps<'SignUp'>> = ({ navigation }) => {
+const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
   const { createAccount } = useAuth();
 
   const [error, setError] = useState<Error>();
@@ -80,60 +82,62 @@ const SignUp: React.FC<LoggedOutProps<'SignUp'>> = ({ navigation }) => {
 
   return (
     <Container full spaces keyboard>
-      <StatusBar isModal />
+      {/* <StatusBar isModal /> */}
 
-      <View>
-        <Box>
-          <Text h2>Sign Up</Text>
+      <Box paddingX={4}>
+        <Stack space={8}>
+          <Stack space={2}>
+            <Text h2>Sign Up</Text>
 
-          <Text h3>Save your money. Start today!</Text>
-        </Box>
+            <Text h3>Save your money. Start today!</Text>
+          </Stack>
 
-        <Box>
-          <Input
-            onChangeText={(text) => setValue('name', text)}
-            defaultValue={getValues().name}
-            placeholder="Name"
-            error={errors.name}
-          />
+          <Stack>
+            <Input
+              onChangeText={(text) => setValue('name', text)}
+              defaultValue={getValues().name}
+              placeholder="Name"
+              error={errors.name}
+            />
 
-          <Input
-            onChangeText={(text) => setValue('surname', text)}
-            defaultValue={getValues().surname}
-            placeholder="Surname"
-            error={errors.surname}
-          />
+            <Input
+              onChangeText={(text) => setValue('surname', text)}
+              defaultValue={getValues().surname}
+              placeholder="Surname"
+              error={errors.surname}
+            />
 
-          <Input
-            onChangeText={(text) => setValue('email', text)}
-            defaultValue={getValues().email}
-            placeholder="E-mail"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            error={errors.email}
-          />
+            <Input
+              onChangeText={(text) => setValue('email', text)}
+              defaultValue={getValues().email}
+              placeholder="E-mail"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              error={errors.email}
+            />
 
-          <Input
-            onChangeText={(text) => setValue('password', text)}
-            defaultValue={getValues().password}
-            placeholder="Password"
-            secureTextEntry
-            error={errors.password}
-          />
+            <Input
+              onChangeText={(text) => setValue('password', text)}
+              defaultValue={getValues().password}
+              placeholder="Password"
+              secureTextEntry
+              error={errors.password}
+            />
 
-          <Input
-            onChangeText={(text) => setValue('confirm', text)}
-            defaultValue={getValues().confirm}
-            placeholder="Confirm Password"
-            secureTextEntry
-            error={errors.confirm}
-          />
+            <Input
+              onChangeText={(text) => setValue('confirm', text)}
+              defaultValue={getValues().confirm}
+              placeholder="Confirm Password"
+              secureTextEntry
+              error={errors.confirm}
+            />
 
-          {error?.message && <ErrorMessage message={error.message} />}
+            {error?.message && <ErrorMessage message={error.message} />}
 
-          <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
-        </Box>
-      </View>
+            <Button title="Sign Up" onPress={handleSubmit(onSubmit)} />
+          </Stack>
+        </Stack>
+      </Box>
 
       {loading && <Loader />}
     </Container>

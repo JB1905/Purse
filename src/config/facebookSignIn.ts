@@ -1,13 +1,13 @@
 import * as Facebook from 'expo-facebook';
 
-export async function signInWithFacebookAsync() {
+export const signInWithFacebookAsync = async () => {
   try {
     await Facebook.initializeAsync(process.env.FACEBOOK_APP_ID);
 
     const {
       type,
       token,
-      expires,
+      expirationDate,
       permissions,
       declinedPermissions,
     } = await Facebook.logInWithReadPermissionsAsync({
@@ -25,4 +25,4 @@ export async function signInWithFacebookAsync() {
   } catch ({ message }) {
     alert(`Facebook Login Error: ${message}`);
   }
-}
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon as BaseIcon, IconProps } from 'react-native-elements';
+import { Icon as BaseIcon, IconProps, StyleSheet } from 'react-native-elements';
 import { Platform } from 'react-native';
 
 import { icons, categoryIcons } from '../constants/icons';
@@ -16,4 +16,5 @@ const Icon: React.FC<IconProps> = ({ type, name, ...props }) => (
   />
 );
 
+// const styles = StyleSheet.create({});
 export default Icon;

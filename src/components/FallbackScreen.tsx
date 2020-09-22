@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
@@ -55,4 +55,5 @@ const FallbackScreen: React.FC<Props> = ({ title, message, children }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default FallbackScreen;

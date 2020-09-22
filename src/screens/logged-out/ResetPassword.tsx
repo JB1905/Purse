@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
+import { Box, Stack } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import Text from '../../components/Text';
@@ -8,18 +9,19 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import StatusBar from '../../components/StatusBar';
-import Box from '../../components/Box';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage'; // lazy?
 
 import { useAuth } from '../../hooks/useAuth';
 
 import type { LoggedOutProps } from '../../types/Navigation';
 
+import { Route } from '../../enums/Route';
+
 type FormData = {
   email: string;
 };
 
-const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
+const ResetPassword: React.FC<LoggedOutProps<Route.RESET_PASSWORD>> = ({
   navigation,
 }) => {
   const { resetPassword } = useAuth();
@@ -60,30 +62,35 @@ const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
 
   return (
     <Container full spaces keyboard>
-      <StatusBar isModal />
+      {/* <StatusBar isModal /> */}
 
-      <View>
-        <Box>
-          <Text h2>Reset Password</Text>
+      <Box paddingX={4}>
+        <Stack space={8}>
+          <Stack space={2}>
+            <Text h2>Reset Password</Text>
 
-          <Text h3>Have you forgotten your password?</Text>
-        </Box>
+            <Text h3>Have you forgotten your password?</Text>
+          </Stack>
 
-        <Box>
-          <Input
-            onChangeText={(text) => setValue('email', text)}
-            defaultValue={getValues().email}
-            placeholder="Your account email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            error={errors.email}
-          />
+          <Stack>
+            <Input
+              onChangeText={(text) => setValue('email', text)}
+              defaultValue={getValues().email}
+              placeholder="Your account email"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              error={errors.email}
+            />
 
-          {error?.message && <ErrorMessage message={error.message} />}
+            {error?.message && <ErrorMessage message={error.message} />}
 
-          <Button title="Send Reset Message" onPress={handleSubmit(onSubmit)} />
-        </Box>
-      </View>
+            <Button
+              title="Send Reset Message"
+              onPress={handleSubmit(onSubmit)}
+            />
+          </Stack>
+        </Stack>
+      </Box>
 
       {loading && <Loader />}
     </Container>

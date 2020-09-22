@@ -3,23 +3,23 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
 export const usePhotos = () => {
-  // const [cameraRollPermission, setCameraRollPermission] = useState<
-  //   Permissions.PermissionStatus
-  // >(undefined);
+  const [cameraRollPermission, setCameraRollPermission] = useState<
+    Permissions.PermissionStatus
+  >(undefined);
 
-  // const [cameraRollPermissionError, setCameraRollPermissionError] = useState<
-  //   string
-  // >(undefined);
+  const [cameraRollPermissionError, setCameraRollPermissionError] = useState<
+    string
+  >(undefined);
 
-  // const requestRollCameraPermission = async () => {
-  //   const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  const requestRollCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-  //   if (status !== 'granted') {
-  //     setCameraRollPermissionError('Wymagane pozwolenie na dostęp do aparatu');
-  //   }
+    if (status !== 'granted') {
+      setCameraRollPermissionError('Wymagane pozwolenie na dostęp do aparatu');
+    }
 
-  //   setCameraRollPermission(status);
-  // };
+    setCameraRollPermission(status);
+  };
 
   const getImageFromCameraRoll = async () => {
     const options: ImagePicker.ImagePickerOptions = {
@@ -35,13 +35,13 @@ export const usePhotos = () => {
     }
   };
 
-  // useEffect(() => {
-  //   requestRollCameraPermission();
-  // }, []);
+  useEffect(() => {
+    requestRollCameraPermission();
+  }, []);
 
   return {
-    // cameraRollPermission,
-    // cameraRollPermissionError,
+    cameraRollPermission,
+    cameraRollPermissionError,
     getImageFromCameraRoll,
   };
 };

@@ -6,7 +6,9 @@ import FallbackScreen from '../../components/FallbackScreen';
 
 import type { LoggedInProps } from '../../types/Navigation';
 
-const Search: React.FC<LoggedInProps<'Search'>> = () => {
+import { Route } from '../../enums/Route';
+
+const Search: React.FC<LoggedInProps<Route.SEARCH>> = () => {
   const [query, setQuery] = useState('');
 
   return (

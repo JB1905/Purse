@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Box, Stack } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import Text from '../../components/Text';
@@ -10,19 +11,20 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Icon from '../../components/Icon';
 import Loader from '../../components/Loader';
-import Box from '../../components/Box';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/ErrorMessage'; // lazy?
 
 import { useAuth } from '../../hooks/useAuth';
 
 import type { LoggedOutProps } from '../../types/Navigation';
+
+import { Route } from '../../enums/Route';
 
 type FormData = {
   email: string;
   password: string;
 };
 
-const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
+const SignIn: React.FC<LoggedOutProps<Route.SIGN_IN>> = ({ navigation }) => {
   const { colors } = useTheme();
 
   const { login, facebookSignIn, googleSignIn } = useAuth();
@@ -59,83 +61,91 @@ const SignIn: React.FC<LoggedOutProps<'SignIn'>> = ({ navigation }) => {
 
   return (
     <Container full spaces keyboard>
-      <Box spaces={20}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <Image
-            source={require('../../../assets/icon.png')}
-            containerStyle={{ width: 80, height: 80, marginRight: 5 }}
-          />
-
-          <Text h1>Purse</Text>
-        </View>
-
-        <Text h3>Your personal finance assistant</Text>
-      </Box>
-
-      {/* <Box>
-        <Button title="Google" onPress={googleSignIn} />
-        <Button title="Facebook" onPress={facebookSignIn} />
-      </Box> */}
-
-      <Box>
-        <Input
-          onChangeText={(text) => setValue('email', text)}
-          defaultValue={watch().email}
-          placeholder="E-mail"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          error={errors.email}
-        />
-
-        <Input
-          onChangeText={(text) => setValue('password', text)}
-          defaultValue={watch().password}
-          placeholder="Password"
-          secureTextEntry={securePassword}
-          error={errors.password}
-          rightIcon={
-            <TouchableOpacity
-              onPress={() => setSecurePassword(!securePassword)}
-            >
-              <Icon
-                name={securePassword ? 'visibility' : 'visibility-off'}
-                containerStyle={{ opacity: 0.75 }}
-                color={colors.text}
-                size={26}
+      <Box paddingX={4}>
+        <Stack space={8}>
+          <Stack space={2}>
+            <View style={styles.brand}>
+              <Image
+                source={require('../../../assets/icon.png')}
+                containerStyle={styles.logo}
               />
-            </TouchableOpacity>
-          }
-        />
 
-        {error?.message && <ErrorMessage message={error.message} />}
+              <Text h1>Purse</Text>
+            </View>
 
-        <Button title="Sign In" onPress={handleSubmit(onSubmit)} />
-      </Box>
+            <Text h3>Your personal finance assistant</Text>
+          </Stack>
 
-      <Box>
-        <Button
-          title="Forgot Password?"
-          onPress={() => navigation.navigate('ResetPassword')}
-          type="clear"
-        />
+          {/* <Button title="Google" onPress={googleSignIn} />
+        <Button title="Facebook" onPress={facebookSignIn} /> */}
 
-        <Button
-          title="Sign Up"
-          onPress={() => navigation.navigate('SignUp')}
-          type="clear"
-        />
+          <Stack>
+            <Input
+              onChangeText={(text) => setValue('email', text)}
+              defaultValue={watch().email}
+              placeholder="E-mail"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              error={errors.email}
+            />
+
+            <Input
+              onChangeText={(text) => setValue('password', text)}
+              defaultValue={watch().password}
+              placeholder="Password"
+              secureTextEntry={securePassword}
+              error={errors.password}
+              rightIcon={
+                <TouchableOpacity
+                  onPress={() => setSecurePassword(!securePassword)}
+                >
+                  <Icon
+                    name={securePassword ? 'visibility' : 'visibility-off'}
+                    containerStyle={{ opacity: 0.75 }}
+                    color={colors.text}
+                    size={26}
+                  />
+                </TouchableOpacity>
+              }
+            />
+
+            {/* {error?.message && <ErrorMessage message={error.message} />} */}
+
+            <Button title="Sign In" onPress={handleSubmit(onSubmit)} />
+          </Stack>
+
+          <Stack>
+            <Button
+              title="Forgot Password?"
+              onPress={() => navigation.navigate(Route.RESET_PASSWORD)}
+              type="clear"
+            />
+
+            <Button
+              title="Sign Up"
+              onPress={() => navigation.navigate(Route.SIGN_UP)}
+              type="clear"
+            />
+          </Stack>
+        </Stack>
       </Box>
 
       {loading && <Loader />}
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  brand: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    marginRight: 5,
+  },
+});
 
 export default SignIn;

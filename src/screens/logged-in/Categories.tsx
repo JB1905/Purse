@@ -8,11 +8,14 @@ import Loader from '../../components/Loader';
 import type { LoggedInProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
 const Container = lazy(() => import('../../components/Container'));
 const Button = lazy(() => import('../../components/Button'));
 
-const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
+const Categories: React.FC<LoggedInProps<Route.CATEGORIES>> = ({
+  navigation,
+}) => {
   useFirestoreConnect([
     {
       collection: Collection.Categories,
@@ -34,7 +37,7 @@ const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
           <Button
             title={name}
             onPress={() =>
-              navigation.navigate('Category', { id, name, ...data })
+              navigation.navigate(Route.CATEGORY, { id, name, ...data })
             }
             key={id}
           />

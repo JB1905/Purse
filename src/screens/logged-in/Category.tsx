@@ -25,16 +25,17 @@ import Loader from '../../components/Loader';
 import type { LoggedInProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
 const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
 const Button = lazy(() => import('../../components/Button'));
-const SegmentedControl = lazy(() =>
-  import('../../components/SegmentedControl')
+const SegmentedControl = lazy(
+  () => import('../../components/SegmentedControl')
 );
 
-const DataList = lazy(() => import('../../containers/DataList'));
+const DataList = lazy(() => import('../../components/DataList'));
 
-const Category: React.FC<LoggedInProps<'Category'>> = ({
+const Category: React.FC<LoggedInProps<Route.CATEGORY>> = ({
   route,
   navigation,
 }) => {
@@ -60,9 +61,9 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-          navigation.navigate('CategoryManager', { id, name });
+          navigation.navigate(Route.CATEGORY_MANAGER, { id, name });
         } else if (buttonIndex === 1) {
-          navigation.navigate('FinanceManager', {
+          navigation.navigate(Route.FINANCE_MANAGER, {
             category: id,
           });
         } else if (buttonIndex === 2) {
@@ -91,7 +92,7 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
       headerTitle: name,
       headerRight: () => (
         <TouchableOpacity ref={ref} onPress={showActionSheet}>
-          <Text>aaa</Text>
+          {/* <Text>aaa</Text> */}
         </TouchableOpacity>
         // <HeaderButton iconName="more" ref={ref} onPress={showActionSheet} />
       ),
@@ -131,7 +132,7 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
           <Button
             title="Add it here"
             onPress={() => {
-              navigation.navigate('FinanceManager', {
+              navigation.navigate(Route.FINANCE_MANAGER, {
                 category: route?.params?.id,
               });
             }}

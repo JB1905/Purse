@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
 import Icon from '../components/Icon';
@@ -41,4 +41,5 @@ const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default IconPicker;

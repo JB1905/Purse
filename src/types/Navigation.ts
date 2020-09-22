@@ -1,55 +1,56 @@
 import { NativeStackNavigationProp } from 'react-native-screens/native-stack';
 import { RouteProp } from '@react-navigation/native';
+import { Route } from '../enums/Route';
 
 export type LoggedOutParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-  ResetPassword: undefined;
+  [Route.SIGN_IN]: undefined;
+  [Route.SIGN_UP]: undefined;
+  [Route.RESET_PASSWORD]: undefined;
 };
 
 export type LoggedInParamList = {
-  Finances: {
+  [Route.FINANCES]: {
     query: string;
   };
 
-  Categories: {
+  [Route.CATEGORIES]: {
     query: string;
   };
 
-  Category: {
+  [Route.CATEGORY]: {
     id: string;
     name: string;
   };
 
-  Analytics: undefined;
+  [Route.ANALYTICS]: undefined;
 
-  Search: undefined;
+  [Route.SEARCH]: undefined;
 } & MainParamList &
   SettingsParamList;
 
 export type SettingsParamList = {
-  Profile: undefined;
-  User: undefined;
-  UsersConnect: undefined;
-  BanksConnect: undefined;
-  PaymentMethods: undefined;
-  LocalAuthentication: undefined;
-  AppIcon: undefined;
-  Appearance: undefined;
-  BottomNavItems: undefined;
+  [Route.PROFILE]: undefined;
+  [Route.USER]: undefined;
+  [Route.USERS_CONNECT]: undefined;
+  [Route.BANKS_CONNECT]: undefined;
+  [Route.PAYMENT_METHODS]: undefined;
+  [Route.LOCAL_AUTHENTICATION]: undefined;
+  [Route.APP_ICON]: undefined;
+  [Route.APPEARANCE]: undefined;
+  [Route.BOTTOM_NAV_ITEMS]: undefined;
 };
 
 export type MainParamList = {
-  Main: undefined;
+  [Route.MAIN]: undefined;
 
-  CategoryManager: {
+  [Route.CATEGORY_MANAGER]: {
     id?: string;
     name?: string;
     color?: string;
     icon?: string;
   };
 
-  FinanceManager: {
+  [Route.FINANCE_MANAGER]: {
     id?: string;
     type?: string;
     value?: string;
@@ -59,20 +60,19 @@ export type MainParamList = {
     coords?: object;
   };
 
-  Settings: undefined;
+  [Route.SETTINGS]: undefined;
 };
 
 export type AppParamList = {
-  Loading: undefined;
-  LoggedOut: LoggedOutParamList;
-  LoggedIn: LoggedInParamList;
+  [Route.LOGGED_OUT]: LoggedOutParamList;
+  [Route.LOGGED_IN]: LoggedInParamList;
 };
 
 export type TabsParamList = {
-  Finances: undefined;
-  Analytics: undefined;
-  Categories: undefined;
-  Search: undefined;
+  [Route.FINANCES]: undefined;
+  [Route.ANALYTICS]: undefined;
+  [Route.CATEGORIES]: undefined;
+  [Route.SEARCH]: undefined;
 };
 
 export type MainProps<T extends keyof MainParamList> = {

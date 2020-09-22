@@ -15,9 +15,9 @@ export default {
       fallbackToCacheTimeout: 0,
     },
     assetBundlePatterns: ['**/*'],
-    experiments: {
-      redesignedLogBox: true,
-    },
+    // experiments: {
+    //   redesignedLogBox: true,
+    // },
     ios: {
       buildNumber: '1.0.0',
       userInterfaceStyle: 'automatic',

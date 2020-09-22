@@ -52,4 +52,5 @@ const HeaderButton: React.FC<Props> = ({
   );
 };
 
+// const styles = StyleSheet.create({});
 export default HeaderButton;

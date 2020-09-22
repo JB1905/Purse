@@ -1,6 +1,6 @@
 import * as Google from 'expo-google-app-auth';
 
-export async function signInWithGoogleAsync() {
+export const signInWithGoogleAsync = async () => {
   try {
     const result = await Google.logInAsync({
       androidClientId: process.env.GOOGLE_ANDROID_CLIENT_ID,
@@ -16,4 +16,4 @@ export async function signInWithGoogleAsync() {
   } catch (e) {
     return { error: true };
   }
-}
+};

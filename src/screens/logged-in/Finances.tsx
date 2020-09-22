@@ -5,13 +5,14 @@ import { Agenda } from 'react-native-calendars';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 
-// import { DataList } from '../../containers/DataList';
+// import { DataList } from '../../components/DataList';
 
 import type { LoggedInProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
-const Finances: React.FC<LoggedInProps<'Finances'>> = ({ navigation }) => {
+const Finances: React.FC<LoggedInProps<Route.FINANCES>> = ({ navigation }) => {
   const { colors } = useTheme();
 
   useFirestoreConnect([Collection.Data, Collection.Categories]);

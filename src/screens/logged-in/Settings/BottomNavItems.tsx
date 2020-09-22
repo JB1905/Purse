@@ -4,8 +4,6 @@ import Container from '../../../components/Container';
 import FallbackScreen from '../../../components/FallbackScreen';
 
 const BottomNavItems: React.FC = () => {
-  // const items = [{ name: 'Search', icon: 'search' }];
-
   return (
     <Container>
       <FallbackScreen

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { StyleSheet } from 'react-native';
 import { Text, TextProps, ThemeContext } from 'react-native-elements';
 
 interface Props extends TextProps {
@@ -22,4 +23,5 @@ const ErrorMessage: React.FC<Props> = ({ message }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default ErrorMessage;

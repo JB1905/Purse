@@ -12,18 +12,18 @@ export const theme = {
     h1Style: {
       fontWeight: '700',
       textAlign: 'center',
-      marginVertical: 4,
+      // marginVertical: 4,
     },
     h2Style: {
       fontSize: 30,
       fontWeight: '700',
       textAlign: 'center',
-      marginVertical: 4,
+      // marginVertical: 4,
     },
     h3Style: {
       fontSize: 18,
       textAlign: 'center',
-      marginVertical: 2,
+      // marginVertical: 2,
     },
   },
 };

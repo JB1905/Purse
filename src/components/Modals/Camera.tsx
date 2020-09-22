@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Camera as BaseCamera } from 'expo-camera';
 
-const Camera: React.FC = () => {
+const Camera = () => {
   return (
     <View style={{ flex: 1 }}>
       <BaseCamera style={{ flex: 1 }}>
@@ -18,4 +18,5 @@ const Camera: React.FC = () => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default Camera;

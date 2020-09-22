@@ -5,6 +5,24 @@ import { useColorScheme } from 'react-native-appearance';
 
 // import { Theme } from '../enums/Theme';
 
+const primary = '#24b467';
+
+const lightTheme = {
+  dark: false,
+  colors: {
+    ...DefaultTheme.colors,
+    primary,
+  },
+};
+
+const darkTheme = {
+  dark: true,
+  colors: {
+    ...DarkTheme.colors,
+    primary,
+  },
+};
+
 export const useAppearance = () => {
   const scheme = useColorScheme();
 
@@ -15,24 +33,6 @@ export const useAppearance = () => {
   // const mode = useSelector((state: any) => state.theme.theme);
 
   // #5ac59a
-
-  const primary = '#24b467';
-
-  const lightTheme = {
-    dark: false,
-    colors: {
-      ...DefaultTheme.colors,
-      primary,
-    },
-  };
-
-  const darkTheme = {
-    dark: true,
-    colors: {
-      ...DarkTheme.colors,
-      primary,
-    },
-  };
 
   // const getActiveTheme = async () => {
   //   let theme = lightTheme;

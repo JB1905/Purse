@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import { Updates } from 'expo';
+import * as Updates from 'expo-updates';
 
 export const otaUpdates = async () => {
   try {
@@ -16,7 +16,7 @@ export const otaUpdates = async () => {
         {
           text: 'Install',
           style: 'destructive',
-          onPress: Updates.reloadFromCache,
+          onPress: Updates.reloadAsync,
         },
       ]);
     }

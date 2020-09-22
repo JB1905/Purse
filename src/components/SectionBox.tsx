@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
 interface Props {
   readonly title?: string;
 }
 
-export const SectionBox: React.FC<Props> = ({
+const SectionBox: React.FC<Props> = ({
   title,
   // headerActions,
   children,
@@ -14,7 +14,13 @@ export const SectionBox: React.FC<Props> = ({
   const { colors } = useTheme();
 
   return (
-    <View style={{ marginVertical: 6 }}>
+    <View
+      style={
+        {
+          // marginVertical: 6
+        }
+      }
+    >
       {title && (
         <Text
           style={{
@@ -23,7 +29,7 @@ export const SectionBox: React.FC<Props> = ({
             fontSize: 14,
             color: colors.text,
             opacity: 0.5,
-            marginVertical: 6,
+            // marginVertical: 6,
             marginHorizontal: 20,
           }}
         >
@@ -43,3 +49,7 @@ export const SectionBox: React.FC<Props> = ({
     </View>
   );
 };
+
+// TODO StyleSheet
+// const styles = StyleSheet.create({});
+export default SectionBox;

@@ -11,18 +11,22 @@ import { useTheme } from '@react-navigation/native';
 interface Props extends ScrollViewProps {
   readonly spaces?: boolean;
   readonly full?: boolean;
+  readonly keyboard?: boolean;
 }
 
-const ContainerScreen = ({
+const Container: React.FC<Props> = ({
   contentContainerStyle,
+  keyboard = false,
   scrollEnabled = false,
   spaces = false,
   full = false,
   ...props
-}: Props) => {
-  // const { colors } = useTheme();
-
-  return (
+}) => (
+  <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior="padding"
+    enabled={keyboard}
+  >
     <ScrollView
       {...props}
       scrollEnabled={scrollEnabled}
@@ -30,8 +34,8 @@ const ContainerScreen = ({
         contentContainerStyle,
         {
           flexGrow: 1,
-          paddingHorizontal: spaces ? 30 : 0,
-          paddingVertical: 20,
+          // paddingHorizontal: spaces ? 30 : 0,
+          // paddingVertical: 20,
           justifyContent: full ? 'center' : 'flex-start',
           flex: full ? 1 : 0,
           // backgroundColor: colors.card,
@@ -41,20 +45,8 @@ const ContainerScreen = ({
         },
       ])}
     />
-  );
-};
+  </KeyboardAvoidingView>
+);
 
-const Container: React.FC<Props & { keyboard?: boolean }> = ({
-  keyboard = false,
-  ...props
-}) => {
-  return keyboard && Platform.OS === 'ios' ? (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
-      <ContainerScreen {...props} />
-    </KeyboardAvoidingView>
-  ) : (
-    <ContainerScreen {...props} />
-  );
-};
-
+// const styles = StyleSheet.create({});
 export default Container;

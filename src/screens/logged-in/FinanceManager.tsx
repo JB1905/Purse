@@ -12,18 +12,19 @@ import {
   Picker,
   findNodeHandle,
   // Image,
-  Modal,
+  // Modal,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@react-navigation/native';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
 import MapView, { Marker } from 'react-native-maps';
+import { Stack, Box } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import HeaderButton from '../../components/HeaderButton';
 import StatusBar from '../../components/StatusBar';
-import { SectionBox } from '../../components/SectionBox';
+import SectionBox from '../../components/SectionBox';
 import Loader from '../../components/Loader';
 
 import { usePhotos } from '../../hooks/usePhotos';
@@ -31,13 +32,14 @@ import { usePhotos } from '../../hooks/usePhotos';
 import type { MainProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
 const Input = lazy(() => import('../../components/Input'));
 const Button = lazy(() => import('../../components/Button'));
 const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
 
-const Maps = lazy(() => import('../../containers/Map'));
-const Camera = lazy(() => import('../../containers/Camera'));
+// const Maps = lazy(() => import('../../components/Modals/Maps'));
+// const Camera = lazy(() => import('../../components/Modals/Camera'));
 
 type FormData = {
   type: string;
@@ -49,7 +51,7 @@ type FormData = {
   images: any[];
 };
 
-const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
+const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
   route,
   navigation,
 }) => {
@@ -192,7 +194,7 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
         if (buttonIndex === 0) {
           getImageFromCameraRoll();
         } else if (buttonIndex === 1) {
-          setOpenModal('camera');
+          // setOpenModal('camera');
         }
       }
     );
@@ -202,92 +204,100 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
     <Container keyboard scrollEnabled>
       <StatusBar isModal />
 
-      <Suspense fallback={<Loader />}>
-        {categories.length > 0 ? (
-          <>
-            <Input
-              onChangeText={(text) => setValue('value', text)}
-              defaultValue={watch().value}
-              label="Amount"
-              placeholder="Amount"
-              keyboardType="number-pad"
-              flat
-            />
+      <Box paddingY={8}>
+        <Suspense fallback={<Loader />}>
+          {/* <Stack space={8}> */}
+          {categories.length > 0 ? (
+            <>
+              <Input
+                onChangeText={(text) => setValue('value', text)}
+                defaultValue={watch().value}
+                label="Amount"
+                placeholder="Amount"
+                keyboardType="number-pad"
+                flat
+              />
 
-            <Input
-              onChangeText={(text) => setValue('title', text)}
-              defaultValue={watch().title}
-              label="Title"
-              placeholder="Title"
-              flat
-            />
+              <Input
+                onChangeText={(text) => setValue('title', text)}
+                defaultValue={watch().title}
+                label="Title"
+                placeholder="Title"
+                flat
+              />
 
-            <SectionBox title="Category">
-              <Picker
-                selectedValue={watch().category}
-                onValueChange={(value) => setValue('category', value)}
-                style={{ maxWidth: 440, width: '100%', alignSelf: 'center' }}
-              >
-                <Picker.Item label="" value="" />
+              <SectionBox title="Category">
+                <Picker
+                  selectedValue={watch().category}
+                  onValueChange={(value) => setValue('category', value)}
+                  style={{
+                    maxWidth: 440,
+                    width: '100%',
+                    alignSelf: 'center',
+                  }}
+                >
+                  <Picker.Item label="" value="" />
 
-                {categories.map((category) => (
-                  <Picker.Item
-                    label={category.name}
-                    value={category.id}
-                    key={category.id}
-                  />
-                ))}
-              </Picker>
-            </SectionBox>
+                  {categories.map((category) => (
+                    <Picker.Item
+                      label={category.name}
+                      value={category.id}
+                      key={category.id}
+                    />
+                  ))}
+                </Picker>
+              </SectionBox>
 
-            <SectionBox title="Place">
-              <MapView
-                pitchEnabled={false}
-                rotateEnabled={false}
-                zoomEnabled={false}
-                scrollEnabled={false}
-                onPress={() => setOpenModal('map')}
-                style={{ width: '100%', height: 240 }}
-                cacheEnabled
-              >
-                {/* <Marker coordinate={coords} /> */}
-              </MapView>
-            </SectionBox>
+              <SectionBox title="Place">
+                <MapView
+                  pitchEnabled={false}
+                  rotateEnabled={false}
+                  zoomEnabled={false}
+                  scrollEnabled={false}
+                  // onPress={() => setOpenModal('map')}
+                  style={{ width: '100%', height: 240 }}
+                  cacheEnabled
+                >
+                  {/* <Marker coordinate={coords} /> */}
+                </MapView>
+              </SectionBox>
 
-            <Button
-              title="Add Image"
-              onPress={showImageSourcesList}
-              ref={ref}
-            />
+              <Button
+                title="Add Image"
+                onPress={showImageSourcesList}
+                ref={ref}
+              />
 
-            {/* {getValues().images.map((image) => (
+              {/* {getValues().images.map((image) => (
               <Image
                 source={{ uri: image.uri }}
                 style={{ width: 100, height: 100 }}
               />
             ))} */}
 
-            {/* <Modal visible={!!openModal} presentationStyle="formSheet">
+              {/* <Modal visible={!!openModal} presentationStyle="formSheet">
               <Maps />
             </Modal> */}
 
-            <Modal visible={true} presentationStyle="formSheet">
+              {/* <Modal visible={true} presentationStyle="formSheet">
               <Camera />
-            </Modal>
-          </>
-        ) : (
-          <FallbackScreen
-            title="No any categories"
-            message="Before add expense create new category"
-          >
-            <Button
-              title="Add it here"
-              onPress={() => navigation.navigate('CategoryManager')}
-              type="clear"
-            />
-          </FallbackScreen>
-        )}
-      </Suspense>
+            </Modal> */}
+            </>
+          ) : (
+            <FallbackScreen
+              title="No any categories"
+              message="Before add expense create new category"
+            >
+              <Button
+                title="Add it here"
+                onPress={() => navigation.navigate(Route.CATEGORY_MANAGER)}
+                type="clear"
+              />
+            </FallbackScreen>
+          )}
+          {/* </Stack> */}
+        </Suspense>
+      </Box>
 
       {loading && <Loader />}
     </Container>

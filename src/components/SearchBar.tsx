@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import {
   SearchBar as BaseSearchBar,
   SearchBarProps,
@@ -33,4 +33,5 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
+// const styles = StyleSheet.create({});
 export default SearchBar;

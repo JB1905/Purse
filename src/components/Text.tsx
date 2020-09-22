@@ -16,4 +16,5 @@ const Text: React.FC<TextProps> = ({ children, style, ...props }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default Text;

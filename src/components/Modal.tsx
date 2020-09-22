@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-export const Label = () => {
+export const Modal = () => {
   return <></>;
 };
 

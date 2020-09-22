@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, RefreshControl, View } from 'react-native';
+import { Text, RefreshControl, View, StyleSheet } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 const DataList: React.FC<any> = ({ data }) => {
@@ -22,4 +22,5 @@ const DataList: React.FC<any> = ({ data }) => {
   );
 };
 
+// const styles = StyleSheet.create({});
 export default DataList;
