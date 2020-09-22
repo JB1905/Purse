@@ -1,8 +1,6 @@
 import React from 'react';
-// TODO deprecated
-import { SegmentedControlIOS, StyleSheet } from 'react-native';
-import {
-  // SegmentedControlIOS,
+import { StyleSheet } from 'react-native';
+import SegmentedControlIOS, {
   SegmentedControlProps,
 } from '@react-native-community/segmented-control';
 

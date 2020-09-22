@@ -59,4 +59,5 @@ const StatusBar: React.FC<Props> = ({ isModal }) => {
 };
 
 // const styles = StyleSheet.create({});
+
 export default StatusBar;

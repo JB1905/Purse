@@ -17,4 +17,5 @@ const Icon: React.FC<IconProps> = ({ type, name, ...props }) => (
 );
 
 // const styles = StyleSheet.create({});
+
 export default Icon;

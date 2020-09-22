@@ -6,13 +6,13 @@ import {
   ThemeContext,
 } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
-// import { FieldError } from 'react-hook-form';
+import { FieldError } from 'react-hook-form';
 
 import Icon from './Icon';
 
-interface Props extends InputProps {
+interface Props extends Omit<InputProps, 'errorMessage'> {
   readonly flat?: boolean;
-  // readonly error?: FieldError; // TODO error message
+  readonly errorMessage?: FieldError | string;
 }
 
 const Input: React.FC<Props> = ({
@@ -21,7 +21,6 @@ const Input: React.FC<Props> = ({
   inputStyle,
   flat,
   errorMessage,
-  // error,
   // style,
   ...props
 }) => {

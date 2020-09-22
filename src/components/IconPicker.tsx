@@ -17,21 +17,16 @@ const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
     <FlatList
       data={Object.entries(icons)}
       numColumns={5}
-      keyExtractor={(item) => item}
-      contentContainerStyle={{
-        alignItems: 'center',
-        paddingVertical: 12,
-      }}
+      keyExtractor={([item]) => item}
+      contentContainerStyle={StyleSheet.flatten([styles.list])}
       renderItem={({ item }) => (
         <TouchableOpacity
-          style={{
-            width: 48,
-            height: 48,
-            margin: 10,
-            justifyContent: 'center',
-            backgroundColor: colors.background, // colors.border
-            borderRadius: 10,
-          }}
+          style={StyleSheet.flatten([
+            {
+              backgroundColor: colors.background, // colors.border
+            },
+            styles.item,
+          ])}
           onPress={() => onSelect(item[0])}
         >
           <Icon name={item[0]} color={colors.primary} size={30} />
@@ -41,5 +36,18 @@ const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
   );
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  list: {
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  item: {
+    width: 48,
+    height: 48,
+    margin: 10,
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+});
+
 export default IconPicker;
