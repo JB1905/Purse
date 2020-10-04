@@ -3,7 +3,7 @@ import React from 'react';
 import Container from '../../components/Container';
 import FallbackScreen from '../../components/FallbackScreen';
 
-const Analytics: React.FC = () => {
+const Analytics = () => {
   return (
     <Container>
       <FallbackScreen

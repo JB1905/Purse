@@ -11,7 +11,6 @@ import { StacksProvider } from '@mobily/stacks';
 import { enableScreens } from 'react-native-screens';
 import { composeWrappers } from 'react-compose-wrappers';
 import { PersistGate } from 'redux-persist/integration/react';
-import { LogBox } from 'react-native';
 
 import Layout from './screens';
 
@@ -26,8 +25,11 @@ import { theme } from './constants/theme';
 
 import { store, persistor } from './store';
 
+import './errors' // TODO
+
 enableScreens();
 
+// -------------- move
 const rrfConfig = {
   userProfile: 'users',
   useFirestoreForProfile: true,
@@ -39,8 +41,9 @@ const rrfProps = {
   dispatch: store.dispatch,
   createFirestoreInstance,
 };
+// -------------- move
 
-const App: React.FC = () => {
+const App = () => {
   useUpdates();
 
   const { activeMode } = useAppearance();
@@ -64,7 +67,7 @@ const App: React.FC = () => {
       </NavigationContainer>
     ),
     (props) => <StacksProvider spacing={4}>{props.children}</StacksProvider>,
-    (props) => <ThemeProvider theme={theme}>{props.children}</ThemeProvider>,
+    (props) => <ThemeProvider theme={theme} /* useDark={true} */>{props.children}</ThemeProvider>,
   ]);
 
   return (
@@ -75,10 +78,5 @@ const App: React.FC = () => {
     </RootProvider>
   );
 };
-
-LogBox.ignoreLogs([
-  'Warning: Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. See https://fb.me/react-unsafe-component-lifecycles for details.',
-  'Warning: Legacy context API has been detected within a strict-mode tree.',
-]);
 
 registerRootComponent(App);

@@ -3,7 +3,7 @@ import React from 'react';
 import Container from '../../../components/Container';
 import FallbackScreen from '../../../components/FallbackScreen';
 
-const PaymentMethods: React.FC = () => {
+const PaymentMethods = () => {
   return (
     <Container>
       <FallbackScreen

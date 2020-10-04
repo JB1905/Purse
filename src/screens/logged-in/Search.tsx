@@ -8,7 +8,7 @@ import type { LoggedInProps } from '../../types/Navigation';
 
 import { Route } from '../../enums/Route';
 
-const Search: React.FC<LoggedInProps<Route.SEARCH>> = () => {
+const Search = () => {
   const [query, setQuery] = useState('');
 
   return (

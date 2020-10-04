@@ -8,7 +8,7 @@ interface Props extends ListItemProps {
   readonly data: any;
 }
 
-const ProfileCard: React.FC<Props> = ({ data, style, ...props }) => {
+const ProfileCard = ({ data, style, ...props }: Props) => {
   const { colors } = useTheme();
 
   const formattedAvatarInitials = useMemo(

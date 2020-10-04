@@ -6,7 +6,7 @@ import {
 } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-const SearchBar: React.FC<SearchBarProps> = ({
+const SearchBar = ({
   containerStyle,
   inputContainerStyle,
   // cancelButtonTitle = 'Cancel',
@@ -14,7 +14,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   leftIconContainerStyle,
   showCancel = true,
   ...props
-}) => {
+}: SearchBarProps) => {
   const { colors } = useTheme();
 
   return (

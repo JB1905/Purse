@@ -14,7 +14,7 @@ interface Props {
   readonly isModal?: boolean;
 }
 
-const StatusBar: React.FC<Props> = ({ isModal }) => {
+const StatusBar = ({ isModal }: Props) => {
   const { isDark } = useAppearance();
 
   const [invert, setInvert] = useState(false);

@@ -13,7 +13,7 @@ const MODALS = {
   [ModalType.Maps]: Maps,
 };
 
-const RootModal: React.FC = () => {
+const RootModal = () => {
   const modalType = '';
 
   if (!modalType) return null;

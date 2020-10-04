@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, RefreshControl, View, StyleSheet } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-const DataList: React.FC<any> = ({ data }) => {
+const DataList = ({ data }: any) => {
   return (
     <SwipeListView
       refreshControl={<RefreshControl refreshing={true} />}

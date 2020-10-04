@@ -10,23 +10,23 @@ import Icon from '../../../components/Icon';
 
 import { SET_THEME } from '../../../actions/themeActions';
 
-const appearanceModes = ['Automatic', 'Dark', 'Light']; // TODO
+const APPEARANCE_MODES = ['Automatic', 'Dark', 'Light']; // TODO
 
-const Appearance: React.FC = () => {
+const Appearance = () => {
   const { colors } = useTheme();
 
-  const appearance = useSelector((state: any) => state.theme.theme);
+  const appearance = useSelector((state) => state.theme.theme);
 
   const dispatch = useDispatch();
 
   return (
     <Container>
       <Box paddingX={4} paddingY={8}>
-        {appearanceModes.map((button, index) => (
+        {APPEARANCE_MODES.map((button, index) => (
           <ListItem
             key={button}
             onPress={() => dispatch({ type: SET_THEME, payload: button })}
-            bottomDivider={index !== appearanceModes.length}
+            bottomDivider={index !== APPEARANCE_MODES.length}
             containerStyle={StyleSheet.flatten([
               {
                 backgroundColor: colors.card,

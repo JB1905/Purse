@@ -169,6 +169,9 @@ const MainScreen = () => {
         showLabel: Platform.OS === 'ios',
         activeTintColor: colors.primary,
         inactiveTintColor: 'gray',
+        labelStyle: {
+          marginBottom: 2 // TODO
+        }
       }}
     >
       <Tab.Screen name={Route.FINANCES} component={FinancesScreen} />

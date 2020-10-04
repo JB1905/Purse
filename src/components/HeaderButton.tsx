@@ -11,17 +11,16 @@ interface Props extends ButtonProps {
   readonly spaces?: boolean;
 }
 
-const HeaderButton: React.FC<Props> = ({
+const HeaderButton = ({
   title,
   iconName,
   filled,
   style,
-  // ref,
   buttonStyle,
   containerStyle,
   spaces = false,
   ...props
-}) => {
+}: Props) => {
   const { colors } = useTheme();
 
   return (
@@ -52,5 +51,14 @@ const HeaderButton: React.FC<Props> = ({
   );
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18
+  },
+  button: {
+    borderRadius: 20,
+  }
+});
+
+
 export default HeaderButton;

@@ -8,7 +8,7 @@ interface Props {
   readonly items: any[];
 }
 
-const ItemGroup: React.FC<Props> = ({ title, items, style }) => {
+const ItemGroup = ({ title, items, style }: Props) => {
   const { colors } = useTheme();
 
   const navigation = useNavigation();
@@ -18,13 +18,13 @@ const ItemGroup: React.FC<Props> = ({ title, items, style }) => {
       <Text
         style={StyleSheet.flatten([
           { color: colors.text },
-          styles.groupTitleStyle,
+          styles.groupTitle,
         ])}
       >
         {title}
       </Text>
 
-      <View style={styles.groupContainerStyle}>
+      <View style={styles.groupContainer}>
         {items.map(({ title, screen }, index) => (
           <ListItem
             key={title}
@@ -33,6 +33,9 @@ const ItemGroup: React.FC<Props> = ({ title, items, style }) => {
             containerStyle={{
               backgroundColor: colors.card,
               borderColor: colors.border,
+              // TODO
+              // borderLeftColor: colors.card,
+              // borderLeftWidth: 20,
             }}
           >
             <ListItem.Content>
@@ -50,8 +53,7 @@ const ItemGroup: React.FC<Props> = ({ title, items, style }) => {
 };
 
 const styles = StyleSheet.create({
-  // TODO rename
-  groupTitleStyle: {
+  groupTitle: {
     marginBottom: 8,
     marginHorizontal: 15,
     textTransform: 'uppercase',
@@ -59,8 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     opacity: 0.5,
   },
-  // TODO rename
-  groupContainerStyle: {
+  groupContainer: {
     borderRadius: 12,
     overflow: 'hidden',
   },

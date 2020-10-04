@@ -8,9 +8,6 @@ const Camera = () => {
       <BaseCamera style={{ flex: 1 }}>
         <View
           style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-            flexDirection: 'row',
           }}
         ></View>
       </BaseCamera>
@@ -18,6 +15,13 @@ const Camera = () => {
   );
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  x: {
+
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  }
+});
 
 export default Camera;

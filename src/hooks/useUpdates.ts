@@ -4,6 +4,7 @@ import { otaUpdates } from '../config/otaUpdates';
 
 export const useUpdates = () => {
   useEffect(() => {
-    if (!__DEV__) otaUpdates();
+    // if (!__DEV__) // TODO check
+    otaUpdates();
   }, []);
 };

@@ -13,7 +13,7 @@ import { Route } from '../enums/Route';
 
 const NativeStack = createNativeStackNavigator<AppParamList>();
 
-const Layout: React.FC = () => {
+const Layout = () => {
   const auth = useSelector((state) => state.firebase.auth);
 
   if (!isLoaded(auth)) {

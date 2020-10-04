@@ -15,7 +15,7 @@ interface Props extends Omit<InputProps, 'errorMessage'> {
   readonly errorMessage?: FieldError | string;
 }
 
-const Input: React.FC<Props> = ({
+const Input = ({
   containerStyle,
   inputContainerStyle,
   inputStyle,
@@ -23,7 +23,7 @@ const Input: React.FC<Props> = ({
   errorMessage,
   // style,
   ...props
-}) => {
+}: Props) => {
   const { colors } = useTheme();
 
   const { theme } = useContext(ThemeContext);
@@ -89,7 +89,8 @@ const Input: React.FC<Props> = ({
               fontSize: 14,
               color: colors.text,
               opacity: 0.5,
-              // marginVertical: 6,
+              marginBottom: 6,
+              // marginVertical: 6, // TODO
               marginHorizontal: 20,
             }
           : {

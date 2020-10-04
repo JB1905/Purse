@@ -21,9 +21,9 @@ type FormData = {
   email: string;
 };
 
-const ResetPassword: React.FC<LoggedOutProps<Route.RESET_PASSWORD>> = ({
+const ResetPassword = ({
   navigation,
-}) => {
+}: LoggedOutProps<Route.RESET_PASSWORD>) => {
   const { resetPassword } = useAuth();
 
   const [error, setError] = useState<Error>();

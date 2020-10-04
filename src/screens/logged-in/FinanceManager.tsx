@@ -9,7 +9,7 @@ import React, {
 import {
   ActionSheetIOS,
   Alert,
-  Picker,
+  // Picker,
   findNodeHandle,
   // Image,
   // Modal,
@@ -51,10 +51,10 @@ type FormData = {
   images: any[];
 };
 
-const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
+const FinanceManager = ({
   route,
   navigation,
-}) => {
+}: MainProps<Route.FINANCE_MANAGER>) => {
   const firestore = useFirestore();
 
   const id = route.params?.id ?? '';
@@ -71,12 +71,12 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
   useFirestoreConnect([Collection.Categories]);
 
   const categories = useSelector(
-    (state: any) => state.firestore.ordered.categories
+    (state) => state.firestore.ordered.categories
   );
 
   const { register, handleSubmit, reset, setValue, watch } = useForm<FormData>({
     defaultValues: {
-      type: route.params?.type ?? null,
+      type: route.params?.type ?? undefined,
       value: route.params?.value ?? '',
       title: route.params?.title ?? '',
       category: route.params?.category ?? '',
@@ -105,7 +105,7 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
           ...data, // user: getCurrentUser()?.uid
         });
 
-        Alert.alert(`Added data: ${data.title}`, null, [
+        Alert.alert(`Added data: ${data.title}`, undefined, [
           {
             text: 'Done',
             style: 'cancel',
@@ -129,7 +129,7 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
       try {
         firestore.collection(Collection.Data).doc(id).update(data);
 
-        Alert.alert(`Updated ${data.title}`, null, [
+        Alert.alert(`Updated ${data.title}`, undefined, [
           {
             text: 'Done',
             onPress: navigation.goBack,
@@ -201,7 +201,7 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
   };
 
   return (
-    <Container keyboard scrollEnabled>
+    <Container keyboard scrollEnabled full>
       <StatusBar isModal />
 
       <Box paddingY={8}>
@@ -227,7 +227,7 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
               />
 
               <SectionBox title="Category">
-                <Picker
+                {/* <Picker
                   selectedValue={watch().category}
                   onValueChange={(value) => setValue('category', value)}
                   style={{
@@ -245,7 +245,7 @@ const FinanceManager: React.FC<MainProps<Route.FINANCE_MANAGER>> = ({
                       key={category.id}
                     />
                   ))}
-                </Picker>
+                </Picker> */}
               </SectionBox>
 
               <SectionBox title="Place">

@@ -6,7 +6,7 @@ interface Props extends TextProps {
   readonly message: string;
 }
 
-const ErrorMessage: React.FC<Props> = ({ message }) => {
+const ErrorMessage = ({ message }: Props) => {
   const { theme } = useContext(ThemeContext);
 
   return (

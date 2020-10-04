@@ -20,13 +20,14 @@ import { Route } from '../../../enums/Route';
 
 const NativeStack = createNativeStackNavigator<SettingsParamList>();
 
-const Settings: React.FC = () => (
+const Settings = () => (
   <NativeStack.Navigator
     screenOptions={({ navigation }) => ({
       headerRight: () =>
         Platform.OS === 'ios' && (
           <HeaderButton
             title="Done"
+            // TODO bold font
             onPress={() => navigation.navigate(Route.MAIN)}
           />
         ),

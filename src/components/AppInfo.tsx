@@ -9,7 +9,7 @@ const AppInfo = () => {
 
   return (
     <Text style={StyleSheet.flatten([styles.info, { color: colors.text }])}>
-      {Constants.manifest.name} v{Constants.nativeAppVersion} (
+      {Constants.manifest.name} Version {Constants.nativeAppVersion} (
       {Constants.nativeBuildVersion})
     </Text>
   );

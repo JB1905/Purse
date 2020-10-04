@@ -4,6 +4,7 @@ import { useFirestoreConnect } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 
 import Loader from '../../components/Loader';
+import FallbackScreen from '../../components/FallbackScreen';
 
 import type { LoggedInProps } from '../../types/Navigation';
 
@@ -13,26 +14,30 @@ import { Route } from '../../enums/Route';
 const Container = lazy(() => import('../../components/Container'));
 const Button = lazy(() => import('../../components/Button'));
 
-const Categories: React.FC<LoggedInProps<Route.CATEGORIES>> = ({
+const Categories = ({
   navigation,
-}) => {
+}: LoggedInProps<Route.CATEGORIES>) => {
+  const uid = useSelector((state) => state.firebase.auth.uid);
+
   useFirestoreConnect([
     {
       collection: Collection.Categories,
-      // where: ['user', '==', 'FXZfDuVLcpTg1bJs9eLppHnCNnI3'],
+      where: ['user', '==', uid],
     },
   ]);
 
   const categories = useSelector(
-    (state: any) => state.firestore.ordered.categories
+    (state) => state.firestore.ordered.categories
   );
+
+  
 
   return categories ? (
     <Suspense fallback={<Loader />}>
       <Container
         scrollEnabled
         refreshControl={<RefreshControl refreshing={false} onRefresh={null} />}
-      >
+      >{categories.length > 0 ? <>
         {categories.map(({ id, name, ...data }) => (
           <Button
             title={name}
@@ -41,7 +46,9 @@ const Categories: React.FC<LoggedInProps<Route.CATEGORIES>> = ({
             }
             key={id}
           />
-        ))}
+        ))}</> : 
+        // TODO: update title & message
+        <FallbackScreen title="Categories not found" message="Create new category" />}
       </Container>
     </Suspense>
   ) : (

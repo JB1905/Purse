@@ -3,7 +3,7 @@ import React from 'react';
 import Container from '../../../components/Container';
 import FallbackScreen from '../../../components/FallbackScreen';
 
-const BanksAccount: React.FC = () => {
+const BanksAccount = () => {
   return (
     <Container>
       <FallbackScreen

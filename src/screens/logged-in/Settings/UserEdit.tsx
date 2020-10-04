@@ -15,8 +15,8 @@ type FormData = {
   confirm: string;
 };
 
-const UserEdit: React.FC = () => {
-  const [error, setError] = useState<string>(null);
+const UserEdit = () => {
+  const [error, setError] = useState<string | null>(null);
 
   const { register, setValue, getValues } = useForm<FormData>({
     defaultValues: {
@@ -38,7 +38,7 @@ const UserEdit: React.FC = () => {
 
     // TODO not working
 
-    Alert.alert(`User and Data has been removed`, null, [
+    Alert.alert(`User and Data has been removed`, undefined, [
       {
         text: 'OK',
         onPress: () => {

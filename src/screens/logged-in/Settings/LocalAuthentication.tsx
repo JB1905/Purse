@@ -6,7 +6,7 @@ import { Box } from '@mobily/stacks';
 
 import Container from '../../../components/Container';
 
-const LocalAuthentication: React.FC = () => {
+const LocalAuthentication = () => {
   const { colors } = useTheme();
 
   return (

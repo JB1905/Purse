@@ -52,4 +52,5 @@ const SectionBox: React.FC<Props> = ({
 
 // TODO StyleSheet
 // const styles = StyleSheet.create({});
+
 export default SectionBox;

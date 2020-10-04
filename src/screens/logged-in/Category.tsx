@@ -35,10 +35,10 @@ const SegmentedControl = lazy(
 
 const DataList = lazy(() => import('../../components/DataList'));
 
-const Category: React.FC<LoggedInProps<Route.CATEGORY>> = ({
+const Category = ({
   route,
   navigation,
-}) => {
+}:LoggedInProps<Route.CATEGORY>) => {
   const { id, name } = route.params;
 
   const { colors } = useTheme();

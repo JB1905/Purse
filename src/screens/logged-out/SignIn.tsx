@@ -24,7 +24,7 @@ type FormData = {
   password: string;
 };
 
-const SignIn: React.FC<LoggedOutProps<Route.SIGN_IN>> = ({ navigation }) => {
+const SignIn = ({ navigation }: LoggedOutProps<Route.SIGN_IN>) => {
   const { colors } = useTheme();
 
   const { login, facebookSignIn, googleSignIn } = useAuth();

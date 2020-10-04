@@ -17,7 +17,7 @@ const NativeStack = createNativeStackNavigator<LoggedOutParamList>();
 
 // TODO add helper isIos
 
-const CancelButton: React.FC = () => {
+const CancelButton = () => {
   const navigation = useNavigation();
 
   return (
@@ -25,7 +25,7 @@ const CancelButton: React.FC = () => {
   );
 };
 
-const SignUpScreen: React.FC = () => (
+const SignUpScreen = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
       name={Route.SIGN_UP}
@@ -38,7 +38,7 @@ const SignUpScreen: React.FC = () => (
   </NativeStack.Navigator>
 );
 
-const ResetPasswordScreen: React.FC = () => (
+const ResetPasswordScreen = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
       name={Route.RESET_PASSWORD}
@@ -51,7 +51,7 @@ const ResetPasswordScreen: React.FC = () => (
   </NativeStack.Navigator>
 );
 
-export const LoggedOut: React.FC = () => (
+export const LoggedOut = () => (
   <NativeStack.Navigator
     initialRouteName={Route.SIGN_IN}
     screenOptions={{

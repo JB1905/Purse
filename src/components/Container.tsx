@@ -14,14 +14,14 @@ interface Props extends ScrollViewProps {
   readonly keyboard?: boolean;
 }
 
-const Container: React.FC<Props> = ({
+const Container = ({
   contentContainerStyle,
   keyboard = false,
   scrollEnabled = false,
   spaces = false,
   full = false,
   ...props
-}) => (
+}: Props) => (
   <KeyboardAvoidingView
     style={{ flex: 1 }}
     behavior="padding"

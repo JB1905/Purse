@@ -27,6 +27,7 @@ const Button = ({
       ])}
       buttonStyle={StyleSheet.flatten([
         buttonStyle,
+        // {paddingVertical: 10},
         { backgroundColor: isClear ? 'transparent' : colors.primary },
       ])}
       titleStyle={StyleSheet.flatten([

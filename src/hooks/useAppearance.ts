@@ -1,6 +1,7 @@
 // import { useState, useEffect } from 'react';
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { useColorScheme } from 'react-native-appearance';
+import { useColorScheme } from 'react-native';
+// import { useColorScheme } from 'react-native-appearance';
 // import { useSelector } from 'react-redux';
 
 // import { Theme } from '../enums/Theme';

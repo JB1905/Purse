@@ -3,7 +3,7 @@ import React from 'react';
 import Container from '../../../components/Container';
 import FallbackScreen from '../../../components/FallbackScreen';
 
-const UsersConnect: React.FC = () => {
+const UsersConnect = () => {
   return (
     <Container>
       <FallbackScreen

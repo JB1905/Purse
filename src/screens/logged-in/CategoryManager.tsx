@@ -40,10 +40,10 @@ enum Tabs {
   Glyph,
 }
 
-const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
+const CategoryManager = ({
   route,
   navigation,
-}) => {
+}: MainProps<Route.CATEGORY_MANAGER>) => {
   const firestore = useFirestore();
 
   const [tab, setTab] = useState(0);
@@ -76,7 +76,7 @@ const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
   }, [register]);
 
   const onSubmit = async (data: FormData) => {
-    if (error) setError(null);
+    if (error) setError(''); // TODO
 
     const createCategory = async () => {
       try {
@@ -86,7 +86,7 @@ const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
           ...data, // user: getCurrentUser()?.uid
         });
 
-        Alert.alert(`Added category: ${data.name}`, null, [
+        Alert.alert(`Added category: ${data.name}`, undefined, [
           {
             text: 'Done',
             style: 'cancel',
@@ -110,7 +110,7 @@ const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
 
         firestore.collection(Collection.Categories).doc(id).update(data);
 
-        Alert.alert(`Updated category ${data.name}`, null, [
+        Alert.alert(`Updated category ${data.name}`, undefined, [
           {
             text: 'Done',
             onPress: navigation.goBack,
@@ -164,7 +164,7 @@ const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
 
   return (
     <Container keyboard scrollEnabled>
-      {/* <StatusBar isModal /> */}
+      <StatusBar isModal />
 
       <Box paddingY={8}>
         {/* <Stack space={8}> */}
@@ -173,7 +173,7 @@ const CategoryManager: React.FC<MainProps<Route.CATEGORY_MANAGER>> = ({
           defaultValue={getValues().name}
           label="Category name"
           placeholder="Category name e.g: Food"
-          error={errors.name}
+          errorMessage={errors.name}
           flat
         />
 

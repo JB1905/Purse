@@ -10,7 +10,7 @@ interface Props {
   readonly onSelect: any;
 }
 
-const IconPicker: React.FC<Props> = ({ icons, selectedIcon, onSelect }) => {
+const IconPicker = ({ icons, selectedIcon, onSelect }: Props) => {
   const { colors } = useTheme();
 
   return (

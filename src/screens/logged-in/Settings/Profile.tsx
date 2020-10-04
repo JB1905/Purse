@@ -29,7 +29,7 @@ const localSettings = [
   { title: 'Local Authentication', screen: Route.LOCAL_AUTHENTICATION },
 ];
 
-const Profile: React.FC<LoggedInProps<Route.PROFILE>> = ({ navigation }) => {
+const Profile = ({ navigation }: LoggedInProps<Route.PROFILE>) => {
   const { logout } = useAuth();
 
   const currentUser = useSelector((state) => state.firebase.profile);

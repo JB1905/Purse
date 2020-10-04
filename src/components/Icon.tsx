@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 
 import { icons, categoryIcons } from '../constants/icons';
 
-const Icon: React.FC<IconProps> = ({ type, name, ...props }) => (
+const Icon = ({ type, name, ...props }: IconProps) => (
   <BaseIcon
     {...props}
     name={

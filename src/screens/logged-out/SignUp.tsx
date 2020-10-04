@@ -25,7 +25,7 @@ type FormData = {
   confirm: string;
 };
 
-const SignUp: React.FC<LoggedOutProps<Route.SIGN_UP>> = ({ navigation }) => {
+const SignUp = ({ navigation }: LoggedOutProps<Route.SIGN_UP>) => {
   const { createAccount } = useAuth();
 
   const [error, setError] = useState<Error>();
