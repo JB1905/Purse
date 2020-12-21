@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
-import { InstantSearch } from 'react-instantsearch/native';
 
-import SearchBar from '../../components/SearchBar';
 import Container from '../../components/Container';
-import Splash from '../../components/Splash';
+import SearchBar from '../../components/SearchBar';
+import FallbackScreen from '../../components/FallbackScreen';
 
-import searchClient from '../../config/algolia';
-
-const Search: React.FC = () => {
+const Search = () => {
   const [query, setQuery] = useState('');
 
   return (
     <Container scrollEnabled>
-      {/* <InstantSearch searchClient={searchClient} indexName="dev_search">
-        <SearchBar
-          placeholder="Search..."
-          value={query}
-          onChangeText={setQuery}
-        />
-      </InstantSearch> */}
+      <SearchBar
+        value={query}
+        placeholder="Search..."
+        onChangeText={(text) => setQuery(text)}
+      />
 
-      <Splash title="Search for data" message="Type what are you looking for" />
+      <FallbackScreen
+        title="Search for data"
+        message="Type what are you looking for"
+      />
     </Container>
   );
 };

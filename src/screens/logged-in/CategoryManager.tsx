@@ -1,25 +1,35 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { Alert, FlatList, TouchableOpacity, Platform } from 'react-native';
-import SegmentedControlIOS from '@react-native-community/segmented-control';
-import NativeColorPicker from 'native-color-picker';
-import { useTheme } from '@react-navigation/native';
+import React, {
+  lazy,
+  Suspense,
+  useState,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
+import { Alert } from 'react-native';
+import { useFirestore } from 'react-redux-firebase';
 import { useForm } from 'react-hook-form';
+import { Stack, Box } from '@mobily/stacks';
 
 import Container from '../../components/Container';
-import Wrapper from '../../components/Wrapper';
-import Input from '../../components/Input';
-import Box from '../../components/Box';
-import Icon from '../../components/Icon';
-import Error from '../../components/Error';
-import Button from '../../components/Button';
 import HeaderButton from '../../components/HeaderButton';
+import SegmentedControl from '../../components/SegmentedControl';
+import StatusBar from '../../components/StatusBar';
+import Input from '../../components/Input';
+import Loader from '../../components/Loader';
+import SectionBox from '../../components/SectionBox';
+import IconPicker from '../../components/IconPicker';
+import ColorPicker from '../../components/IconPicker';
 
 import { colors as categoryColors } from '../../constants/colors';
-import { icons } from '../../constants/icons';
+import { categoryIcons } from '../../constants/icons';
 
-import { addCategory, updateCategory, getCurrentUser } from '../../api';
+import type { MainProps } from '../../types/Navigation';
 
-import { MainProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
+
+// const IconPicker = lazy(() => import('../../components/IconPicker'));
+// const ColorPicker = lazy(() => import('../../components/ColorPicker'));
 
 type FormData = {
   name: string;
@@ -27,15 +37,21 @@ type FormData = {
   icon: string;
 };
 
-const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
+enum Tabs {
+  Colour,
+  Glyph,
+}
+
+const CategoryManager = ({
   route,
   navigation,
-}) => {
-  const { colors } = useTheme();
+}: MainProps<Route.CATEGORY_MANAGER>) => {
+  const firestore = useFirestore();
 
   const [tab, setTab] = useState(0);
 
-  const [error, setError] = useState<string>(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const id = route?.params?.id ?? '';
 
@@ -45,80 +61,86 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
     icon: route?.params?.icon ?? '',
   };
 
-  const { register, handleSubmit, setValue, getValues, watch } = useForm<
-    FormData
-  >({ defaultValues });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    errors,
+    reset,
+  } = useForm<FormData>({ defaultValues });
 
   useEffect(() => {
     register('name', { required: true });
     register('color', { required: true });
-    // register('icon', { required: true });
+    register('icon', { required: true });
   }, [register]);
 
-  const createNewCategory = async (data: FormData) => {
-    // console.log(data);
+  const onSubmit = async (data: FormData) => {
+    if (error) setError(''); // TODO
 
-    try {
-      // if (error) setError(null);
+    const createCategory = async () => {
+      try {
+        setLoading(true);
 
-      await addCategory({ ...data, user: getCurrentUser()?.uid });
+        firestore.collection(Collection.Categories).add({
+          ...data, // user: getCurrentUser()?.uid
+        });
 
-      console.log(true);
+        Alert.alert(`Added category: ${data.name}`, undefined, [
+          {
+            text: 'Done',
+            style: 'cancel',
+            onPress: navigation.goBack,
+          },
+          {
+            text: 'Add more',
+            onPress: () => reset(),
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
 
-      Alert.alert(`Added category: ${name}`, null, [
+      setLoading(false);
+    };
+
+    const updateCategory = async () => {
+      try {
+        setLoading(true);
+
+        firestore.collection(Collection.Categories).doc(id).update(data);
+
+        Alert.alert(`Updated category ${data.name}`, undefined, [
+          {
+            text: 'Done',
+            onPress: navigation.goBack,
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
+
+      setLoading(false);
+    };
+
+    Alert.alert(
+      'Do you want to save this category?',
+      `Category ${data.name} will be ${id ? 'updated' : 'added'}`,
+      [
         {
-          text: 'Done',
-          onPress: navigation.goBack,
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: 'Add more',
+          text: id ? 'Update' : 'Save',
           style: 'destructive',
-          // onPress: resetForm
+          onPress: id ? updateCategory : createCategory,
         },
-      ]);
-    } catch (err) {
-      setError(err);
-    }
+      ]
+    );
   };
-
-  // const updateExisitingCategory = async () => {
-  //   try {
-  //     if (error) setError(null);
-
-  //     await updateCategory(id, { name, color, icon });
-
-  //     Alert.alert(`Updated category ${name}`, null, [
-  //       {
-  //         text: 'Done',
-  //         onPress: () => navigation.goBack()
-  //       }
-  //     ]);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
-
-  // const submit = () => {
-  //   if (name && color && icon) {
-  //     Alert.alert(
-  //       'Do you want to save this category?',
-  //       `Category ${name} will be ${id ? 'updated' : 'added'}`,
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           style: 'cancel'
-  //         },
-  //         {
-  //           text: id ? 'Update' : 'Save',
-  //           style: 'destructive',
-  //           onPress: id ? updateExisitingCategory : createNewCategory
-  //         }
-  //       ]
-  //     );
-  //   } else {
-  //     setError(null);
-  //   }
-  // };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -127,7 +149,7 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         <HeaderButton
           title="Cancel"
           iconName="close"
-          onPress={() => navigation.goBack()}
+          onPress={navigation.goBack}
           spaces
         />
       ),
@@ -135,81 +157,56 @@ const CategoryManager: React.FC<MainProps<'CategoryManager'>> = ({
         <HeaderButton
           title="Save"
           iconName="save"
-          onPress={handleSubmit(createNewCategory)}
+          onPress={handleSubmit(onSubmit)}
           spaces
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, errors]);
 
   return (
     <Container keyboard scrollEnabled>
-      <Wrapper>
+      <StatusBar isModal />
+
+      <Box paddingY={8}>
+        {/* <Stack space={8}> */}
         <Input
           onChangeText={(text) => setValue('name', text)}
           defaultValue={getValues().name}
           label="Category name"
           placeholder="Category name e.g: Food"
+          errorMessage={errors.name}
           flat
         />
-      </Wrapper>
 
-      {Platform.OS === 'ios' && (
-        <SegmentedControlIOS
+        <SegmentedControl
           values={['Colour', 'Glyph']}
+          // values={Object.keys(Tabs)}
           selectedIndex={tab}
           onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-          style={{
-            maxWidth: 350,
-            left: 0,
-            right: 0,
-            marginHorizontal: 20,
-            marginTop: 20,
-            marginBottom: 6,
-          }}
         />
-      )}
 
-      <Wrapper>
-        <Box>
-          {tab === 0 ? (
-            <NativeColorPicker
-              sort
-              gradient
-              shadow
-              itemSize={46}
-              colors={categoryColors}
-              markerType="border"
-              markerDisplay="#fff"
-              scrollEnabled={false}
-              contentContainerStyle={{ alignItems: 'center' }}
+        <SectionBox>
+          {/* <Suspense fallback={<Loader />}> */}
+          {tab === Tabs.Colour ? (
+            <ColorPicker
               onSelect={(color) => setValue('color', color)}
               selectedColor={watch().color}
+              colors={categoryColors}
             />
           ) : (
-            <FlatList
-              data={icons}
-              numColumns={5}
-              keyExtractor={(item) => item}
-              style={{ paddingHorizontal: 38 }}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{
-                    width: 48,
-                    height: 48,
-                    margin: 10,
-                    justifyContent: 'center',
-                    backgroundColor: '#eee',
-                    borderRadius: 10,
-                  }}
-                >
-                  <Icon name={item} color={colors.primary} size={30} />
-                </TouchableOpacity>
-              )}
+            <IconPicker
+              onSelect={(icon) => setValue('icon', icon)}
+              selectedIcon={watch().icon}
+              icons={categoryIcons}
             />
           )}
-        </Box>
-      </Wrapper>
+          {/* </Suspense> */}
+        </SectionBox>
+        {/* </Stack> */}
+      </Box>
+
+      {loading && <Loader />}
     </Container>
   );
 };

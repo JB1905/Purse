@@ -1,31 +1,31 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Card, CardProps } from 'react-native-elements';
+import { Card as BaseCard, CardProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-import { Children } from '../types/Children';
-
-interface Props extends CardProps {
-  children: Children;
-}
-
-export default ({ children, containerStyle, ...props }: Props) => {
+const Card: React.FC<CardProps> = ({ children, containerStyle, ...props }) => {
   const { colors } = useTheme();
 
   return (
-    <Card
+    <BaseCard
       {...props}
       containerStyle={StyleSheet.flatten([
         containerStyle,
-        {
-          backgroundColor: colors.card,
-          borderRadius: 10,
-          marginHorizontal: 20,
-          height: 200,
-        },
+        { backgroundColor: colors.card },
+        styles.card,
       ])}
     >
       {children}
-    </Card>
+    </BaseCard>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: 10,
+    marginHorizontal: 20,
+    height: 200,
+  },
+});
+
+export default Card;

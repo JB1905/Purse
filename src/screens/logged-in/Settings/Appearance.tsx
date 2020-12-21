@@ -1,47 +1,61 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { Box } from '@mobily/stacks';
 
 import Container from '../../../components/Container';
-import ListGroup from '../../../components/ListGroup';
 import Icon from '../../../components/Icon';
 
-import { SettingsContext } from '../../../providers/SettingsProvider';
+import { SET_THEME } from '../../../store/actions/themeActions';
 
-const Appearance: React.FC = () => {
+const APPEARANCE_MODES = ['Automatic', 'Dark', 'Light']; // TODO
+
+const Appearance = () => {
   const { colors } = useTheme();
 
-  const { appearance, updateAppearanceMode } = useContext(SettingsContext);
+  const appearance = useSelector((state) => state.theme.theme);
 
-  const appearanceModes = ['Automatic', 'Dark', 'Light'];
+  const dispatch = useDispatch();
 
   return (
     <Container>
-      <ListGroup>
-        {appearanceModes.map((button, index) => (
+      <Box paddingX={4} paddingY={8}>
+        {APPEARANCE_MODES.map((button, index) => (
           <ListItem
-            title={button}
-            titleStyle={{
-              color: colors.text,
-            }}
-            bottomDivider={index + 1 !== appearanceModes.length}
-            onPress={() => updateAppearanceMode(button)}
-            containerStyle={{
-              backgroundColor: colors.card,
-              borderColor: colors.border,
-              paddingVertical: 0,
-              height: 50,
-            }}
-            rightIcon={
-              button === appearance && (
-                <Icon name="checkmark" color={colors.primary} size={30} />
-              )
-            }
-          />
+            key={button}
+            onPress={() => dispatch({ type: SET_THEME, payload: button })}
+            bottomDivider={index !== APPEARANCE_MODES.length}
+            containerStyle={StyleSheet.flatten([
+              {
+                backgroundColor: colors.card,
+                borderColor: colors.border,
+              },
+              styles.container,
+            ])}
+          >
+            <ListItem.Content>
+              <ListItem.Title style={{ color: colors.text }}>
+                {button}
+              </ListItem.Title>
+            </ListItem.Content>
+
+            {button === appearance && (
+              <Icon name="checkmark" color={colors.primary} size={30} />
+            )}
+          </ListItem>
         ))}
-      </ListGroup>
+      </Box>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 0,
+    height: 50,
+  },
+});
 
 export default Appearance;

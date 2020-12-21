@@ -1,117 +1,102 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { Alert, StatusBar } from 'react-native';
-import validator from 'email-validator';
+import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
+import { Box, Stack } from '@mobily/stacks';
 
 import Container from '../../components/Container';
-import Wrapper from '../../components/Wrapper';
 import Text from '../../components/Text';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import Error from '../../components/Error';
 import Loader from '../../components/Loader';
+import StatusBar from '../../components/StatusBar';
+// import ErrorMessage from '../../components/ErrorMessage';
 
-import { resetPassword } from '../../api';
+import { useAuth } from '../../hooks/useAuth';
 
-import { LoggedOutProps } from '../../types/Navigation';
+import type { LoggedOutProps } from '../../types/Navigation';
+
+import { Route } from '../../enums/Route';
 
 type FormData = {
   email: string;
 };
 
-const ResetPassword: React.FC<LoggedOutProps<'ResetPassword'>> = ({
+const ResetPassword = ({
   navigation,
-}) => {
-  const [error, setError] = useState<string>(null);
+}: LoggedOutProps<Route.RESET_PASSWORD>) => {
+  const { resetPassword } = useAuth();
 
-  const [checking, setChecking] = useState(false);
+  const [error, setError] = useState<Error>();
+  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, setValue, getValues, errors } = useForm<
-    FormData
-  >();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    errors,
+  } = useForm<FormData>();
 
   useEffect(() => {
     register('email', { required: true });
   }, [register]);
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     gestureEnabled: false,
-  //   });
-  // }, [navigation]);
-
   const onSubmit = async (data: FormData) => {
     const { email } = data;
 
-    if (validator.validate(email)) {
-      setChecking(true);
+    setLoading(true);
 
-      setError(null);
+    try {
+      if (error) setError(undefined);
 
-      const res = await resetPassword(email);
+      await resetPassword(email);
 
-      setChecking(false);
-
-      if (res.success) {
-        Alert.alert(`Message sent to: ${email}`, null, [
-          {
-            text: 'OK',
-            onPress: () => navigation.navigate('SignIn'),
-          },
-        ]);
-      } else {
-        setError(res.message);
-      }
-    } else {
-      setError('Incorrect email value.');
+      Alert.alert(`Message sent to: ${email}`, undefined, [
+        {
+          text: 'OK',
+          onPress: navigation.goBack,
+        },
+      ]);
+    } catch (err) {
+      setError(err);
     }
+
+    setLoading(false);
   };
 
   return (
-    <Container keyboard full spaces>
-      <StatusBar translucent barStyle="light-content" />
+    <Container full spaces keyboard>
+      <StatusBar isModal />
 
-      <Wrapper>
-        <Text
-          h2
-          h2Style={{ fontSize: 30, fontWeight: '700', textAlign: 'center' }}
-        >
-          Reset Password
-        </Text>
-      </Wrapper>
+      <Box paddingX={4}>
+        <Stack space={8}>
+          <Stack space={2}>
+            <Text h2>Reset Password</Text>
 
-      <Wrapper>
-        <Text
-          h2
-          h2Style={{ fontSize: 18, textAlign: 'center', marginBottom: 10 }}
-        >
-          Have you forgotten your password?
-        </Text>
-      </Wrapper>
+            <Text h3>Have you forgotten your password?</Text>
+          </Stack>
 
-      <Wrapper>
-        <Input
-          onChangeText={(text) => setValue('email', text)}
-          defaultValue={getValues().email}
-          placeholder="Your account email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
+          <Stack>
+            <Input
+              onChangeText={(text) => setValue('email', text)}
+              defaultValue={getValues().email}
+              placeholder="Your account email"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              errorMessage={errors.email}
+            />
 
-        {/* {console.log(errors.email)} */}
-      </Wrapper>
+            {/* {error?.message && <ErrorMessage message={error.message} />} */}
 
-      {error && (
-        <Wrapper>
-          <Error>{error}</Error>
-        </Wrapper>
-      )}
+            <Button
+              title="Send Reset Message"
+              onPress={handleSubmit(onSubmit)}
+            />
+          </Stack>
+        </Stack>
+      </Box>
 
-      <Wrapper>
-        <Button title="Send Reset Message" onPress={handleSubmit(onSubmit)} />
-      </Wrapper>
-
-      {checking && <Loader />}
+      {loading && <Loader />}
     </Container>
   );
 };

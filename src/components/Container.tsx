@@ -5,56 +5,54 @@ import {
   ScrollViewProps,
   KeyboardAvoidingView,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-
-import { Children } from '../types/Children';
+// import { useTheme } from '@react-navigation/native';
 
 interface Props extends ScrollViewProps {
-  children: Children;
-  spaces?: boolean;
-  full?: boolean;
+  readonly spaces?: boolean;
+  readonly full?: boolean;
+  readonly keyboard?: boolean;
 }
 
 const Container = ({
   contentContainerStyle,
+  keyboard = false,
   scrollEnabled = false,
   spaces = false,
   full = false,
   ...props
-}: Props) => {
-  const { colors } = useTheme();
-
-  return (
+}: Props) => (
+  <KeyboardAvoidingView
+    behavior="padding"
+    enabled={keyboard}
+  >
     <ScrollView
       {...props}
       scrollEnabled={scrollEnabled}
       contentContainerStyle={StyleSheet.flatten([
         contentContainerStyle,
         {
-          flexGrow: 1,
-          paddingHorizontal: spaces ? 30 : 0,
-          paddingVertical: 10,
           justifyContent: full ? 'center' : 'flex-start',
-          flex: full ? 1 : 0,
+          height: '100%',
+          // flex: full ? 1 : 0,
           // backgroundColor: colors.card,
-          // maxWidth: full ? 400 : undefined,
+          maxWidth: full ? 500 : undefined,
           alignSelf: full ? 'center' : undefined,
           width: full ? '100%' : undefined,
         },
       ])}
     />
-  );
-};
+  </KeyboardAvoidingView>
+);
 
-export default ({
-  keyboard = false,
-  ...props
-}: Props & { keyboard?: boolean }) => {
-  return keyboard ? (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
-      <Container {...props} />
-    </KeyboardAvoidingView>
-  ) : (
-    <Container {...props} />
-  );
-};
+const styles = StyleSheet.create({
+  keyboard: {
+    flex: 1,
+  },
+  scroll: {
+    flexGrow: 1,
+    // paddingHorizontal: spaces ? 30 : 0,
+    // paddingVertical: 20,
+  },
+});
+
+export default Container;

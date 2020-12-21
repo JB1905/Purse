@@ -1,33 +1,26 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { ListItem, ListItemProps } from 'react-native-elements';
+import {
+  StyleSheet,
+  Platform,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+} from 'react-native';
+import { ListItem as BaseListItem, ListItemProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-interface Props extends ListItemProps {}
-
-export default ({
+const ListItem = ({
+  title,
+  subtitle,
   titleStyle,
   subtitleStyle,
   containerStyle,
   ...props
-}: Props) => {
+}: ListItemProps) => {
   const { colors } = useTheme();
 
   return (
-    <ListItem
+    <BaseListItem
       {...props}
-      titleStyle={StyleSheet.flatten([
-        titleStyle,
-        {
-          color: colors.text,
-        },
-      ])}
-      subtitleStyle={StyleSheet.flatten([
-        subtitleStyle,
-        {
-          color: colors.text,
-        },
-      ])}
       containerStyle={StyleSheet.flatten([
         containerStyle,
         {
@@ -36,6 +29,26 @@ export default ({
         },
       ])}
       bottomDivider
-    />
+      Component={
+        // TODO isIos
+        Platform.OS === 'ios' ? TouchableHighlight : TouchableNativeFeedback
+      }
+    >
+      <BaseListItem.Content>
+        <BaseListItem.Title
+          style={StyleSheet.flatten([titleStyle, { color: colors.text }])}
+        >
+          {title}
+        </BaseListItem.Title>
+
+        <BaseListItem.Subtitle
+          style={StyleSheet.flatten([subtitleStyle, { color: colors.text }])}
+        >
+          {subtitle}
+        </BaseListItem.Subtitle>
+      </BaseListItem.Content>
+    </BaseListItem>
   );
 };
+
+export default ListItem;

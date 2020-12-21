@@ -1,37 +1,45 @@
 import React from 'react';
 import { StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { Button, ButtonProps } from 'react-native-elements';
+import { Button as BaseButton, ButtonProps } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 
-export default ({
+const Button = ({
   type = 'solid',
+  containerStyle,
   buttonStyle,
   titleStyle,
   ...props
 }: ButtonProps) => {
   const { colors } = useTheme();
 
+  const isClear = type === 'clear';
+
   return (
-    <Button
+    <BaseButton
       {...props}
       type={type}
-      background={TouchableNativeFeedback.Ripple('#fff')}
-      useForeground={type === 'clear'}
+      background={TouchableNativeFeedback.Ripple(colors.background)}
+      useForeground={isClear}
+      containerStyle={StyleSheet.flatten([
+        containerStyle,
+        { marginVertical: 0 },
+        // { marginVertical: isClear ? 0 : 14 },
+      ])}
       buttonStyle={StyleSheet.flatten([
         buttonStyle,
-        {
-          backgroundColor: type === 'clear' ? 'transparent' : colors.primary,
-          borderRadius: 10,
-        },
+        // {paddingVertical: 10},
+        { backgroundColor: isClear ? 'transparent' : colors.primary },
       ])}
       titleStyle={StyleSheet.flatten([
         titleStyle,
         {
-          color: type === 'clear' ? colors.primary : '#fff',
-          fontWeight: type === 'clear' ? '400' : '500',
-          paddingBottom: type === 'clear' ? 0 : 3,
+          color: isClear ? colors.primary : '#fff',
+          fontWeight: isClear ? '400' : '500',
+          paddingBottom: isClear ? 0 : 3,
         },
       ])}
     />
   );
 };
+
+export default Button;

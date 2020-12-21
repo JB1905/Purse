@@ -1,55 +1,85 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-import { Input, InputProps } from 'react-native-elements';
+import {
+  Input as BaseInput,
+  InputProps,
+  ThemeContext,
+} from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
+import { FieldError } from 'react-hook-form';
 
-interface Props extends InputProps {
-  flat?: boolean;
+import Icon from './Icon';
+
+interface Props extends Omit<InputProps, 'errorMessage'> {
+  readonly flat?: boolean;
+  readonly errorMessage?: FieldError | string;
 }
 
-export default ({
+const Input = ({
   containerStyle,
   inputContainerStyle,
   inputStyle,
   flat,
+  errorMessage,
+  // style,
   ...props
 }: Props) => {
   const { colors } = useTheme();
 
+  const { theme } = useContext(ThemeContext); // TODO safe
+
+  // console.log(props);
+
   return (
-    <Input
+    <BaseInput
       {...props}
+      // errorMessage={errorMessage as string} // TODO
+      leftIcon={
+        errorMessage &&
+        flat && (
+          <Icon
+            name="warning"
+            // size={20}
+            color="red"
+            style={{ marginRight: 10 }}
+          />
+        )
+      }
       containerStyle={StyleSheet.flatten([
         containerStyle,
         flat
           ? {
               paddingLeft: 0,
               paddingRight: 0,
+              // marginVertical: 10,
             }
           : {
+              paddingHorizontal: 0,
+              marginBottom: -12, // TODO
               backgroundColor: colors.background,
-              borderColor: colors.border,
-              borderWidth: 2,
-              borderRadius: 10,
               padding: 0,
             },
       ])}
       inputContainerStyle={StyleSheet.flatten([
         inputContainerStyle,
-        {
-          borderTopWidth: 0,
-          borderBottomWidth: 0,
-        },
         flat
           ? {
               paddingHorizontal: 20,
               backgroundColor: colors.card,
               borderTopColor: colors.border,
               borderBottomColor: colors.border,
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
+              borderTopWidth: StyleSheet.hairlineWidth,
+              borderBottomWidth: StyleSheet.hairlineWidth,
             }
-          : null,
+          : {
+              height: 45,
+              paddingHorizontal: 10,
+              borderColor: errorMessage ? theme.colors.error : colors.border,
+              borderWidth: 2,
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRadius: 10,
+            },
       ])}
       labelStyle={StyleSheet.flatten([
         flat
@@ -59,13 +89,15 @@ export default ({
               fontSize: 14,
               color: colors.text,
               opacity: 0.5,
-              marginVertical: 6,
+              marginBottom: 6,
+              // marginVertical: 6, // TODO
               marginHorizontal: 20,
             }
           : {
               display: 'none',
             },
       ])}
+      // placeholderTextColor={colors.text}
       inputStyle={StyleSheet.flatten([
         inputStyle,
         {
@@ -73,7 +105,8 @@ export default ({
         },
         flat
           ? {
-              paddingVertical: 12,
+              // paddingVertical: 12,
+              paddingVertical: 0,
               fontSize: 18,
             }
           : {
@@ -83,3 +116,7 @@ export default ({
     />
   );
 };
+
+// const styles = StyleSheet.create({});
+
+export default Input;

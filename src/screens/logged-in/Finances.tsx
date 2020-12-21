@@ -1,117 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { RefreshControl, View, TouchableOpacity, Text } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import React from 'react';
+import { RefreshControl } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { Agenda } from 'react-native-calendars';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 
-import Loader from '../../components/Loader';
-import Button from '../../components/Button';
-import Splash from '../../components/Splash';
-import ListItem from '../../components/ListItem';
+// import { DataList } from '../../components/DataList';
+import FallbackScreen from '../../components/FallbackScreen';
 
-import { getDataForDay, getCurrentUser } from '../../api';
+import type { LoggedInProps } from '../../types/Navigation';
 
-import { LoggedInProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
-const Finances: React.FC<LoggedInProps<'Finances'>> = ({ navigation }) => {
+const Finances = ({ navigation }: LoggedInProps<Route.FINANCES>) => {
   const { colors } = useTheme();
 
-  const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
+  useFirestoreConnect([Collection.Data, Collection.Categories]);
 
-  // useEffect(() => {
-  //   const dayStart = new Date(day);
-  //   const dayEnd = new Date(day);
-
-  //   dayStart.setHours(1, 0, 0, 0);
-  //   dayEnd.setHours(25, 0, 0, 0);
-
-  //   getDataForDay(
-  //     getCurrentUser()?.uid,
-  //     'incomes',
-  //     dayStart,
-  //     dayEnd
-  //   ).then(res => setData(res));
-  // }, [day]);
-
-  const [dataFor, setDataFor] = useState();
-  const [day, setDay] = useState(Date.now());
-  const [dates, setDates] = useState([]);
+  const { data, categories } = useSelector((state) => ({
+    data: state.firestore.ordered.data,
+    categories: state.firestore.ordered.categories,
+  }));
 
   return (
-    <Agenda
-      items={{}}
-      refreshControl={
-        <RefreshControl
-          tintColor={colors.primary}
-          refreshing={null}
-          onRefresh={null}
-        />
-      }
-      renderItem={() => <View />}
-      renderEmptyDate={() => <View />}
-      // rowHasChanged={(r1, r2) => {
-      //   console.log(r1, r2);
-      // }}
-      theme={{
-        calendarBackground: colors.card,
-        selectedDayBackgroundColor: colors.primary,
-        todayTextColor: colors.primary,
-      }}
+    <FallbackScreen
+      title="This screen is not available"
+      message="It will be added in the next version"
     />
   );
 };
-
-//data ?
-// data.length > 0 ? (
-//   <SwipeListView
-//     data={data}
-//     scrollEnabled={true}
-//     refreshControl={
-//       <RefreshControl
-//         tintColor={colors.primary}
-//         refreshing={null}
-//         onRefresh={null}
-//       />
-//     }
-//     keyExtractor={item => item.id}
-//     renderItem={({ item }) => (
-//       <ListItem title={item.title} subtitle={item.value} leftIcon={null} />
-//     )}
-//     renderHiddenItem={(data, rowMap) => (
-//       <View>
-//         <TouchableOpacity
-//           onPress={() => {
-//             navigation.navigate('FinanceManager', {
-//               ...data.item
-//             });
-//           }}
-//         >
-//           <Text>Edit</Text>
-//         </TouchableOpacity>
-
-//         <TouchableOpacity onPress={null}>
-//           <Text>Delete</Text>
-//         </TouchableOpacity>
-//       </View>
-//     )}
-//     // leftOpenValue={75}
-//     rightOpenValue={-150}
-//   />
-// ) : (
-//   <Splash title="Data not found" message="There is no incomes for this day">
-//     <Button
-//       title="Add it here"
-//       type="clear"
-//       onPress={() => {
-//         navigation.navigate('FinanceManager', {
-//           date: day
-//         });
-//       }}
-//     />
-//   </Splash>
-// )
-// ) : (
-// <Loader />
-// )}
 
 export default Finances;

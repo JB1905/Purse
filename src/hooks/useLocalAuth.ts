@@ -1,32 +1,45 @@
 import { useState, useEffect } from 'react';
 import * as LocalAuthentication from 'expo-local-authentication';
+// import { AsyncStorage } from 'react-native';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../reducers';
 
 export const useLocalAuth = () => {
-  const [localAuth, setLocalAuth] = useState<boolean>(null);
+  const localAuth = useSelector(
+    (state: RootState) => state.localAuth.localAuth
+  );
 
-  useEffect(() => {
-    const checkDeviceAuthOptions = async () => {
-      const isSupported = await LocalAuthentication.hasHardwareAsync();
+  // useEffect(() => {
+  //   const checkDeviceAuthOptions = async () => {
+  //     const isEnabled = await AsyncStorage.getItem('localAuthentication');
 
-      if (isSupported) {
-        const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+  //     const isSupported = await LocalAuthentication.hasHardwareAsync();
 
-        setLocalAuth(isEnrolled);
-      }
-    };
+  //     // console.log(isEnabled, !isEnabled === true, isEnabled && isSupported);
 
-    checkDeviceAuthOptions();
-  }, []);
+  //     if (isEnabled && isSupported) {
+  //       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
-  const authenticateLocally = () => {
-    LocalAuthentication.authenticateAsync()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  //       setLocalAuth(isEnrolled);
+  //     }
+  //   };
+
+  //   checkDeviceAuthOptions();
+  // }, []);
+
+  // const authenticateLocally = async () => {
+  //   try {
+  //     const res = await LocalAuthentication.authenticateAsync();
+
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  return {
+    localAuth,
+    // authenticateLocally,
   };
-
-  return { localAuth, authenticateLocally };
 };

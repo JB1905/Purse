@@ -1,13 +1,15 @@
 import React from 'react';
 
 import Container from '../../../components/Container';
+import FallbackScreen from '../../../components/FallbackScreen';
 
-const BottomNavItems: React.FC = () => {
-  // const items = [{ name: 'Search', icon: 'ios-search' }];
-
+const BottomNavItems = () => {
   return (
-    <Container scrollEnabled spaces={false}>
-      {null}
+    <Container>
+      <FallbackScreen
+        title="This screen is not available"
+        message="It will be added in the next version"
+      />
     </Container>
   );
 };

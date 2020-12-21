@@ -1,33 +1,46 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, {
+  useRef,
+  useLayoutEffect,
+  useState,
+  Suspense,
+  lazy,
+} from 'react';
+import { useFirestoreConnect } from 'react-redux-firebase';
 import {
-  RefreshControl,
-  View,
-  Text,
-  TouchableOpacity,
+  Alert,
   ActionSheetIOS,
+  findNodeHandle,
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
 } from 'react-native';
-import SegmentedControlIOS from '@react-native-community/segmented-control';
-import { SwipeListView } from 'react-native-swipe-list-view';
 import MapView, { Marker } from 'react-native-maps';
 import { useTheme } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
+import HeaderButton from '../../components/HeaderButton';
 import Loader from '../../components/Loader';
-import ListItem from '../../components/ListItem';
-import Splash from '../../components/Splash';
-import Button from '../../components/Button';
-import Icon from '../../components/Icon';
 
-import { getDataForCategory, deleteCategory } from '../../api';
+import type { LoggedInProps } from '../../types/Navigation';
 
-import { LoggedInProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
-const Category: React.FC<LoggedInProps<'Category'>> = ({
-  route,
-  navigation,
-}) => {
+const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
+const Button = lazy(() => import('../../components/Button'));
+const SegmentedControl = lazy(
+  () => import('../../components/SegmentedControl')
+);
+
+const DataList = lazy(() => import('../../components/DataList'));
+
+const Category = ({ route, navigation }: LoggedInProps<Route.CATEGORY>) => {
   const { id, name } = route.params;
 
   const { colors } = useTheme();
+
+  const ref = useRef(null);
 
   const showActionSheet = () => {
     ActionSheetIOS.showActionSheetWithOptions(
@@ -41,16 +54,31 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
         destructiveButtonIndex: 2,
         cancelButtonIndex: 3,
         tintColor: colors.primary,
+        anchor: findNodeHandle(ref.current),
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-          navigation.navigate('CategoryManager', { id, name });
+          navigation.navigate(Route.CATEGORY_MANAGER, { id, name });
         } else if (buttonIndex === 1) {
-          navigation.navigate('FinanceManager', {
+          navigation.navigate(Route.FINANCE_MANAGER, {
             category: id,
           });
         } else if (buttonIndex === 2) {
-          deleteCategory(id).then(() => navigation.goBack());
+          Alert.alert(
+            `Do you want to remove ${name}?`,
+            'It will remove category with all data',
+            [
+              {
+                text: 'Remove',
+                style: 'destructive',
+                onPress: () => {},
+              },
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+            ]
+          );
         }
       }
     );
@@ -60,114 +88,57 @@ const Category: React.FC<LoggedInProps<'Category'>> = ({
     navigation.setOptions({
       headerTitle: name,
       headerRight: () => (
-        <TouchableOpacity onPress={showActionSheet}>
-          <Icon name="ios-more" color={colors.primary} />
-        </TouchableOpacity>
+        // <TouchableOpacity ref={ref} onPress={showActionSheet}>
+        //   {/* <Text>aaa</Text> */}
+        // </TouchableOpacity>
+        <HeaderButton iconName="more" ref={ref} onPress={showActionSheet} />
       ),
     });
   }, [navigation]);
 
   const [tab, setTab] = useState(0);
 
-  const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
+  useFirestoreConnect([Collection.Categories, Collection.Data]);
 
-  useEffect(() => {
-    getDataForCategory(id).then((res) => setData(res));
-  }, []);
+  const data = useSelector((state: any) => state.firestore.ordered.data);
 
   return data ? (
-    data.length > 0 ? (
-      <>
-        <SegmentedControlIOS
-          values={['Expenses List', 'Map']}
-          selectedIndex={tab}
-          onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-          style={{
-            marginHorizontal: 10,
-            marginVertical: 6,
-          }}
-        />
-
-        {tab === 0 ? (
-          <SwipeListView
-            data={data}
-            scrollEnabled={true}
-            refreshControl={
-              <RefreshControl
-                tintColor={colors.primary}
-                refreshing={null}
-                onRefresh={null}
-              />
-            }
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ListItem
-                title={item.title}
-                subtitle={item.value}
-                leftIcon={null}
-              />
-            )}
-            renderHiddenItem={(data) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <TouchableOpacity
-                  style={{
-                    width: 75,
-                    height: 67,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#226ff5',
-                  }}
-                  onPress={() => {
-                    navigation.navigate('FinanceManager', {
-                      ...data.item,
-                    });
-                  }}
-                >
-                  <Text style={{ color: '#fff', fontSize: 16 }}>Edit</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    width: 75,
-                    height: 67,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#f52222',
-                  }}
-                  onPress={null}
-                >
-                  <Text style={{ color: '#fff', fontSize: 16 }}>Delete</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            rightOpenValue={-150}
+    // TODO hoc
+    <Suspense fallback={<Loader />}>
+      {data.length > 0 ? (
+        <>
+          <SegmentedControl
+            values={['Expenses List', 'Map']}
+            selectedIndex={tab}
+            onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
           />
-        ) : (
-          <MapView style={{ flex: 1 }}>
-            {data.map((item) => (
-              <Marker key={item.id} coordinate={item.coords} />
-            ))}
-          </MapView>
-        )}
-      </>
-    ) : (
-      <Splash title="Not found data for category">
-        <Button
-          title="Add it here"
-          onPress={() => {
-            navigation.navigate('FinanceManager', {
-              category: route?.params?.id,
-            });
-          }}
-          type="clear"
-        />
-      </Splash>
-    )
+
+          <View style={{ borderTopWidth: StyleSheet.hairlineWidth, flex: 1 }}>
+            {tab === 0 ? (
+              <DataList data={data} />
+            ) : (
+              <MapView style={{ flex: 1 }}>
+                {data.map((item) => (
+                  <Marker key={item.id} coordinate={item.coords} />
+                ))}
+              </MapView>
+            )}
+          </View>
+        </>
+      ) : (
+        <FallbackScreen title="Not found data for category">
+          <Button
+            title="Add it here"
+            onPress={() => {
+              navigation.navigate(Route.FINANCE_MANAGER, {
+                category: route?.params?.id,
+              });
+            }}
+            type="clear"
+          />
+        </FallbackScreen>
+      )}
+    </Suspense>
   ) : (
     <Loader />
   );

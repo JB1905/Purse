@@ -1,33 +1,35 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-import { SplashScreen } from 'expo';
+import AppLoading from 'expo-app-loading';
 
 import { LoggedIn } from './logged-in';
 import { LoggedOut } from './logged-out';
 
-import { AuthContext } from '../providers/AuthProvider';
+import type { AppParamList } from '../types/Navigation';
 
-import { AppParamList } from '../types/Navigation';
+import { Route } from '../enums/Route';
 
-const Stack = createNativeStackNavigator<AppParamList>();
+const NativeStack = createNativeStackNavigator<AppParamList>();
 
-const Layout: React.FC = () => {
-  const { isAuth, isLoading } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (!isLoading) SplashScreen.hide();
-  }, [isLoading]);
+const Layout = () => {
+  const auth = useSelector((state) => state.firebase.auth);
+  
+  if (!isLoaded(auth)) {
+    return <AppLoading autoHideSplash />;
+  }
 
   return (
-    <Stack.Navigator
+    <NativeStack.Navigator
       screenOptions={{ headerShown: false, stackAnimation: 'none' }}
     >
-      {isAuth ? (
-        <Stack.Screen name="LoggedIn" component={LoggedIn} />
+      {isEmpty(auth) ? (
+        <NativeStack.Screen name={Route.LOGGED_OUT} component={LoggedOut} />
       ) : (
-        <Stack.Screen name="LoggedOut" component={LoggedOut} />
+        <NativeStack.Screen name={Route.LOGGED_IN} component={LoggedIn} />
       )}
-    </Stack.Navigator>
+    </NativeStack.Navigator>
   );
 };
 

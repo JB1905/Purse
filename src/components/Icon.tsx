@@ -1,17 +1,22 @@
 import React from 'react';
-import { Icon } from 'react-native-elements';
+import { Icon as BaseIcon, IconProps } from 'react-native-elements';
 import { Platform } from 'react-native';
 
-import { icons } from '../constants/icons';
+import { icons, categoryIcons } from '../constants/icons';
 
-export default ({ type, name, ...props }) => {
-  console.log(name, icons[name]);
+// TODO
+const Icon = ({ type, name, ...props }: IconProps) => (
+  <BaseIcon
+    {...props}
+    name={
+      Object.assign(icons, categoryIcons)[name][
+        Platform.OS === 'ios' ? 'ios' : 'android'
+      ]
+    }
+    type={type ?? Platform.OS === 'ios' ? 'ionicon' : 'material'}
+  />
+);
 
-  return (
-    <Icon
-      {...props}
-      // icon={}
-      type={type ?? Platform.OS === 'ios' ? 'ionicon' : 'material'}
-    />
-  );
-};
+// const styles = StyleSheet.create({});
+
+export default Icon;

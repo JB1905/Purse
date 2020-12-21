@@ -2,7 +2,6 @@ node_modules/**/*
 .expo/*
 .expo-shared
 npm-debug.*
-config
 *.jks
 *.p8
 *.p12
@@ -13,3 +12,6 @@ web-build/
 web-report/
 yarn-error.log
 .DS_Store
+
+.env
+.env.local

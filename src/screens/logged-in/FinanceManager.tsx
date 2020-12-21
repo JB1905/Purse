@@ -1,34 +1,44 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, {
+  useRef,
+  useLayoutEffect,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+} from 'react';
 import {
-  Dimensions,
   ActionSheetIOS,
-  Modal,
   Alert,
-  Text,
-  TouchableOpacity,
+  findNodeHandle,
+  // Image,
+  // Modal,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import SegmentedControlIOS from '@react-native-community/segmented-control';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import MapView, { Marker } from 'react-native-maps';
-import { Image, Icon, colors } from 'react-native-elements';
-import { useTheme } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useTheme } from '@react-navigation/native';
+import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
+import MapView, { Marker } from 'react-native-maps';
+import { Stack, Box } from '@mobily/stacks';
 
 import Container from '../../components/Container';
-import Wrapper from '../../components/Wrapper';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import Box from '../../components/Box';
-import Picker from '../../components/Picker';
-import Splash from '../../components/Splash';
-import Loader from '../../components/Loader';
 import HeaderButton from '../../components/HeaderButton';
+import StatusBar from '../../components/StatusBar';
+import SectionBox from '../../components/SectionBox';
+import Loader from '../../components/Loader';
 
-import { addData, updateData, getCategories, getCurrentUser } from '../../api';
+import { usePhotos } from '../../hooks/usePhotos';
 
-import { MainProps } from '../../types/Navigation';
+import type { MainProps } from '../../types/Navigation';
+
+import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
+
+const Input = lazy(() => import('../../components/Input'));
+const Button = lazy(() => import('../../components/Button'));
+const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
+
+// const Maps = lazy(() => import('../../components/Modals/Maps'));
+// const Camera = lazy(() => import('../../components/Modals/Camera'));
 
 type FormData = {
   type: string;
@@ -40,19 +50,30 @@ type FormData = {
   images: any[];
 };
 
-const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
+const FinanceManager = ({
   route,
   navigation,
-}) => {
+}: MainProps<Route.FINANCE_MANAGER>) => {
+  const firestore = useFirestore();
+
   const id = route.params?.id ?? '';
 
   const { colors } = useTheme();
 
-  const { register, handleSubmit, reset, setValue, getValues } = useForm<
-    FormData
-  >({
+  const ref = useRef();
+
+  const [error, setError] = useState(''); // TODO
+  const [loading, setLoading] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  useFirestoreConnect([Collection.Categories]);
+
+  const categories = useSelector((state) => state.firestore.ordered.categories);
+
+  const { register, handleSubmit, reset, setValue, watch } = useForm<FormData>({
     defaultValues: {
-      type: route.params?.type ?? null,
+      type: route.params?.type ?? undefined,
       value: route.params?.value ?? '',
       title: route.params?.title ?? '',
       category: route.params?.category ?? '',
@@ -65,44 +86,74 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
   useEffect(() => {
     register('value', { required: true });
     register('title', { required: true });
+    register('category', { required: true });
   }, [register]);
 
-  const [tab, setTab] = useState(0);
+  const { getImageFromCameraRoll } = usePhotos();
 
-  const [checking, setChecking] = useState<boolean>(true);
-  const [error, setError] = useState<string>(null);
+  const onSubmit = async (data: FormData) => {
+    const createFinance = () => {
+      if (error) setError('');
 
-  const [categories, setCategories] = useState<
-    firebase.firestore.DocumentData[]
-  >([]);
+      setLoading(true);
 
-  useEffect(() => {
-    getCategories(getCurrentUser()?.uid).then((res) => {
-      setCategories(res);
-      setChecking(false);
-    });
-  }, []);
+      try {
+        firestore.collection(Collection.Data).add({
+          ...data, // user: getCurrentUser()?.uid
+        });
 
-  const createNewFinance = async () => {
-    try {
-      // if (error) setError(null);
+        Alert.alert(`Added data: ${data.title}`, undefined, [
+          {
+            text: 'Done',
+            style: 'cancel',
+            onPress: navigation.goBack,
+          },
+          {
+            text: 'Add more',
+            onPress: () => reset(),
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
 
-      await addData({ name, user: getCurrentUser()?.uid });
+      setLoading(false);
+    };
 
-      Alert.alert(`Added data: ${name}`, null, [
+    const updateFinance = () => {
+      setLoading(true);
+
+      try {
+        firestore.collection(Collection.Data).doc(id).update(data);
+
+        Alert.alert(`Updated ${data.title}`, undefined, [
+          {
+            text: 'Done',
+            onPress: navigation.goBack,
+          },
+        ]);
+      } catch (err) {
+        setError(err);
+      }
+
+      setLoading(false);
+    };
+
+    Alert.alert(
+      'Do you want to save this finance?',
+      `${data.title} will be ${id ? 'updated' : 'added'}`,
+      [
         {
-          text: 'Done',
-          onPress: navigation.goBack,
+          text: 'Cancel',
+          style: 'cancel',
         },
         {
-          text: 'Add more',
+          text: id ? 'Update' : 'Save',
           style: 'destructive',
-          // onPress: resetForm
+          onPress: id ? updateFinance : createFinance,
         },
-      ]);
-    } catch (err) {
-      setError(err);
-    }
+      ]
+    );
   };
 
   useLayoutEffect(() => {
@@ -121,205 +172,138 @@ const FinanceManager: React.FC<MainProps<'FinanceManager'>> = ({
           <HeaderButton
             title="Save"
             iconName="save"
-            onPress={handleSubmit(createNewFinance)}
+            onPress={handleSubmit(onSubmit)}
             spaces
           />
         ),
     });
   }, [navigation, categories]);
 
-  // const [showModal, setShowModal] = useState<string | boolean>(false);
+  const showImageSourcesList = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Select image from camera roll', 'Take a photo', 'Cancel'],
+        cancelButtonIndex: 2,
+        tintColor: colors.primary,
+        anchor: findNodeHandle(ref.current),
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          getImageFromCameraRoll();
+        } else if (buttonIndex === 1) {
+          // setOpenModal('camera');
+        }
+      }
+    );
+  };
 
-  // useEffect(() => {
-  //   getCameraRollPermission();
-  // }, []);
+  // const renderSection = () => {
+  //   switch() {
 
-  // const handleChooseImage = async () => {
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //     allowsEditing: true,
-  //     aspect: [4, 3]
-  //   });
-
-  //   if (!result.cancelled) {
-  //     setImages(images => [...images, result]);
   //   }
   // };
 
-  // const showImageSourcesList = () => {
-  //   ActionSheetIOS.showActionSheetWithOptions(
-  //     {
-  //       options: ['Select image from camera roll', 'Take a photo', 'Cancel'],
-  //       cancelButtonIndex: 2
-  //     },
-  //     buttonIndex => {
-  //       if (buttonIndex === 0) {
-  //         handleChooseImage();
-  //       } else if (buttonIndex === 1) {
-  //         setShowModal('camera');
-  //       }
-  //     }
-  //   );
-  // };
+  return (
+    <Container keyboard scrollEnabled full>
+      <StatusBar isModal />
 
-  // const updateExisitingData = async () => {
-  //   try {
-  //     if (error) setError(null);
+      <Box paddingY={8}>
+        {/* <Suspense fallback={<Loader />}> */}
+        {/* <Stack space={8}> */}
+        {categories.length > 0 ? (
+          <>
+            <Input
+              onChangeText={(text) => setValue('value', text)}
+              defaultValue={watch().value}
+              label="Amount"
+              placeholder="Amount"
+              keyboardType="number-pad"
+              flat
+            />
 
-  //     await updateData(id, { name });
+            <Input
+              onChangeText={(text) => setValue('title', text)}
+              defaultValue={watch().title}
+              label="Title"
+              placeholder="Title"
+              flat
+            />
 
-  //     Alert.alert(`Updated data: ${name}`, null, [
-  //       {
-  //         text: 'Done',
-  //         onPress: () => navigation.goBack()
-  //       }
-  //     ]);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // };
+            <SectionBox title="Category">
+              {/* <Picker
+                  selectedValue={watch().category}
+                  onValueChange={(value) => setValue('category', value)}
+                  style={{
+                    maxWidth: 440,
+                    width: '100%',
+                    alignSelf: 'center',
+                  }}
+                >
+                  <Picker.Item label="" value="" />
 
-  //   if (type && value && title && category && date) {
-  //     Alert.alert(
-  //       'Do you want to save this finance?',
-  //       `Finance ${title} will be ${id ? 'updated' : 'added'}`,
-  //       [
-  //         {
-  //           text: 'Cancel',
-  //           style: 'cancel'
-  //         },
-  //         {
-  //           text: id ? 'Update' : 'Save',
-  //           style: 'destructive',
-  //           onPress: id ? updateExisitingData : createNewData
-  //         }
-  //       ]
-  //     );
-  //   }
-  // };
+                  {categories.map((category) => (
+                    <Picker.Item
+                      label={category.name}
+                      value={category.id}
+                      key={category.id}
+                    />
+                  ))}
+                </Picker> */}
+            </SectionBox>
 
-  return checking ? (
-    <Loader />
-  ) : categories?.length > 0 ? (
-    <>
-      <Container keyboard scrollEnabled>
-        <Wrapper>
-          <Input
-            onChangeText={(text) => setValue('value', text)}
-            defaultValue={getValues().value}
-            label="Amount"
-            placeholder="Amount"
-            keyboardType="number-pad"
-            flat
-          />
-        </Wrapper>
-
-        <Wrapper>
-          <Input
-            onChangeText={(text) => setValue('title', text)}
-            defaultValue={getValues().title}
-            label="Title"
-            placeholder="Title"
-            flat
-          />
-        </Wrapper>
-
-        {/* <SegmentedControlIOS
-          values={['Incomes', 'Expenses']}
-          selectedIndex={type}
-          onChange={e => setType(e.nativeEvent.selectedSegmentIndex)}
-          style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 6 }}
-        /> */}
-
-        <SegmentedControlIOS
-          values={['Category', 'Date', 'Place']}
-          selectedIndex={tab}
-          onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-          style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 6 }}
-        />
-
-        {/* <Wrapper>
-          <Box spaces={tab !== 2}>
-            {tab === 0 ? (
-              <Picker
-                selectedValue={category}
-                onValueChange={setCategory}
-                style={{
-                  maxWidth: 440,
-                  width: '100%'
-                }}
-              >
-                <Picker.Item label="" value="" key={0} />
-
-                {categories.map(([key, value]: [string, string], index) => (
-                  <Picker.Item label={value.name} value={key} key={index + 1} />
-                ))}
-              </Picker>
-            ) : tab === 1 ? (
-              <DateTimePicker
-                value={new Date(date)}
-                onChange={(e, date) => setDate(date)}
-                mode="datetime"
-              />
-            ) : (
+            <SectionBox title="Place">
               <MapView
                 pitchEnabled={false}
                 rotateEnabled={false}
                 zoomEnabled={false}
                 scrollEnabled={false}
-                onPress={() => setShowModal('map')}
+                // onPress={() => setOpenModal('map')}
+                style={{ width: '100%', height: 240 }}
                 cacheEnabled
-                style={{
-                  width: '100%',
-                  height: (Dimensions.get('window').width / 5) * 3
-                }}
               >
-                <Marker coordinate={coords} />
+                {/* <Marker coordinate={coords} /> */}
               </MapView>
-            )}
-          </Box>
-        </Wrapper>
+            </SectionBox>
 
-        <Wrapper
-          style={{
-            paddingHorizontal: 20,
-            paddingVertical: 15
-          }}
-        >
-          <Button title="Add Image" onPress={showImageSourcesList} />
-        </Wrapper>
+            <Button
+              title="Add Image"
+              onPress={showImageSourcesList}
+              ref={ref}
+            />
 
-        {images.map(image => (
-          <Image
-            source={{ uri: image.uri }}
-            style={{ width: 100, height: 100 }}
-          />
-        ))} */}
-      </Container>
+            {/* {getValues().images.map((image) => (
+              <Image
+                source={{ uri: image.uri }}
+                style={{ width: 100, height: 100 }}
+              />
+            ))} */}
 
-      {/* <Modal animationType="slide" visible={!!showModal}>
-        {showModal === 'camera' ? (
-          <Camera style={{ flex: 1 }}></Camera>
-        ) : showModal === 'map' ? (
-          <MapView style={{ flex: 1 }}>
-            <Marker coordinate={coords} />
-          </MapView>
-        ) : null}
+            {/* <Modal visible={!!openModal} presentationStyle="formSheet">
+              <Maps />
+            </Modal> */}
 
-        <Button title="Close" onPress={() => setShowModal(false)} />
-      </Modal> */}
-    </>
-  ) : (
-    <Splash
-      title="No any categories"
-      message="Before add expense create new category"
-    >
-      <Button
-        title="Add it here"
-        onPress={() => navigation.navigate('CategoryManager')}
-        type="clear"
-      />
-    </Splash>
+            {/* <Modal visible={true} presentationStyle="formSheet">
+              <Camera />
+            </Modal> */}
+          </>
+        ) : (
+          <FallbackScreen
+            title="No any categories"
+            message="Before add expense create new category"
+          >
+            <Button
+              title="Add it here"
+              onPress={() => navigation.navigate(Route.CATEGORY_MANAGER)}
+              type="clear"
+            />
+          </FallbackScreen>
+        )}
+        {/* </Stack> */}
+        {/* </Suspense> */}
+      </Box>
+
+      {loading && <Loader />}
+    </Container>
   );
 };
 

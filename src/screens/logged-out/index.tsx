@@ -9,26 +9,26 @@ import ResetPassword from './ResetPassword';
 
 import HeaderButton from '../../components/HeaderButton';
 
-import { LoggedOutParamList } from '../../types/Navigation';
+import type { LoggedOutParamList } from '../../types/Navigation';
+
+import { Route } from '../../enums/Route';
 
 const NativeStack = createNativeStackNavigator<LoggedOutParamList>();
 
-const CancelButton: React.FC = () => {
+// TODO isIos = Platform.OS === 'ios'
+
+const CancelButton = () => {
   const navigation = useNavigation();
 
   return (
-    <HeaderButton
-      title="Cancel"
-      iconName="close"
-      onPress={() => navigation.goBack()}
-    />
+    <HeaderButton title="Cancel" iconName="close" onPress={navigation.goBack} />
   );
 };
 
-const SignUpScreen: React.FC = () => (
+const SignUpScreen = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
-      name="SignUp"
+      name={Route.SIGN_UP}
       component={SignUp}
       options={() => ({
         title: '',
@@ -38,10 +38,10 @@ const SignUpScreen: React.FC = () => (
   </NativeStack.Navigator>
 );
 
-const ResetPasswordScreen: React.FC = () => (
+const ResetPasswordScreen = () => (
   <NativeStack.Navigator>
     <NativeStack.Screen
-      name="ResetPassword"
+      name={Route.RESET_PASSWORD}
       component={ResetPassword}
       options={() => ({
         title: '',
@@ -51,28 +51,28 @@ const ResetPasswordScreen: React.FC = () => (
   </NativeStack.Navigator>
 );
 
-export const LoggedOut: React.FC = () => (
+export const LoggedOut = () => (
   <NativeStack.Navigator
-    initialRouteName="SignIn"
+    initialRouteName={Route.SIGN_IN}
     screenOptions={{
       gestureEnabled: false,
       stackPresentation: Platform.OS === 'ios' ? 'formSheet' : 'push',
     }}
   >
     <NativeStack.Screen
-      name="SignIn"
+      name={Route.SIGN_IN}
       component={SignIn}
       options={{ headerShown: false }}
     />
 
     <NativeStack.Screen
-      name="SignUp"
+      name={Route.SIGN_UP}
       component={SignUpScreen}
       options={{ headerShown: Platform.OS === 'ios' }}
     />
 
     <NativeStack.Screen
-      name="ResetPassword"
+      name={Route.RESET_PASSWORD}
       component={ResetPasswordScreen}
       options={{ headerShown: Platform.OS === 'ios' }}
     />

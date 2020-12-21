@@ -1,49 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
+import { RefreshControl } from 'react-native';
+import { useFirestoreConnect } from 'react-redux-firebase';
+import { useSelector } from 'react-redux';
 
-import Container from '../../components/Container';
-import Button from '../../components/Button';
-import Splash from '../../components/Splash';
 import Loader from '../../components/Loader';
+import FallbackScreen from '../../components/FallbackScreen';
 
-import { getCurrentUser, getCategories } from '../../api';
+import type { LoggedInProps } from '../../types/Navigation';
 
-import { LoggedInProps } from '../../types/Navigation';
+import { Collection } from '../../enums/Collection';
+import { Route } from '../../enums/Route';
 
-const Categories: React.FC<LoggedInProps<'Categories'>> = ({ navigation }) => {
-  const [data, setData] = useState<firebase.firestore.DocumentData[]>(null);
+const Container = lazy(() => import('../../components/Container'));
+const Button = lazy(() => import('../../components/Button'));
 
-  useEffect(() => {
-    getCategories(getCurrentUser()?.uid).then((res) => setData(res));
-  }, []);
+const Categories = ({ navigation }: LoggedInProps<Route.CATEGORIES>) => {
+  const uid = useSelector((state) => state.firebase.auth.uid);
 
-  return data ? (
-    <Container scrollEnabled>
-      {data.length > 0 ? (
-        data.map(([id, value]: any) => (
-          <Button
-            title={value.name}
-            onPress={() => {
-              navigation.navigate('Category', {
-                name: value.name,
-                id,
-              });
-            }}
-            key={id}
+  useFirestoreConnect([
+    {
+      collection: Collection.Categories,
+      where: ['user', '==', uid],
+    },
+  ]);
+
+  const categories = useSelector((state) => state.firestore.ordered.categories);
+
+  return categories ? (
+    // TODO hoc
+    <Suspense fallback={<Loader />}>
+      <Container
+        scrollEnabled
+        refreshControl={<RefreshControl refreshing={false} onRefresh={null} />}
+      >
+        {categories.length > 0 ? (
+          <>
+            {categories.map(({ id, name, ...data }) => (
+              <Button
+                title={name}
+                onPress={() =>
+                  navigation.navigate(Route.CATEGORY, { id, name, ...data })
+                }
+                key={id}
+              />
+            ))}
+          </>
+        ) : (
+          // TODO: update title & message
+          <FallbackScreen
+            title="Categories not found"
+            message="Create new category"
           />
-        ))
-      ) : (
-        <Splash
-          title="Categories not found"
-          message="There is no categories for your data yet"
-        >
-          <Button
-            title="Add them here"
-            onPress={() => navigation.navigate('CategoryManager')}
-            type="clear"
-          />
-        </Splash>
-      )}
-    </Container>
+        )}
+      </Container>
+    </Suspense>
   ) : (
     <Loader />
   );

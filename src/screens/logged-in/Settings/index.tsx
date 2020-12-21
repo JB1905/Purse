@@ -11,70 +11,74 @@ import BanksConnect from './BanksConnect';
 import UsersConnect from './UsersConnect';
 import PaymentMethods from './PaymentMethods';
 import BottomNavItems from './BottomNavItems';
+
 import HeaderButton from '../../../components/HeaderButton';
 
-import { SettingsParamList } from '../../../types/Navigation';
+import type { SettingsParamList } from '../../../types/Navigation';
 
-const Stack = createNativeStackNavigator<SettingsParamList>();
+import { Route } from '../../../enums/Route';
 
-const Settings: React.FC<any> = () => (
-  <Stack.Navigator
+const NativeStack = createNativeStackNavigator<SettingsParamList>();
+
+const Settings = () => (
+  <NativeStack.Navigator
     screenOptions={({ navigation }) => ({
       headerRight: () =>
         Platform.OS === 'ios' && (
           <HeaderButton
             title="Done"
-            onPress={() => navigation.navigate('Main')}
+            // TODO bold font
+            onPress={() => navigation.navigate(Route.MAIN)}
           />
         ),
     })}
   >
-    <Stack.Screen
-      name="Profile"
+    <NativeStack.Screen
+      name={Route.PROFILE}
       component={Profile}
       options={{ title: 'Profile' }}
     />
 
-    <Stack.Screen name="User" component={User} />
+    <NativeStack.Screen name={Route.USER} component={User} />
 
-    <Stack.Screen
-      name="BanksConnect"
+    <NativeStack.Screen
+      name={Route.BANKS_CONNECT}
       component={BanksConnect}
       options={{ title: 'Bank Accounts' }}
     />
 
-    <Stack.Screen
-      name="UsersConnect"
+    <NativeStack.Screen
+      name={Route.USERS_CONNECT}
       component={UsersConnect}
       options={{ title: 'Connected Users' }}
     />
 
-    <Stack.Screen
-      name="PaymentMethods"
+    <NativeStack.Screen
+      name={Route.PAYMENT_METHODS}
       component={PaymentMethods}
       options={{ title: 'Payment Methods' }}
     />
 
-    <Stack.Screen name="Appearance" component={Appearance} />
+    <NativeStack.Screen name={Route.APPEARANCE} component={Appearance} />
 
-    <Stack.Screen
-      name="AppIcon"
+    <NativeStack.Screen
+      name={Route.APP_ICON}
       component={AppIcon}
       options={{ title: 'App Icon' }}
     />
 
-    <Stack.Screen
-      name="BottomNavItems"
+    <NativeStack.Screen
+      name={Route.BOTTOM_NAV_ITEMS}
       component={BottomNavItems}
       options={{ title: 'Bottom Tabs' }}
     />
 
-    <Stack.Screen
-      name="LocalAuthentication"
+    <NativeStack.Screen
+      name={Route.LOCAL_AUTHENTICATION}
       component={LocalAuthentication}
       options={{ title: 'Local Authentication' }}
     />
-  </Stack.Navigator>
+  </NativeStack.Navigator>
 );
 
 export default Settings;
