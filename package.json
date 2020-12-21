@@ -19,7 +19,7 @@
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/datetimepicker": "3.0.4",
     "@react-native-community/masked-view": "0.1.10",
-    "@react-native-community/segmented-control": "2.2.1",
+    "@react-native-community/segmented-control": "2.2.2",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/devtools": "^5.1.18",
     "@react-navigation/material-bottom-tabs": "^5.3.10",
