@@ -15,9 +15,11 @@ import Analytics from './Analytics';
 
 import Search from './Search';
 
+import type { MainParamList } from '../../types/Navigation';
+
 import { Route } from '../../enums/Route';
 
-const NativeStack = createNativeStackNavigator<any>();
+const NativeStack = createNativeStackNavigator<MainParamList>();
 
 // TODO any
 const shareRoutesBetweenTabs = (

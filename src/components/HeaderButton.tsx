@@ -11,7 +11,7 @@ interface Props extends ButtonProps {
   readonly spaces?: boolean;
 }
 
-// TODO
+// TODO forward ref
 const HeaderButton = ({
   title,
   iconName,

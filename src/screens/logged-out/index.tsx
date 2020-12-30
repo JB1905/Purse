@@ -15,7 +15,8 @@ import { Route } from '../../enums/Route';
 
 const NativeStack = createNativeStackNavigator<LoggedOutParamList>();
 
-// TODO isIos = Platform.OS === 'ios'
+// TODO
+const isIos = Platform.OS === 'ios';
 
 const CancelButton = () => {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ const SignUpScreen = () => (
       component={SignUp}
       options={() => ({
         title: '',
-        headerRight: () => Platform.OS === 'ios' && <CancelButton />,
+        headerRight: () => isIos && <CancelButton />,
       })}
     />
   </NativeStack.Navigator>
@@ -45,7 +46,7 @@ const ResetPasswordScreen = () => (
       component={ResetPassword}
       options={() => ({
         title: '',
-        headerRight: () => Platform.OS === 'ios' && <CancelButton />,
+        headerRight: () => isIos && <CancelButton />,
       })}
     />
   </NativeStack.Navigator>
@@ -56,7 +57,7 @@ export const LoggedOut = () => (
     initialRouteName={Route.SIGN_IN}
     screenOptions={{
       gestureEnabled: false,
-      stackPresentation: Platform.OS === 'ios' ? 'formSheet' : 'push',
+      stackPresentation: isIos ? 'formSheet' : 'push',
     }}
   >
     <NativeStack.Screen
@@ -68,13 +69,13 @@ export const LoggedOut = () => (
     <NativeStack.Screen
       name={Route.SIGN_UP}
       component={SignUpScreen}
-      options={{ headerShown: Platform.OS === 'ios' }}
+      options={{ headerShown: isIos }}
     />
 
     <NativeStack.Screen
       name={Route.RESET_PASSWORD}
       component={ResetPasswordScreen}
-      options={{ headerShown: Platform.OS === 'ios' }}
+      options={{ headerShown: isIos }}
     />
   </NativeStack.Navigator>
 );

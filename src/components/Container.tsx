@@ -21,10 +21,7 @@ const Container = ({
   full = false,
   ...props
 }: Props) => (
-  <KeyboardAvoidingView
-    behavior="padding"
-    enabled={keyboard}
-  >
+  <KeyboardAvoidingView behavior="padding" enabled={keyboard}>
     <ScrollView
       {...props}
       scrollEnabled={scrollEnabled}

@@ -3,28 +3,24 @@ import React, {
   useLayoutEffect,
   useEffect,
   useState,
-  lazy,
-  Suspense,
+  useCallback,
 } from 'react';
-import {
-  ActionSheetIOS,
-  Alert,
-  findNodeHandle,
-  // Image,
-  // Modal,
-} from 'react-native';
+import { ActionSheetIOS, findNodeHandle, Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@react-navigation/native';
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
-import MapView, { Marker } from 'react-native-maps';
-import { Stack, Box } from '@mobily/stacks';
+import MapView from 'react-native-maps';
+import { Box } from '@mobily/stacks';
 
 import Container from '../../components/Container';
 import HeaderButton from '../../components/HeaderButton';
 import StatusBar from '../../components/StatusBar';
 import SectionBox from '../../components/SectionBox';
 import Loader from '../../components/Loader';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import FallbackScreen from '../../components/FallbackScreen';
 
 import { usePhotos } from '../../hooks/usePhotos';
 
@@ -32,13 +28,6 @@ import type { MainProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
 import { Route } from '../../enums/Route';
-
-const Input = lazy(() => import('../../components/Input'));
-const Button = lazy(() => import('../../components/Button'));
-const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
-
-// const Maps = lazy(() => import('../../components/Modals/Maps'));
-// const Camera = lazy(() => import('../../components/Modals/Camera'));
 
 type FormData = {
   type: string;
@@ -60,9 +49,10 @@ const FinanceManager = ({
 
   const { colors } = useTheme();
 
-  const ref = useRef();
+  // TODO
+  const ref = useRef<any>();
 
-  const [error, setError] = useState(''); // TODO
+  const [error, setError] = useState<Error>(); // TODO
   const [loading, setLoading] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
@@ -93,7 +83,7 @@ const FinanceManager = ({
 
   const onSubmit = async (data: FormData) => {
     const createFinance = () => {
-      if (error) setError('');
+      if (error) setError(undefined);
 
       setLoading(true);
 
@@ -179,7 +169,7 @@ const FinanceManager = ({
     });
   }, [navigation, categories]);
 
-  const showImageSourcesList = () => {
+  const showImageSourcesList = useCallback(() => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: ['Select image from camera roll', 'Take a photo', 'Cancel'],
@@ -195,20 +185,13 @@ const FinanceManager = ({
         }
       }
     );
-  };
-
-  // const renderSection = () => {
-  //   switch() {
-
-  //   }
-  // };
+  }, []);
 
   return (
     <Container keyboard scrollEnabled full>
       <StatusBar isModal />
 
       <Box paddingY={8}>
-        {/* <Suspense fallback={<Loader />}> */}
         {/* <Stack space={8}> */}
         {categories.length > 0 ? (
           <>
@@ -299,7 +282,6 @@ const FinanceManager = ({
           </FallbackScreen>
         )}
         {/* </Stack> */}
-        {/* </Suspense> */}
       </Box>
 
       {loading && <Loader />}

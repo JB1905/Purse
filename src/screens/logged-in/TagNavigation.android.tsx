@@ -3,7 +3,12 @@ import { Platform } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTheme } from '@react-navigation/native';
 
-import { FinancesScreen, AnalyticsScreen, CategoriesScreen, SearchScreen } from './Stack';
+import {
+  FinancesScreen,
+  AnalyticsScreen,
+  CategoriesScreen,
+  SearchScreen,
+} from './Stack';
 
 import Icon from '../../components/Icon';
 
@@ -13,7 +18,6 @@ import { Route } from '../../enums/Route';
 
 const Tab = createMaterialBottomTabNavigator<TabsParamList>();
 
-// TODO test
 export const MainScreen = () => {
   const { colors } = useTheme();
 

@@ -73,7 +73,11 @@ const App = () => {
     ),
     (props) => <StacksProvider spacing={4}>{props.children}</StacksProvider>,
     // TODO dark mode
-    (props) => <ThemeProvider theme={theme} useDark={false}>{props.children}</ThemeProvider>,
+    (props) => (
+      <ThemeProvider theme={theme} useDark={false}>
+        {props.children}
+      </ThemeProvider>
+    ),
   ]);
 
   return (

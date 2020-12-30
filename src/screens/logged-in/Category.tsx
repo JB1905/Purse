@@ -1,18 +1,10 @@
-import React, {
-  useRef,
-  useLayoutEffect,
-  useState,
-  Suspense,
-  lazy,
-} from 'react';
+import React, { useRef, useLayoutEffect, useState, useCallback } from 'react';
 import { useFirestoreConnect } from 'react-redux-firebase';
 import {
   Alert,
   ActionSheetIOS,
   findNodeHandle,
   View,
-  TouchableOpacity,
-  Text,
   StyleSheet,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -21,28 +13,45 @@ import { useSelector } from 'react-redux';
 
 import HeaderButton from '../../components/HeaderButton';
 import Loader from '../../components/Loader';
+import FallbackScreen from '../../components/FallbackScreen';
+import Button from '../../components/Button';
+import SegmentedControl from '../../components/SegmentedControl';
+import DataList from '../../components/DataList';
 
 import type { LoggedInProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
 import { Route } from '../../enums/Route';
 
-const FallbackScreen = lazy(() => import('../../components/FallbackScreen'));
-const Button = lazy(() => import('../../components/Button'));
-const SegmentedControl = lazy(
-  () => import('../../components/SegmentedControl')
-);
-
-const DataList = lazy(() => import('../../components/DataList'));
+const TABS = ['Expenses List', 'Map'];
 
 const Category = ({ route, navigation }: LoggedInProps<Route.CATEGORY>) => {
   const { id, name } = route.params;
 
   const { colors } = useTheme();
 
-  const ref = useRef(null);
+  // TODO
+  const ref = useRef<any>(null);
 
-  const showActionSheet = () => {
+  const showActionSheet = useCallback(() => {
+    const confirmRemove = () => {
+      Alert.alert(
+        `Do you want to remove ${name}?`,
+        'It will remove category with all data',
+        [
+          {
+            text: 'Remove',
+            style: 'destructive',
+            // onPress: () => {},
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ]
+      );
+    };
+
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: [
@@ -64,84 +73,79 @@ const Category = ({ route, navigation }: LoggedInProps<Route.CATEGORY>) => {
             category: id,
           });
         } else if (buttonIndex === 2) {
-          Alert.alert(
-            `Do you want to remove ${name}?`,
-            'It will remove category with all data',
-            [
-              {
-                text: 'Remove',
-                style: 'destructive',
-                onPress: () => {},
-              },
-              {
-                text: 'Cancel',
-                style: 'cancel',
-              },
-            ]
-          );
+          confirmRemove();
         }
       }
     );
-  };
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: name,
       headerRight: () => (
-        // <TouchableOpacity ref={ref} onPress={showActionSheet}>
-        //   {/* <Text>aaa</Text> */}
-        // </TouchableOpacity>
-        <HeaderButton iconName="more" ref={ref} onPress={showActionSheet} />
+        <HeaderButton iconName="more" onPress={showActionSheet} />
       ),
     });
   }, [navigation]);
 
-  const [tab, setTab] = useState(0);
-
   useFirestoreConnect([Collection.Categories, Collection.Data]);
 
-  const data = useSelector((state: any) => state.firestore.ordered.data);
+  const data = useSelector((state) => state.firestore.ordered.data);
 
-  return data ? (
-    // TODO hoc
-    <Suspense fallback={<Loader />}>
-      {data.length > 0 ? (
-        <>
-          <SegmentedControl
-            values={['Expenses List', 'Map']}
-            selectedIndex={tab}
-            onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
-          />
+  const [tab, setTab] = useState(0);
 
-          <View style={{ borderTopWidth: StyleSheet.hairlineWidth, flex: 1 }}>
-            {tab === 0 ? (
-              <DataList data={data} />
-            ) : (
-              <MapView style={{ flex: 1 }}>
-                {data.map((item) => (
-                  <Marker key={item.id} coordinate={item.coords} />
-                ))}
-              </MapView>
-            )}
-          </View>
-        </>
-      ) : (
-        <FallbackScreen title="Not found data for category">
-          <Button
-            title="Add it here"
-            onPress={() => {
-              navigation.navigate(Route.FINANCE_MANAGER, {
-                category: route?.params?.id,
-              });
-            }}
-            type="clear"
-          />
-        </FallbackScreen>
-      )}
-    </Suspense>
-  ) : (
-    <Loader />
+  if (!data) {
+    return <Loader />;
+  }
+
+  // TODO Tabs Component
+  const renderTabsView = () => (
+    <>
+      <SegmentedControl
+        values={TABS}
+        selectedIndex={tab}
+        onChange={(e) => setTab(e.nativeEvent.selectedSegmentIndex)}
+      />
+
+      <View style={styles.tabs}>
+        {tab === 0 ? (
+          <DataList data={data} />
+        ) : (
+          <MapView style={styles.maps}>
+            {data.map((item) => (
+              <Marker key={item.id} coordinate={item.coords} />
+            ))}
+          </MapView>
+        )}
+      </View>
+    </>
   );
+
+  const renderFallbackScreen = () => (
+    <FallbackScreen title="Not found data for category">
+      <Button
+        title="Add it here"
+        onPress={() => {
+          navigation.navigate(Route.FINANCE_MANAGER, {
+            category: route?.params?.id,
+          });
+        }}
+        type="clear"
+      />
+    </FallbackScreen>
+  );
+
+  return data.length > 0 ? renderTabsView() : renderFallbackScreen();
 };
+
+const styles = StyleSheet.create({
+  tabs: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flex: 1,
+  },
+  maps: {
+    flex: 1,
+  },
+});
 
 export default Category;

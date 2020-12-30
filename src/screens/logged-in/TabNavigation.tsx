@@ -3,7 +3,12 @@ import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from '@react-navigation/native';
 
-import { FinancesScreen, AnalyticsScreen, CategoriesScreen, SearchScreen } from './Stack';
+import {
+  FinancesScreen,
+  AnalyticsScreen,
+  CategoriesScreen,
+  SearchScreen,
+} from './Stack';
 
 import Icon from '../../components/Icon';
 
@@ -14,7 +19,7 @@ import { Route } from '../../enums/Route';
 const Tab = createBottomTabNavigator<TabsParamList>();
 
 export const MainScreen = () => {
-  const { colors } = useTheme();  
+  const { colors } = useTheme();
 
   return (
     <Tab.Navigator
@@ -32,7 +37,7 @@ export const MainScreen = () => {
             iconName = 'search';
           }
 
-          // return <Icon name={iconName} color={color} size={26} />;
+          return <Icon name={iconName} color={color} size={26} />;
         },
       })}
       tabBarOptions={{

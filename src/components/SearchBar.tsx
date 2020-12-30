@@ -28,9 +28,10 @@ const SearchBar = ({
         // alignSelf: 'center',
         // maxWidth: 500,
       }}
-      inputContainerStyle={{ backgroundColor: colors.border, 
-        height: 40 // TODO only ios
-       }}
+      inputContainerStyle={{
+        backgroundColor: colors.border,
+        height: 40, // TODO only ios
+      }}
       inputStyle={{ color: colors.text }}
       cancelButtonProps={{ color: colors.primary }}
     />

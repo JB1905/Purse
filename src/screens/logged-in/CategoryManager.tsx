@@ -1,6 +1,4 @@
 import React, {
-  lazy,
-  Suspense,
   useState,
   useLayoutEffect,
   useEffect,
@@ -27,9 +25,6 @@ import type { MainProps } from '../../types/Navigation';
 
 import { Collection } from '../../enums/Collection';
 import { Route } from '../../enums/Route';
-
-// const IconPicker = lazy(() => import('../../components/IconPicker'));
-// const ColorPicker = lazy(() => import('../../components/ColorPicker'));
 
 type FormData = {
   name: string;
@@ -183,11 +178,10 @@ const CategoryManager = ({
           values={['Colour', 'Glyph']}
           // values={Object.keys(Tabs)}
           selectedIndex={tab}
-          onChange={(e: any) => setTab(e.nativeEvent.selectedSegmentIndex)}
+          onChange={(e) => setTab(e.nativeEvent.selectedSegmentIndex)}
         />
 
         <SectionBox>
-          {/* <Suspense fallback={<Loader />}> */}
           {tab === Tabs.Colour ? (
             <ColorPicker
               onSelect={(color) => setValue('color', color)}
@@ -201,7 +195,6 @@ const CategoryManager = ({
               icons={categoryIcons}
             />
           )}
-          {/* </Suspense> */}
         </SectionBox>
         {/* </Stack> */}
       </Box>

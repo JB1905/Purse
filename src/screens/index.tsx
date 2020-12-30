@@ -15,7 +15,7 @@ const NativeStack = createNativeStackNavigator<AppParamList>();
 
 const Layout = () => {
   const auth = useSelector((state) => state.firebase.auth);
-  
+
   if (!isLoaded(auth)) {
     return <AppLoading autoHideSplash />;
   }
